@@ -8,7 +8,7 @@ const server = createServer(app);
 const io = new Server(server);
 
 app.get('/', (req, res) => {
-    res.sendFile(join('/Users/jackhamilton/Documents/socket_ip', 'index.html'));
+    res.sendFile(join('/Users/jackhamilton/Documents/Socket.io/Socket.io Tutorial Step 3', 'index.html'));
 });
 
 io.on('connection', (socket) => {
