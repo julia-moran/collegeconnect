@@ -12,9 +12,16 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-  socket.on('chat message', (msg) => {
-    io.emit('chat message', msg);
-  });
+  socket.on('chat message', (msg, group) => {
+    if(group === '') {
+      io.emit('chat message', msg);
+    } else {
+      io.to(group).emit('chat message', msg);
+    }
+  })
+  socket.on('join-room', group => {
+    socket.join(group)
+  })
 });
 
 server.listen(3000, () => {
