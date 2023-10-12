@@ -1,5 +1,15 @@
-npm install angular@1.8.2
-npm install @socket.io/cluster-adapter
+OTHER
+
+/npm install angular@1.8.2/
+
+SOCKET.IO TUTORIAL
+
+/npm install @socket.io/cluster-adapter
 npm install sqlite sqlite3
 npm install socket.io
-npm install express@4
+npm install express@4/
+
+SOCKET.IO PRIVATE MESSAGE TUTORIAL
+
+/npm install
+npm run serve/
