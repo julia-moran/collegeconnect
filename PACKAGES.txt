@@ -1,6 +1,8 @@
 OTHER
 
-/npm install angular@1.8.2/
+/npm install angular@1.8.2
+ docker desktop
+/
 
 SOCKET.IO TUTORIAL
 
@@ -10,9 +12,3 @@ npm install socket.io
 npm install express@4/
 
 SOCKET.IO PRIVATE MESSAGE TUTORIAL
-
-/npm install
-npm run serve
-
-npm install
-npm start/
