@@ -12,4 +12,7 @@ npm install express@4/
 SOCKET.IO PRIVATE MESSAGE TUTORIAL
 
 /npm install
-npm run serve/
+npm run serve
+
+npm install
+npm start/
