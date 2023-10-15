@@ -1,0 +1,16 @@
+<script type="module">
+	import { createApp } from 'vue'
+	
+	createApp({
+	  data() {
+		return {
+		  text: ''
+		}
+	  }
+	}).mount('#app')
+	</script>
+	
+	<div id="app">
+	  <input v-model="text" placeholder="Type here">
+	  <p>{{ text }}</p>
+	</div>
