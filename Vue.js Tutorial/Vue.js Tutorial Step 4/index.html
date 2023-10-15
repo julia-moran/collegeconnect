@@ -1,0 +1,20 @@
+<script type="module">
+	import { createApp } from 'vue'
+	
+	createApp({
+	  data() {
+		return {
+		  count: 0
+		}
+	  },
+	  methods: {
+		increment() {
+		  this.count++
+		}
+	  }
+	}).mount('#app')
+	</script>
+	
+	<div id="app">
+	  <button @click="increment">count is: {{ count }}</button>
+	</div>
