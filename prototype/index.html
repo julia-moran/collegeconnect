@@ -9,6 +9,12 @@
         margin: auto;
         padding: 50px 0;
       }
+
+      #groupHeader {
+        background-color: #e5d6ff;
+        margin: 0; padding: 0; position: absolute; right: 0; width: 75%;
+        text-align: center;
+      }
       body { margin: 0; padding-bottom: 3rem; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
 
       #form { background: rgba(0, 0, 0, 0.15); padding: 0.25rem; position: fixed; bottom: 0; right: 0; width: 75%; display: flex; height: 3rem; box-sizing: border-box; backdrop-filter: blur(10px); }
@@ -34,7 +40,7 @@
        }
       
        #messages {  overflow-x: hidden;
-        overflow-y: auto; list-style-type: none; margin: 0; padding: 0; position: absolute; right: 0; width: 75%; height: 93%; }
+        overflow-y: auto; list-style-type: none; margin: 10; padding: 0; position: absolute; right: 0; width: 75%; height: 90%; }
       #messages > li { padding: 1rem 0.5rem; overflow-x: hidden; overflow-y: auto;}
       #messages > li:nth-child(odd) { font-weight: bold; padding: 0.5rem 0.5rem; }
     </style>
@@ -45,6 +51,7 @@
     <button onclick="logIn()">Send</button>
   </div>
   <div hidden class="messages-and-groups">
+    <h3 id = "groupHeader">Select a Class to Chat</h3>
     <table id = "groups">
       <tr>
         <td id = "class1" class = "classChoices">Class 1</td>
@@ -80,6 +87,7 @@
       const messages = document.getElementById('messages');
       const selectUsername = document.getElementById("select-username");
       const username = document.getElementById('username');
+      const groupHeader = document.getElementById('groupHeader');
       let group = "";
 
       function logIn() {
@@ -98,6 +106,7 @@
         
         classChoice.addEventListener("click", () => {
           group = classChoice.id;
+          groupHeader.innerHTML = classChoice.innerHTML;
           // Remove all messages from view
           while(messages.firstChild) {
             messages.removeChild(messages.firstChild);
@@ -127,12 +136,12 @@
         fromUser.className = currentGroup;
         fromUser.textContent = user + ":";
         messages.appendChild(fromUser);
-        window.scrollTo(0, document.body.scrollHeight);
+        messages.scrollTo(0, messages.scrollHeight)
         const item = document.createElement('li');
         item.textContent = msg;
         item.className = currentGroup;
         messages.appendChild(item);
-        window.scrollTo(0, document.body.scrollHeight);
+        messages.scrollTo(0, messages.scrollHeight)
         socket.auth.serverOffset = serverOffset;
       });
     </script>
