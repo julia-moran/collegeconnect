@@ -1,0 +1,19 @@
+<script type="module">
+	import { createApp } from 'vue'
+	
+	createApp({
+	  data() {
+		return {
+		  message: 'Hello World!',
+		  counter: {
+			count: 0
+		  }
+		}
+	  }
+	}).mount('#app')
+	</script>
+	
+	<div id="app">
+	  <h1>{{ message }}</h1>
+	  <p>Count is: {{ counter.count }}</p>
+	</div>
