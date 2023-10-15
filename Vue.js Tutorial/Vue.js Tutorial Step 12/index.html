@@ -1,0 +1,19 @@
+<script type="module">
+	import { createApp } from 'vue'
+	import ChildComp from './ChildComp.js'
+	
+	createApp({
+	  components: {
+		ChildComp
+	  },
+	  data() {
+		return {
+		  greeting: 'Hello from parent'
+		}
+	  }
+	}).mount('#app')
+	</script>
+	
+	<div id="app">
+	  <child-comp :msg="greeting"></child-comp>
+	</div>
