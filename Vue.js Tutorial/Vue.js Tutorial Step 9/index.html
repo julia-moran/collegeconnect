@@ -1,0 +1,13 @@
+<script type="module">
+	import { createApp } from 'vue'
+	
+	createApp({
+	  mounted() {
+		this.$refs.pElementRef.textContent = 'mounted!'
+	  }
+	}).mount('#app')
+	</script>
+	
+	<div id="app">
+	  <p ref="pElementRef">hello</p>
+	</div>
