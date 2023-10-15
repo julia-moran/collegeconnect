@@ -12,13 +12,14 @@ async function main() {
     driver: sqlite3.Database
   });
 
-  // create our 'messages' table (you can ignore the 'client_offset' column for now)
   await db.exec(`
     CREATE TABLE IF NOT EXISTS messages (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         client_offset TEXT UNIQUE,
-        content TEXT
+        content TEXT,
+        from_user TEXT
     );
+    
   `);
 
 const app = express();
@@ -32,24 +33,23 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', async (socket) => {
-  socket.on('chat message', async (msg) => {
+  socket.on('chat message', async (msg, user) => {
     let result;
     try {
-      result = await db.run('INSERT INTO messages (content) VALUES (?)', msg);
+      result = await db.run('INSERT INTO messages (content, from_user) VALUES ((?), (?))', msg, user);
     } catch (e) {
       // TODO handle the failure
       return;
     }
-    io.emit('chat message', msg, result.lastID);
+    io.emit('chat message', msg, user, result.lastID);
   });
 
   if (!socket.recovered) {
-    // if the connection state recovery was not successful
     try {
-      await db.each('SELECT id, content FROM messages WHERE id > ?',
+      await db.each('SELECT id, content, from_user FROM messages WHERE id > ?',
         [socket.handshake.auth.serverOffset || 0],
         (_err, row) => {
-          socket.emit('chat message', row.content, row.id);
+          socket.emit('chat message', row.content, row.from_user, row.lastID);
         }
       )
     } catch (e) {
