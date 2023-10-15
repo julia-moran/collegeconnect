@@ -80,6 +80,7 @@
       const messages = document.getElementById('messages');
       const selectUsername = document.getElementById("select-username");
       const username = document.getElementById('username');
+      let group = "";
 
       function logIn() {
         document.querySelectorAll('.messages-and-groups').forEach((messagesAndGroups) => { 
@@ -87,24 +88,49 @@
         });
         selectUsername.hidden = true;
         console.log(username.value);
+        while(messages.firstChild) {
+          messages.removeChild(messages.firstChild);
+        }
       }
+
+      const classChoices = document.querySelectorAll('.classChoices');
+      classChoices.forEach(classChoice => {
+        
+        classChoice.addEventListener("click", () => {
+          group = classChoice.id;
+          // Remove all messages from view
+          while(messages.firstChild) {
+            messages.removeChild(messages.firstChild);
+          }
+          // Join the selected class chat
+          socket.emit('join-room', group);
+
+          // Leave all other classes
+          classChoices.forEach(choice => {
+            if(group !== choice.id) {
+              socket.emit('leave-room', choice.id);
+            }
+          })
+        });
+      })
 
       form.addEventListener('submit', (e) => {
         e.preventDefault();
         if (input.value) {
-          let data = {msg: input.value, user: username.value};
-          socket.emit('chat message', input.value, username.value);
+          socket.emit('chat message', input.value, username.value, group);
           input.value = '';
         }
       });
 
-      socket.on('chat message', (msg, user, serverOffset) => {
+      socket.on('chat message', (msg, user, currentGroup, serverOffset) => {
         const fromUser = document.createElement('li');
+        fromUser.className = currentGroup;
         fromUser.textContent = user + ":";
         messages.appendChild(fromUser);
         window.scrollTo(0, document.body.scrollHeight);
         const item = document.createElement('li');
         item.textContent = msg;
+        item.className = currentGroup;
         messages.appendChild(item);
         window.scrollTo(0, document.body.scrollHeight);
         socket.auth.serverOffset = serverOffset;

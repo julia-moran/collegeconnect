@@ -17,7 +17,8 @@ async function main() {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         client_offset TEXT UNIQUE,
         content TEXT,
-        from_user TEXT
+        from_user TEXT,
+        class TEXT
     );
     
   `);
@@ -33,15 +34,35 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', async (socket) => {
-  socket.on('chat message', async (msg, user) => {
+  socket.on('chat message', async (msg, user, group) => {
     let result;
     try {
-      result = await db.run('INSERT INTO messages (content, from_user) VALUES ((?), (?))', msg, user);
+      result = await db.run('INSERT INTO messages (content, from_user, class) VALUES ((?), (?), (?))', msg, user, group);
     } catch (e) {
       // TODO handle the failure
       return;
     }
-    io.emit('chat message', msg, user, result.lastID);
+
+    if(group === '') {
+      io.emit('chat message', msg, user, group, result.lastID);
+    }
+    else {
+      io.to(group).emit('chat message', msg, user, group, result.lastID);
+    }
+  });
+
+  socket.on('join-room', async group => {
+    console.log("joined room: " + group);
+    socket.join(group)
+    let rows = await db.all('SELECT id, content, from_user, class FROM messages WHERE class = ?', group)
+    rows.forEach(row => {
+      socket.emit('chat message', row.content, row.from_user, row.class, row.lastID);
+    })
+  });
+
+  socket.on('leave-room', groupToLeave => {
+    console.log("left room: " + groupToLeave);
+    socket.leave(groupToLeave);
   });
 
   if (!socket.recovered) {
