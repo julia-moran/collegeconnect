@@ -1,4 +1,6 @@
 # collegeconnect
+# Prototype chat designed by: Julia Moran, Jerome Serrao, Jack Hamilton, and Thomas Kasper
+# Source code from tutorials from socket.io, node.js and Docker has been utilized throughout the course of this prototype.
 In order to run the program, you must be setup with the following applications, node.js, socket.io, sqlite3 and Docker.
 # Installation guide for node.js, socket.io and sqlite3:
 - [Step 1] Install the latest version of node.js(https://nodejs.org/en)
