@@ -3,5 +3,8 @@
     "version": "0.0.1",
     "description": "protoype for college connect app",
     "type": "commonjs",
-    "dependencies": {}
-  }
+    "dependencies": {
+        "socket.io": "^4.7.2",
+        "sqlite3": "^5.1.6"
+    }
+}
