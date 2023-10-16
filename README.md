@@ -15,18 +15,21 @@ In order to run the program, you must be setup with the following applications, 
     npm -v
     ```
 
-- [Step 4] Install socket.io using the following command within a administrative command prompt and check to make sure you are running on the latest version:
+- [Step 4] Install socket.io and the respective dependecies using the following command within a administrative command prompt and check to make sure you are running on the latest version:
     ```
-    npm install -g socket.io 
+    npm install -g socket.io
+    npm install @socket.io/cluster-adapter
+    npm install express@4
     npm -v socket.io
     ```
 - [Note] In order to run socket.io, you must be in the directory for collegeconnect in order to replicate results and you must use the following command in order to run the index.js file
     ```
+
     node index.js
     ```
 - [Step 5] Install sqlite3 using the following commands within a administrative command prompt and check the version:
      ```
-     npm install -g sqlite3
+     npm install sqlite sqlite3
      sqlite3 -version
      ```
 
