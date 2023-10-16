@@ -30,7 +30,7 @@ const io = new Server(server, {
 });
 
 app.get('/', (req, res) => {
-    res.sendFile(join('C:/Users/jemis/collegeconnect/prototype', 'index.html'));
+    res.sendFile(join(__dirname, 'index.html'));
 });
 
 io.on('connection', async (socket) => {
