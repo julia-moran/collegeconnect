@@ -79,7 +79,7 @@ io.on('connection', async (socket) => {
   }
 });
 
-server.listen(3000, () => {
+server.listen(process.env.PORT || 3000, '0.0.0.0', () => {
     console.log('server running at http;//localhost:3000');
 });
 }
