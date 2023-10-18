@@ -14,10 +14,9 @@ Collect Connect hopes to beign students together easily in hopes that it helps m
 - Socket.io
 - Express.js
 - SQLite
-- Docker
 - Heroku
 
-In order to run the program, you must be setup with the following applications, node.js, socket.io, sqlite3 and Docker.
+In order to run the program, you must be setup with the following applications, node.js, socket.io and SQLite 3
 # Installation guide for node.js, socket.io and sqlite3:
 - [Step 1] Install the latest version of node.js(https://nodejs.org/en)
 - [Note] As of 10/10/23, collegeconnect utilizes 20.8.1 for the prototype 
@@ -46,16 +45,10 @@ In order to run the program, you must be setup with the following applications, 
      sqlite3 -version
      ```
 
-
-# Docker Desktop Installation
-- [Step 1] Download Docker Desktop Application: https://www.docker.com/products/docker-desktop/
-- [Step 2] Install Docker Desktop Application
-- [Step 3] Create a server container using docker-compose command within the server directory of your application (docker-compose up -d)
-- [Step 4] Assign workers to container within server directory to contain application
-
 # Executing the Program
-- Make sure Socket.io, SQLite, Express.js, Node.js, Docker and Heroku are all working properly
+- Make sure Socket.io, SQLite, Express.js, Node.js and Heroku are all working properly
 - Have the files downloaded to your device
+- Make sure you have an account for Heroku and deploy from the main brach in GitHub
 - Open powershell (or whatever your device has)
 - Execute the command "node index.js"
 - Open a window in your browser through the local host
@@ -68,4 +61,6 @@ Julia Moran, Jack Hamilton, Jerome Serrao, Thomas Kasper
 Socket.io - https://socket.io/get-started/chat
             https://socket.io/how-to/build-a-basic-client
 Socket.io Private Messaging - https://socket.io/get-started/private-messaging-part-1/
+Heroku - https://devcenter.heroku.com/articles/github-integration
+
 
