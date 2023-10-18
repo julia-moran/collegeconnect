@@ -52,7 +52,7 @@ function logIn() {
 
     // Remove the log in from view
     selectUsername.hidden = true;
-    //console.log(username.value);
+    console.log(username.value);
 
     // Clear messages from view
     while(messages.firstChild) {
