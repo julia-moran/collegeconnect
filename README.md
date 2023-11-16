@@ -11,7 +11,7 @@ Collect Connect hopes to beign students together easily in hopes that it helps m
 
 # Dependencies
 - Node.js
-- Socket.io
+- Socket. io
 - Express.js
 - SQLite
 - Heroku
