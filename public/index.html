@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--
+      Author:         Julia Moran
+      Creation Date:  October 11, 2023
+      Course:         CSC354
+      Professor Name: Dr. Schwesinger
+      Filename:       index.html
+      Description:    Displays the elements on the page
+    -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Prototype chat</title>
+    <link type="text/css" rel="stylesheet" href="/public/style.css" defer>
+  </head>
+  <body>
+  <div class="select-username" id="select-username">
+    <label for="username">Enter username:</label>
+    <input type="text" id="username" required/>
+    <button onclick="logIn()">Send</button>
+  </div>
+  <div hidden class="messages-and-groups">
+    <h3 id="groupHeader">Select a Class to Chat</h3>
+    <table id="groups">
+      <tr>
+        <td id="class1" class="classChoices">Class 1</td>
+      </tr>
+      <tr>
+        <td id="class2" class="classChoices">Class 2</td>
+      </tr>
+      <tr>
+        <td id="class3" class= "classChoices">Class 3</td>
+      </tr>
+      <tr>
+        <td id="class4" class="classChoices">Class 4</td>
+      </tr>
+      <tr>
+        <td id="class5" class="classChoices">Class 5</td>
+      </tr>
+    </table>
+    <ul id="messages"></ul>
+    <form id="form" action="">
+      <input id="input" autocomplete="off" /><button>Send</button>
+     </form> 
+  </div> 
+    <script src="/socket.io/socket.io.js"></script>
+    <script type= "text/javascript" src="/public/chat.js"></script>
+  </body>
+</html>
