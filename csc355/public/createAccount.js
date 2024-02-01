@@ -2,7 +2,7 @@
 $(document).ready(function() {
 const password = document.getElementById('password');
 const confirmPassword = document.getElementById('confirmPassword');
-const createAccount = document.getElementById('createAccount');
+const signUp = document.getElementById('signUp');
 const errorMessage = document.getElementById('errorMessage');
 const logInLink = document.getElementById("logInLink");
 const addProfileDetails = document.getElementById("addProfileDetails");
@@ -24,55 +24,66 @@ app.get('/:id', async (req, res, next) => {
 
 
 
-createAccount.addEventListener('submit', (e) => {
+    signUp.addEventListener('submit', (e) => {
 
-    e.preventDefault();
-/*
-    //client.connect((err) => {
-        //if (err) throw err;
-  
+        e.preventDefault();
+    /*
+        //client.connect((err) => {
+            //if (err) throw err;
+    
+            client.query('SELECT * FROM users', (err, res) => {
+            console.log(err ? err : res.rows)
+            //client.end()
+            })
+        //});
+
+        client.connect();
+
         client.query('SELECT * FROM users', (err, res) => {
-          console.log(err ? err : res.rows)
-          //client.end()
-        })
-      //});
+        console.log(err ? err : res.rows)
+        //client.end()
+        client.end();
+        })*/
 
-    client.connect();
-
-    client.query('SELECT * FROM users', (err, res) => {
-    console.log(err ? err : res.rows)
-    //client.end()
-    client.end();
-    })*/
-
-    if(password.value != confirmPassword.value) {
-        errorMessage.innerHTML = "Passwords don't match";
-    } else if (password.value.length < 7) {
-        errorMessage.innerHTML = "Password must be at least seven characters";
-    } else if (!(password.value.match(/\d/g))) {
-        errorMessage.innerHTML = "Password must contain at least one numeral";
-    } else if (!(password.value.match(/[a-zA-Z]/g))){
-        errorMessage.innerHTML = "Password must contain at least one letter";
-    } else {
-        //errorMessage.innerHTML = "Account successfully created";
-        for(const child of createAccount.children) {
-            console.log(child.value);
-            child.style.display = "none";
+        if(password.value != confirmPassword.value) {
+            errorMessage.innerHTML = "Passwords don't match";
+        } else if (password.value.length < 7) {
+            errorMessage.innerHTML = "Password must be at least seven characters";
+        } else if (!(password.value.match(/\d/g))) {
+            errorMessage.innerHTML = "Password must contain at least one numeral";
+        } else if (!(password.value.match(/[a-zA-Z]/g))){
+            errorMessage.innerHTML = "Password must contain at least one letter";
+        } else {
+            //errorMessage.innerHTML = "Account successfully created";
+            for(const child of signUp.children) {
+                console.log(child.value);
+                child.style.display = "none";
+            }
+            //logInLink.style.display = "block";
+            $("form.profileDetails").children().show();
+            $("optgroup.profileDetails").children().show();
+            $("optgroup.profileDetails").show();
         }
-        //logInLink.style.display = "block";
-        $("form.profileDetails").children().show();
-        $("optgroup.profileDetails").children().show();
-        $("optgroup.profileDetails").show();
-    }
 
-    /*client.connect((err) => {
-        if (err) throw err;
-  
-        client.query('SELECT * FROM users', (err, res) => {
-          console.log(err ? err.stack : res.rows)
-          client.end()
-        })
-      });
-*/
-});
+        /*client.connect((err) => {
+            if (err) throw err;
+    
+            client.query('SELECT * FROM users', (err, res) => {
+            console.log(err ? err.stack : res.rows)
+            client.end()
+            })
+        });
+    */
+    });
+
+    addProfileDetails.addEventListener('submit', (e) => {
+
+        e.preventDefault();
+        logInLink.style.display = "block";
+        $("form.profileDetails").children().hide();
+        $("optgroup.profileDetails").children().hide();
+        $("optgroup.profileDetails").hide();
+        $("#successfulAccountCreation").children().show();
+    });
+
 });

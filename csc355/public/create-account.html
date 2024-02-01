@@ -10,7 +10,7 @@
   <body>
     <h3>Create Account</h3>
     <p id="errorMessage"></p>
-    <form action="" id="createAccount">
+    <form action="" id="signUp">
       <input id="fname" placeholder="Your first name" type="text" required/><br>
       <input id="lname" placeholder="Your last name" type="text" required/><br>
       <input id="email" placeholder="Your email address" type="text" required/><br>
@@ -19,7 +19,7 @@
       <input id="confirmPassword" placeholder="Confirm Password" type="text" required/><br>
       <input type="submit" value="Sign Up" id="signUpButton"/>
     </form>
-    <a href="/" id="logInLink" style="display:none;">Log In</a>
+    
     <form action="" id="addProfileDetails" class="profileDetails">
       <select id="selectMajor">
         <option value="" disabled selected>Choose your major</option>
@@ -40,7 +40,11 @@
       </select>
       <input type="submit" value="Create Account" id="createAccountButton"/>
     </form>
-      
+    <div id="successfulAccountCreation">
+      <p id="successMessage" hidden>Account successfully created! Please log in.</p>
+      <a href="/" id="logInLink" hidden>Log In</a>  
+    </div>
+    
 
     <script type= "text/javascript" src="/public/createAccount.js"></script>
   </body>
