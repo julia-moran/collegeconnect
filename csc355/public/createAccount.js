@@ -4,6 +4,12 @@ const password = document.getElementById('password');
 const confirmPassword = document.getElementById('confirmPassword');
 const createAccount = document.getElementById('createAccount');
 const errorMessage = document.getElementById('errorMessage');
+const inputFields = document.getElementsByTagName('input');
+const lastName = document.getElementById('lname');
+const passwordTip = document.getElementById('passwordTip');
+const createAccountButton = document.getElementById('createAccountButton');
+const div = document.getElementById("logInLink");
+
 //import * as db from '../db.js'
 
 /*
@@ -34,7 +40,21 @@ createAccount.addEventListener('submit', (e) => {
     } else if (!(password.value.match(/[a-zA-Z]/g))){
         errorMessage.innerHTML = "Password must contain at least one letter";
     } else {
-        location.replace("/");
+        errorMessage.innerHTML = "Account successfully created";
+        for(let i = 0; i < inputFields.length; i++) {
+            console.log(inputFields[i].value);
+            inputFields[i].remove();
+        }
+        password.remove();
+        confirmPassword.remove();
+        lastName.remove();
+        passwordTip.remove();
+        createAccountButton.remove();
+
+        const logInLink = document.createElement("a");
+        logInLink.appendChild(document.createTextNode("Log In"));
+        logInLink.setAttribute("href", "/")
+        div.appendChild(logInLink);
     }
 
     /*client.connect((err) => {

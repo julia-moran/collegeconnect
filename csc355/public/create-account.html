@@ -8,14 +8,16 @@
     <h3>Create Account</h3>
     <form action="" id="createAccount">
       <p id="errorMessage"></p>
+      <div id="logInLink"></div> 
       <input id="fname" placeholder="Your first name" type="text" required/><br>
       <input id="lname" placeholder="Your last name" type="text" required/><br>
       <input id="email" placeholder="Your email address" type="text" required/><br>
       <input id="password" placeholder="Pick a password" type="text" required/><br>
-      <p>Use at least one letter, one numeral, and seven characters</p>
+      <p id="passwordTip">Use at least one letter, one numeral, and seven characters</p>
       <input id="confirmPassword" placeholder="Confirm Password" type="text" required/><br>
-      <input type="submit" value="Sign Up"/>
-    </form> 
+      <input type="submit" value="Sign Up" id="createAccountButton"/>
+    </form>
+    
     <script type= "text/javascript" src="/public/createAccount.js"></script>
   </body>
 </html>
