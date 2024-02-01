@@ -16,20 +16,29 @@ const client = new Client({
 
 client.connect();
 
-client.query('SELECT * FROM users', (err, res) => {
-  console.log(err ? err : res.rows)
-  //client.end()
-  client.end();
-})
-
 app.use('/public', express.static(path.join(__dirname, '/public')));
 app.get('/', (req, res) => {
+  
+
+
   res.sendFile(path.join(__dirname, 'public', 'home.html'));
+
 });
 
-app.get('/create-account', (req, res) => {
+app.get('/create-account', (req, res) => {  
+
     res.sendFile(path.join(__dirname, 'public', 'create-account.html'));
   });
+
+app.get('/get/data', (req, res) => {
+    client.query('SELECT * FROM users', (err, results) => {
+      console.log(err ? err : results.rows);
+      res.json(results.rows);
+    //client.end()
+    //client.end();
+    })
+    
+});
 
 
 server.listen(3000, () => {

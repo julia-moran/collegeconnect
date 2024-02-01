@@ -27,6 +27,10 @@ app.get('/:id', async (req, res, next) => {
     signUp.addEventListener('submit', (e) => {
 
         e.preventDefault();
+        $.get("/get/data", function(data, status) {
+            console.log(data);
+        });
+        
     /*
         //client.connect((err) => {
             //if (err) throw err;
