@@ -1,9 +1,26 @@
+const { Pool, Client } = require('pg');
 const express = require('express');
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
 const path = require('path');
 
+
+const client = new Client({
+  host: "localhost",
+  user: "postgres",
+  port: 5432,
+  password: "21184",
+  database: "postgres"
+})
+
+client.connect();
+
+client.query('SELECT * FROM users', (err, res) => {
+  console.log(err ? err : res.rows)
+  //client.end()
+  client.end();
+})
 
 app.use('/public', express.static(path.join(__dirname, '/public')));
 app.get('/', (req, res) => {

@@ -1,15 +1,11 @@
-//import { Pool, Client } from 'pg';
-
+//const client = require('../index.js');
+$(document).ready(function() {
 const password = document.getElementById('password');
 const confirmPassword = document.getElementById('confirmPassword');
 const createAccount = document.getElementById('createAccount');
 const errorMessage = document.getElementById('errorMessage');
-const inputFields = document.getElementsByTagName('input');
-const lastName = document.getElementById('lname');
-const passwordTip = document.getElementById('passwordTip');
-const createAccountButton = document.getElementById('createAccountButton');
-const div = document.getElementById("logInLink");
-
+const logInLink = document.getElementById("logInLink");
+const addProfileDetails = document.getElementById("addProfileDetails");
 //import * as db from '../db.js'
 
 /*
@@ -17,20 +13,38 @@ app.get('/:id', async (req, res, next) => {
   const result = await db.query('SELECT * FROM users WHERE id = $1', [req.params.id])
   res.send(result.rows[0])
 })
-
-
-const client = new Client({
-    host: "localhost",
-    user: "postgres",
-    port: 5432,
-    password: "21184",
-    database: "postgres"
-})
 */
+
+    
+    $('.select-multiple').select2();
+    $("form.profileDetails").children().hide();
+    $("optgroup.profileDetails").children().hide();
+    $("optgroup.profileDetails").hide();
+    
+
 
 
 createAccount.addEventListener('submit', (e) => {
+
     e.preventDefault();
+/*
+    //client.connect((err) => {
+        //if (err) throw err;
+  
+        client.query('SELECT * FROM users', (err, res) => {
+          console.log(err ? err : res.rows)
+          //client.end()
+        })
+      //});
+
+    client.connect();
+
+    client.query('SELECT * FROM users', (err, res) => {
+    console.log(err ? err : res.rows)
+    //client.end()
+    client.end();
+    })*/
+
     if(password.value != confirmPassword.value) {
         errorMessage.innerHTML = "Passwords don't match";
     } else if (password.value.length < 7) {
@@ -40,21 +54,15 @@ createAccount.addEventListener('submit', (e) => {
     } else if (!(password.value.match(/[a-zA-Z]/g))){
         errorMessage.innerHTML = "Password must contain at least one letter";
     } else {
-        errorMessage.innerHTML = "Account successfully created";
-        for(let i = 0; i < inputFields.length; i++) {
-            console.log(inputFields[i].value);
-            inputFields[i].remove();
+        //errorMessage.innerHTML = "Account successfully created";
+        for(const child of createAccount.children) {
+            console.log(child.value);
+            child.style.display = "none";
         }
-        password.remove();
-        confirmPassword.remove();
-        lastName.remove();
-        passwordTip.remove();
-        createAccountButton.remove();
-
-        const logInLink = document.createElement("a");
-        logInLink.appendChild(document.createTextNode("Log In"));
-        logInLink.setAttribute("href", "/")
-        div.appendChild(logInLink);
+        //logInLink.style.display = "block";
+        $("form.profileDetails").children().show();
+        $("optgroup.profileDetails").children().show();
+        $("optgroup.profileDetails").show();
     }
 
     /*client.connect((err) => {
@@ -66,4 +74,5 @@ createAccount.addEventListener('submit', (e) => {
         })
       });
 */
+});
 });
