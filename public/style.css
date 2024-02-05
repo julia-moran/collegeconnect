@@ -1,0 +1,146 @@
+/*
+  Author:         Julia Moran
+  Creation Date:  October 11, 2023
+  Course:         CSC354
+  Professor Name: Dr. Schwesinger
+  Filename:       style.css
+  Description:    Stylizes the elements on the page
+*/
+/*************************SOURCES CITED***************************************/
+/*
+  Author:         Socket.io (Github committed by Damien Arrachequesne)
+  Filename:       index.js
+  Retrieved Date: October 11, 2023
+  Retrieved from: https://github.com/socketio/chat-examples/chat/public/style.css
+  Note:           Some of the properties and style rules were retrieved from the
+                  style sheet used in the Socket.io Getting Started tutorial
+*/
+/*
+    Source:         MDN Web Docs
+    Title:          "overflow"
+    Date Retrieved: October 14, 2023
+    Retrieved from: https://developer.mozilla.org/en-US/docs/Web/CSS/overflow
+    Note:           The overflow property was retrieved from the MDN web
+                    docs page entitled "overflow" on October 14, 2023
+*/
+
+.select-username {
+    width: 300px;
+    margin: auto;
+    padding: 50px 0;
+  }
+
+  #groupHeader {
+    background-color: #e5d6ff;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    width: 75%;
+    text-align: center;
+  }
+
+  /*Citation Source: this style rule was retrieved from
+    https://github.com/socketio/chat-examples/chat/public/style.css
+    on October 11, 2023*/ 
+  body { 
+    margin: 0;
+    padding-bottom: 3rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  #form {
+    background: rgba(0, 0, 0, 0.15);
+    display: flex;
+    box-sizing: border-box;
+    backdrop-filter: blur(10px); 
+    /*Citation Source: the following properties in this style rule were 
+    retrieved from https://github.com/socketio/chat-examples/chat/public/style.css
+    on October 11, 2023*/ 
+    padding: 0.25rem;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 75%;
+    height: 3rem;
+  }
+
+  /*Citation Source: this style rule was retrieved from
+    https://github.com/socketio/chat-examples/chat/public/style.css
+    on October 11, 2023*/ 
+  #input { 
+    border: none;
+    border-radius: 2rem;
+    padding: 0 1rem;
+    margin: 0.25rem;
+    flex-grow: 1;
+  }
+
+  /*Citation Source: this style rule was retrieved from
+    https://github.com/socketio/chat-examples/chat/public/style.css
+    on October 11, 2023*/ 
+  #input:focus { 
+    outline: none; 
+  }
+  
+  /*Citation Source: this style rule was retrieved from
+    https://github.com/socketio/chat-examples/chat/public/style.css
+    on October 11, 2023*/ 
+  #form > button {
+    background: #333;
+    color: #fff; 
+    padding: 0 1rem;
+    margin: 0.25rem; 
+    border: none;
+    border-radius: 3px;
+    outline: none;
+  }
+
+  table { 
+    border: 1px solid;
+    padding: 8px;
+    width: 25%; 
+    border-collapse: collapse;
+    position: absolute;
+    height: 100%;
+   }
+
+  td {
+    border: 1px solid;
+    padding: 10px;
+   }
+
+   tr:hover {
+    background-color: #e5d6ff;
+   }
+  
+   #messages { 
+    /*Citation Source: The overflow property was retrieved from 
+        https://developer.mozilla.org/en-US/docs/Web/CSS/overflow on
+        October 14, 2023*/
+    overflow-x: hidden;
+    overflow-y: auto;
+    list-style-type: none;
+    margin: 10;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    width: 75%;
+    height: 90%;
+  }
+
+    /*Citation Source: this style rule was based on
+    https://github.com/socketio/chat-examples/chat/public/style.css
+    on October 11, 2023*/ 
+    #messages > li {
+      padding: 1rem 0.5rem;
+      /*Citation Source: The overflow property was retrieved from 
+        https://developer.mozilla.org/en-US/docs/Web/CSS/overflow on
+        October 14, 2023*/
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+    #messages > li:nth-child(odd) {
+      font-weight: bold;
+      padding: 0.5rem 0.5rem;
+    }

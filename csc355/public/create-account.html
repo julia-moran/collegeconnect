@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>College Connect</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  </head>
+  <body>
+    <h3>Create Account</h3>
+    <p id="errorMessage"></p>
+    <form action="" id="signUp">
+      <input id="fname" placeholder="Your first name" type="text" required/><br>
+      <input id="lname" placeholder="Your last name" type="text" required/><br>
+      <input id="email" placeholder="Your email address" type="text" required/><br>
+      <input id="password" placeholder="Pick a password" type="text" required/><br>
+      <p id="passwordTip">Use at least one letter, one numeral, and seven characters</p>
+      <input id="confirmPassword" placeholder="Confirm Password" type="text" required/><br>
+      <input type="submit" value="Sign Up" id="signUpButton"/>
+    </form>
+    
+    <form action="" id="addProfileDetails" class="profileDetails">
+      <select id="selectMajor">
+        <option value="" disabled selected>Choose your major</option>
+        <option value="computerScience">Computer Science</option>
+        <option value="informationTechnology">Information Technology</option>
+        <option value="gameDevelopment">Game Development</option>
+      </select>
+      <label for="selectClasses">Choose your classes</label>
+      <select class="select-multiple" id="selectClasses" name="selectClasses" multiple="multiple" class="profileDetails">
+        <optgroup label="CSC Courses" class="profileDetails">
+          <option value="csc135">CSC135: Computer Science I</option>
+          <option value="csc136">CSC136: Computer Science II</option>
+          <option value="csc150">CSC150: Ethics in the Digital Age</option>
+          <option value="csc125">CSC125: Discrete Mathematics I</option>
+          <option value="csc225">CSC225: Discrete Mathematics II</option>
+          <option value="csc223">CSC223: Advanced Scientific Programming</option>
+        </optgroup>
+      </select>
+      <input type="submit" value="Create Account" id="createAccountButton"/>
+    </form>
+    <div id="successfulAccountCreation">
+      <p id="successMessage" hidden>Account successfully created! Please log in.</p>
+      <a href="/" id="logInLink" hidden>Log In</a>  
+    </div>
+    
+
+    <script type= "text/javascript" src="/public/createAccount.js"></script>
+  </body>
+</html>
