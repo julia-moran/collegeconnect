@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile View</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <main>
+        <form action="updateProfile.js" method="POST">
+            <div class="form-group spaced">
+                <label for="profile">Profile Information:</label>
+                <input type="text" id="profile" name="profile" required>
+            </div>
+
+            <div class="form-group spaced">
+                <label for="classes">Class List:</label>
+                <input type="text" id="classes" name="classes" required>
+            </div>
+
+            <div class="form-group spaced">
+                <label for="interests"></label>Interests:</label>
+                <select id="interests" name="interests" required>
+                    <option value="1">Option 1</option>
+                    <option value="2">Option 2</option>
+                    <option value="3">Option 3</option>
+                    <option value="4">Option 4</option>
+                </select>
+            </div>
+
+            <button type="submit">Update Profile</button>
+            <hr>
+        </form>
+        <button onclick="location.href='login.html'">Login</button>
+        <button onclick="location.href='signUp.html'">Sign Up</button>
+        <button onclick="location.href='forgotPass.html'">Forgot Password</button>
+
+    </main>
+</body>
+
+</html>

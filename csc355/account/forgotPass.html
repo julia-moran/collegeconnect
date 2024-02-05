@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <main>
+        <form action="resetPassword.js" method="POST">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <button type="submit">Reset Password</button>
+            <hr>
+        </form>
+        <button onclick="location.href='login.html'">Login</button>
+        <button onclick="location.href='signUp.html'">Sign Up</button>
+        <button onclick="location.href='profileView.html'">View Profile</button>
+    </main>
+</body>
+
+</html>
