@@ -6,6 +6,7 @@ const signUp = document.getElementById('signUp');
 const errorMessage = document.getElementById('errorMessage');
 const logInLink = document.getElementById("logInLink");
 const addProfileDetails = document.getElementById("addProfileDetails");
+const email = document.getElementById('email');
 //import * as db from '../db.js'
 
 /*
@@ -20,35 +21,40 @@ app.get('/:id', async (req, res, next) => {
     $("form.profileDetails").children().hide();
     $("optgroup.profileDetails").children().hide();
     $("optgroup.profileDetails").hide();
-    
 
+    function checkEmail(emailInput) {
+        /*$.ajax({
+            url: "/get/data",
+            method: "GET",
+            dataType: "json",
+            data: {
+                test: "test data"
+            },
+            success: function(result) {
+                $(result).each(function(i, emailResult) {
+                    $("#test").text(emailResult.email);
+                });
+            }
+        });*/
+        $.get("/get/data", function(result, status) {
+            $(result).each(function(i, emailResult) {
+                $("#test").text(emailInput);
+                $("#test2").text(emailResult.email);
+                if(emailResult.email == emailInput) {
+                    return true;
+                }
+            });
+            return false;
+        });
+
+    }
 
 
     signUp.addEventListener('submit', (e) => {
 
         e.preventDefault();
-        $.get("/get/data", function(data, status) {
-            console.log(data);
-        });
-        
-    /*
-        //client.connect((err) => {
-            //if (err) throw err;
-    
-            client.query('SELECT * FROM users', (err, res) => {
-            console.log(err ? err : res.rows)
-            //client.end()
-            })
-        //});
 
-        client.connect();
-
-        client.query('SELECT * FROM users', (err, res) => {
-        console.log(err ? err : res.rows)
-        //client.end()
-        client.end();
-        })*/
-
+        //getEmails();
         if(password.value != confirmPassword.value) {
             errorMessage.innerHTML = "Passwords don't match";
         } else if (password.value.length < 7) {
@@ -57,6 +63,8 @@ app.get('/:id', async (req, res, next) => {
             errorMessage.innerHTML = "Password must contain at least one numeral";
         } else if (!(password.value.match(/[a-zA-Z]/g))){
             errorMessage.innerHTML = "Password must contain at least one letter";
+        } else if (!(checkEmail(email.value))) {
+            errorMessage.innerHTML = "Invalid email";
         } else {
             //errorMessage.innerHTML = "Account successfully created";
             for(const child of signUp.children) {
@@ -69,15 +77,6 @@ app.get('/:id', async (req, res, next) => {
             $("optgroup.profileDetails").show();
         }
 
-        /*client.connect((err) => {
-            if (err) throw err;
-    
-            client.query('SELECT * FROM users', (err, res) => {
-            console.log(err ? err.stack : res.rows)
-            client.end()
-            })
-        });
-    */
     });
 
     addProfileDetails.addEventListener('submit', (e) => {

@@ -31,8 +31,8 @@ app.get('/create-account', (req, res) => {
   });
 
 app.get('/get/data', (req, res) => {
-    client.query('SELECT * FROM users', (err, results) => {
-      console.log(err ? err : results.rows);
+    client.query('SELECT email FROM users', (err, results) => {
+      console.log("Sent to index:", err ? err : results.rows);
       res.json(results.rows);
     //client.end()
     //client.end();
