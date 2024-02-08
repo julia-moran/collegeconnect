@@ -30,9 +30,9 @@ app.get('/create-account', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'create-account.html'));
   });
 
-app.get('/get/data', (req, res) => {
+app.get('/get/emails', (req, res) => {
     client.query('SELECT email FROM users', (err, results) => {
-      console.log("Sent to index:", err ? err : results.rows);
+      //console.log("Sent to index:", err ? err : results.rows);
       res.json(results.rows);
     //client.end()
     //client.end();
