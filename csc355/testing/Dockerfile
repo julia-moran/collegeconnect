@@ -10,7 +10,7 @@ COPY package.json package-lock.json ./
 # Install any needed packages specified in package.json
 RUN npm install
 RUN npm install express
-RUN npm install 
+RUN npm install pg
 
 # Bundle the app source inside the Docker image
 COPY . .
