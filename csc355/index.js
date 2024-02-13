@@ -34,6 +34,11 @@ app.get('/create-account', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'create-account.html'));
   });
 
+  app.get('/login', (req, res) => {  
+
+    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+  });
+
 app.get('/get/emails', (req, res) => {
     client.query('SELECT email FROM users', (err, results) => {
       //console.log("Sent to index:", err ? err : results.rows);
