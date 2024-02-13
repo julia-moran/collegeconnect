@@ -51,8 +51,30 @@ $(document).ready(function() {
     });
 
     addProfileDetails.addEventListener('submit', (e) => {
-
+        var request = { password: '111'};
         e.preventDefault();
+        $.post('/post/account', {
+            first_name:  $("#fname").val(),
+            last_name: $("#lname").val(),
+            email: $("#email").val(),
+            password: $("#password").val()});
+        /*$.ajax({
+            url: "/post/account",
+            data: JSON.stringify(request),
+            method: "POST",
+            //dataType: "json",
+            contentType: "application/json",
+            type: "json",
+            //processData: true,
+            success: function(data) {
+               //;
+               // 
+               // $("#password").val();
+               // $("#email").val();
+                console.log(data);
+            }
+            
+        });*/
         logInLink.style.display = "block";
         $("form.profileDetails").children().hide();
         $("optgroup.profileDetails").children().hide();

@@ -4,6 +4,10 @@ const app = express();
 const http = require('http');
 const server = http.createServer(app);
 const path = require('path');
+var bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 
 const client = new Client({
@@ -38,6 +42,25 @@ app.get('/get/emails', (req, res) => {
     //client.end();
     })
     
+});
+
+app.post('/post/account', (req, res) => {
+  console.log(req.body);
+  let password = req.body.password;
+  let email = req.body.email;
+  let first_name = req.body.first_name;
+  let last_name = req.body.last_name;
+  console.log(email);
+  console.log(password);
+  client.query('UPDATE users SET first_name = $1, last_name = $2, password = $3 WHERE email = $4',
+  [first_name, last_name, password, email], 
+  (err, results) => {
+    console.log("Sent to index:", err ? err : "Success");
+  //  res.json(results.rows);
+  //client.end()
+  //client.end();
+  });
+  
 });
 
 

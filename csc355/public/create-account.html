@@ -10,25 +10,31 @@
   <body>
     <h3>Create Account</h3>
     <p id="errorMessage"></p>
-    <form action="" id="signUp">
-      <input id="fname" placeholder="Your first name" type="text" required/><br>
-      <input id="lname" placeholder="Your last name" type="text" required/><br>
-      <input id="email" placeholder="Your email address" type="text" required/><br>
-      <input id="password" placeholder="Pick a password" type="text" required/><br>
+    <form action="" id="signUp" method="POST">
+      <input id="fname" class="accountInfo" placeholder="Your first name" type="text" required/><br>
+      <input id="lname" class="accountInfo" placeholder="Your last name" type="text" required/><br>
+      <input id="email" class="accountInfo" placeholder="Your email address" type="text" required/><br>
+      <input id="password" class="accountInfo" placeholder="Pick a password" type="text" required/><br>
       <p id="passwordTip">Use at least one letter, one numeral, and seven characters</p>
       <input id="confirmPassword" placeholder="Confirm Password" type="text" required/><br>
       <input type="submit" value="Sign Up" id="signUpButton"/>
     </form>
     
     <form action="" id="addProfileDetails" class="profileDetails">
-      <select id="selectMajor">
+      <select id="selectMajor" required>
         <option value="" disabled selected>Choose your major</option>
+        <option value="computerScience">Computer Science</option>
+        <option value="informationTechnology">Information Technology</option>
+        <option value="gameDevelopment">Game Development</option>
+      </select>
+      <select id="selectMinor">
+        <option value="" disabled selected>Choose your minor</option>
         <option value="computerScience">Computer Science</option>
         <option value="informationTechnology">Information Technology</option>
         <option value="gameDevelopment">Game Development</option>
       </select> <br>
       <label for="selectClasses">Choose your classes</label>
-      <select class="select-multiple" id="selectClasses" name="selectClasses" multiple="multiple" class="profileDetails">
+      <select class="select-multiple" id="selectClasses" name="selectClasses" multiple="multiple" class="profileDetails" required>
         <optgroup label="CSC Courses" class="profileDetails">
           <option value="csc135">CSC135: Computer Science I</option>
           <option value="csc136">CSC136: Computer Science II</option>
