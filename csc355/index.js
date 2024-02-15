@@ -49,6 +49,28 @@ app.get('/get/emails', (req, res) => {
     
 });
 
+app.post('/post/login', (req, res) => {
+  let password = req.body.password;
+  let email = req.body.email;
+  //console.log(email);
+  //console.log(password);
+  client.query('SELECT email FROM users WHERE email = $1 AND password = $2',
+  [email, password],
+  (err, results) => {
+    console.log(results.rows);
+    if(results.rows == []) {
+      //console.log("Invalid");
+      res.send("Invalid");
+    } else {
+      //console.log("Valid");
+      res.send("Valid");
+    }
+    //console.log("Sent to index:", err ? err : results.rows);
+    //res.json(results.rows);
+  })
+  
+});
+
 app.post('/post/account', (req, res) => {
   console.log(req.body);
   let password = req.body.password;
