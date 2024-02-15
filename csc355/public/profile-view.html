@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile View</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <main>
+        <p id="showID"></p>
+        <h1 id="name"></h1>
+        <form action="" method="POST">
+            <div class="form-group spaced">
+                <label for="profile">Profile Information:</label>
+                <input type="text" id="profile" name="profile" required>
+            </div>
+
+            <div class="form-group spaced">
+                <label for="classes">Class List:</label>
+                <input type="text" id="classes" name="classes" required>
+            </div>
+
+            <div class="form-group spaced">
+                <label for="interests"></label>Interests:</label>
+                <select id="interests" name="interests" required>
+                    <option value="1">Option 1</option>
+                    <option value="2">Option 2</option>
+                    <option value="3">Option 3</option>
+                    <option value="4">Option 4</option>
+                </select>
+            </div>
+
+            <button type="submit">Update Profile</button>
+            <hr>
+        </form>
+
+    </main>
+    <script type= "text/javascript" src="/public/profileView.js"></script>
+</body>
+
+</html>

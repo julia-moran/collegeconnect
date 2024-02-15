@@ -18,6 +18,7 @@ $(document).ready(function() {
                 } else {
                     sessionStorage.setItem("currentID", result);
                     document.getElementById("message").innerHTML = sessionStorage.getItem("currentID");
+                    window.location.replace("../profile-view");
                 }
             });
     });

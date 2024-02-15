@@ -39,6 +39,11 @@ app.get('/create-account', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'login.html'));
   });
 
+  app.get('/profile-view', (req, res) => {  
+
+    res.sendFile(path.join(__dirname, 'public', 'profile-view.html'));
+  });
+
 app.get('/get/emails', (req, res) => {
     client.query('SELECT email FROM users', (err, results) => {
       //console.log("Sent to index:", err ? err : results.rows);
@@ -47,6 +52,16 @@ app.get('/get/emails', (req, res) => {
     //client.end();
     })
     
+});
+
+app.post('/post/userInfo', (req, res) => {
+  let id = req.body.id;
+
+  client.query('SELECT * FROM users WHERE id = $1', [id], (err, results) => {
+    console.log("Sent to index:", err ? err : results.rows);
+    res.json(results.rows[0]);
+  })
+  
 });
 
 app.post('/post/login', (req, res) => {
