@@ -16,7 +16,8 @@ $(document).ready(function() {
                 if(result == "Invalid") {
                     document.getElementById("message").innerHTML = "Invalid login";
                 } else {
-                    document.getElementById("message").innerHTML = "Good login";
+                    sessionStorage.setItem("currentID", result);
+                    document.getElementById("message").innerHTML = sessionStorage.getItem("currentID");
                 }
             });
     });

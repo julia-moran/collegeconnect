@@ -54,16 +54,16 @@ app.post('/post/login', (req, res) => {
   let email = req.body.email;
   //console.log(email);
   //console.log(password);
-  client.query('SELECT email FROM users WHERE email = $1 AND password = $2',
+  client.query('SELECT id FROM users WHERE email = $1 AND password = $2',
   [email, password],
   (err, results) => {
-    console.log(results.rows);
+    console.log(results.rows[0].id);
     if(results.rows == []) {
       //console.log("Invalid");
       res.send("Invalid");
     } else {
       //console.log("Valid");
-      res.send("Valid");
+      res.send((results.rows[0].id).toString());
     }
     //console.log("Sent to index:", err ? err : results.rows);
     //res.json(results.rows);
