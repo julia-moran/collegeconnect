@@ -51,13 +51,14 @@ $(document).ready(function() {
     });
 
     addProfileDetails.addEventListener('submit', (e) => {
-        var request = { password: '111'};
         e.preventDefault();
+
         $.post('/post/account', {
             first_name:  $("#fname").val(),
             last_name: $("#lname").val(),
             email: $("#email").val(),
-            password: $("#password").val()});
+            password: $("#password").val(),
+            major: $("#selectMajor option:selected").text()});
         /*$.ajax({
             url: "/post/account",
             data: JSON.stringify(request),

@@ -92,18 +92,31 @@ app.post('/post/account', (req, res) => {
   let email = req.body.email;
   let first_name = req.body.first_name;
   let last_name = req.body.last_name;
-  console.log(email);
+  let major = req.body.major;
+  console.log(major);
   console.log(password);
-  client.query('UPDATE users SET first_name = $1, last_name = $2, password = $3 WHERE email = $4',
-  [first_name, last_name, password, email], 
+  client.query('UPDATE users SET first_name = $1, last_name = $2, password = $3, major = $5 WHERE email = $4',
+  [first_name, last_name, password, email, major], 
   (err, results) => {
     console.log("Sent to index:", err ? err : "Success");
-  //  res.json(results.rows);
   //client.end()
   //client.end();
   });
   
 });
+
+app.post('/update/profileInfo', (req, res) => {
+  let userId = req.body.id;
+  let major = req.body.major;
+  console.log(major);
+  client.query('UPDATE users SET major = $2 WHERE id = $1',
+  [userId, major], 
+  (err, results) => {
+    console.log("Sent to index:", err ? err : "Sucess");
+  });
+  
+});
+
 
 
 server.listen(3000, () => {
