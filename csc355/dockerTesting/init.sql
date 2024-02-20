@@ -41,5 +41,3 @@ CREATE TABLE chatLog (
     className VARCHAR(50),
     classSection VARCHAR(10)
 );
-
-ALTER TABLE classList DROP CONSTRAINT classList_roomNum_key;
