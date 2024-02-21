@@ -58,7 +58,12 @@ $(document).ready(function() {
             last_name: $("#lname").val(),
             email: $("#email").val(),
             password: $("#password").val(),
-            major: $("#selectMajor option:selected").text()});
+            major: $("#selectMajor option:selected").text(),
+            minor: $("#selectMinor option:selected").text(),
+            interest1: $("#interest1 option:selected").text(),
+            interest2: $("#interest2 option:selected").text(),
+            interest3: $("#interest3 option:selected").text()
+        });
         /*$.ajax({
             url: "/post/account",
             data: JSON.stringify(request),
