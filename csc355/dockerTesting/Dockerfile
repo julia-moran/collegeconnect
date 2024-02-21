@@ -10,7 +10,7 @@ ENV POSTGRES_PASSWORD password
 ENV POSTGRES_DB testdb
 
 # Copy the SQL script to initialize the database
-COPY init.sql /docker-entrypoint-initdb.d/
+COPY testSchema.sql /docker-entrypoint-initdb.d/
 
 # Expose the default PostgreSQL port
 EXPOSE 54324
