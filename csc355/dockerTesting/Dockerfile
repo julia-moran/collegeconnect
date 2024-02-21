@@ -5,12 +5,15 @@ FROM postgres:latest
 RUN apt-get update && apt-get install -y postgresql-client
 
 # Set environment variables for PostgreSQL
-ENV POSTGRES_USER admin
-ENV POSTGRES_PASSWORD password
-ENV POSTGRES_DB testdb
+ENV POSTGRES_USER jackh
+ENV POSTGRES_PASSWORD 0285
+ENV POSTGRES_DB collegeconnect
 
 # Copy the SQL script to initialize the database
-COPY testSchema.sql /docker-entrypoint-initdb.d/
+COPY testschema.sql /docker-entrypoint-initdb.d/
+
+# Copy the SQL script to create DB users
+COPY createuser.sql /docker-entrypoint-initdb.d/
 
 # Expose the default PostgreSQL port
 EXPOSE 54324
