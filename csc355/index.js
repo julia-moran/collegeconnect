@@ -58,11 +58,19 @@ app.post('/post/userInfo', (req, res) => {
   let id = req.body.id;
 
   client.query('SELECT * FROM users WHERE id = $1', [id], (err, results) => {
-    console.log("Sent to index:", err ? err : results.rows[0].minor);
     console.log(results.rows[0]);
     res.json(results.rows[0]);
   })
   
+});
+
+app.post('/post/interests', (req, res) => {
+  let id = req.body.id;
+
+  client.query('SELECT * FROM interest WHERE userid = $1', [id], (err, results) => {
+    console.log(results.rows);
+    res.json(results.rows);
+  });
 });
 
 app.post('/post/login', (req, res) => {

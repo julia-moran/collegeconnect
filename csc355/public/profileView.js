@@ -17,6 +17,18 @@ $(document).ready(function() {
             //}
         });
 
+    $.post('/post/interests', { id: sessionStorage.getItem("currentID") },
+        function(interestResults, status) {
+            $(interestResults).each(function(i, interestResult) {
+                if(interestResult.interest != "") {
+                    $("#interest" + interestResult.prompt + " option[value= '" + interestResult.interest + "']").attr("selected", "selected");
+                } else {
+                    $("#interest" + interestResult.prompt + " option[value= '']").attr("selected", "selected");
+                }
+                
+            });
+        });
+
     const form = document.querySelector('form');
 
     form.addEventListener('submit', function(event) {
@@ -27,6 +39,8 @@ $(document).ready(function() {
             major: $("#selectMajor option:selected").text(),
             minor: $("#selectMinor option:selected").text()
         });
+
+
     });
 
 })
