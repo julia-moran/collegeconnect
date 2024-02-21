@@ -58,10 +58,19 @@ app.post('/post/userInfo', (req, res) => {
   let id = req.body.id;
 
   client.query('SELECT * FROM users WHERE id = $1', [id], (err, results) => {
-    console.log("Sent to index:", err ? err : results.rows);
+    console.log(results.rows[0]);
     res.json(results.rows[0]);
   })
   
+});
+
+app.post('/post/interests', (req, res) => {
+  let id = req.body.id;
+
+  client.query('SELECT * FROM interest WHERE userid = $1', [id], (err, results) => {
+    console.log(results.rows);
+    res.json(results.rows);
+  });
 });
 
 app.post('/post/login', (req, res) => {
@@ -93,24 +102,83 @@ app.post('/post/account', (req, res) => {
   let first_name = req.body.first_name;
   let last_name = req.body.last_name;
   let major = req.body.major;
-  console.log(major);
+  let minor = req.body.minor;
+  let interest1 = req.body.interest1;
+  let interest2 = req.body.interest2;
+  let interest3 = req.body.interest3;
+  if(req.body.interest1 == "Choose an interest") {
+    interest1 = "";
+  }
+
+  if(req.body.interest2 == "Choose an interest") {
+    interest2 = "";
+  }
+
+  if(req.body.interest3 == "Choose an interest") {
+    interest3 = "";
+  }
+  //let userID = 0;
+
+  console.log(minor);
   console.log(password);
-  client.query('UPDATE users SET first_name = $1, last_name = $2, password = $3, major = $5 WHERE email = $4',
-  [first_name, last_name, password, email, major], 
+
+  client.query('SELECT id FROM users WHERE email = $1',
+  [email],
+  (err, results) => {
+    let userID = results.rows[0].id;
+    console.log("ID PLS WORK" + results.rows[0].id);
+    console.log("User ID: " + userID);
+    client.query("INSERT INTO interest (userid, prompt, interest) VALUES ($1, '1', $2), ($1, '2', $3), ($1, '3', $4)",
+      [userID, interest1, interest2, interest3],
+      (err, results) => {
+        console.log("Sent to index:", err ? err : "Interests inserted");
+      })
+  }); 
+
+
+  client.query('UPDATE users SET first_name = $1, last_name = $2, password = $3, major = $5, minor = $6 WHERE email = $4',
+  [first_name, last_name, password, email, major, minor], 
   (err, results) => {
     console.log("Sent to index:", err ? err : "Success");
   //client.end()
   //client.end();
   });
-  
+
 });
 
 app.post('/update/profileInfo', (req, res) => {
   let userId = req.body.id;
   let major = req.body.major;
-  console.log(major);
-  client.query('UPDATE users SET major = $2 WHERE id = $1',
-  [userId, major], 
+  let minor = req.body.minor;
+  
+  client.query('UPDATE users SET major = $2, minor = $3 WHERE id = $1',
+  [userId, major, minor], 
+  (err, results) => {
+    console.log("Sent to index:", err ? err : "Sucess");
+  });
+  
+});
+
+app.post('/update/interests', (req, res) => {
+  let userId = req.body.id;
+  let interest1 = req.body.interest1;
+  let interest2 = req.body.interest2;
+  let interest3 = req.body.interest3;
+  
+  client.query("UPDATE interest SET interest = $2 WHERE userid = $1 AND prompt = '1'",
+  [userId, interest1], 
+  (err, results) => {
+    console.log("Sent to index:", err ? err : "Sucess");
+  });
+
+  client.query("UPDATE interest SET interest = $2 WHERE userid = $1 AND prompt = '2'",
+  [userId, interest2], 
+  (err, results) => {
+    console.log("Sent to index:", err ? err : "Sucess");
+  });
+
+  client.query("UPDATE interest SET interest = $2 WHERE userid = $1 AND prompt = '3'",
+  [userId, interest3], 
   (err, results) => {
     console.log("Sent to index:", err ? err : "Sucess");
   });
