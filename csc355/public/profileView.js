@@ -40,6 +40,12 @@ $(document).ready(function() {
             minor: $("#selectMinor option:selected").text()
         });
 
+        $.post('/update/interests', {
+            id: sessionStorage.getItem("currentID"),
+            interest1: $("#interest1 option:selected").text(),
+            interest2: $("#interest2 option:selected").text(),
+            interest3: $("#interest3 option:selected").text()
+        });
 
     });
 

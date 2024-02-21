@@ -159,6 +159,32 @@ app.post('/update/profileInfo', (req, res) => {
   
 });
 
+app.post('/update/interests', (req, res) => {
+  let userId = req.body.id;
+  let interest1 = req.body.interest1;
+  let interest2 = req.body.interest2;
+  let interest3 = req.body.interest3;
+  
+  client.query("UPDATE interest SET interest = $2 WHERE userid = $1 AND prompt = '1'",
+  [userId, interest1], 
+  (err, results) => {
+    console.log("Sent to index:", err ? err : "Sucess");
+  });
+
+  client.query("UPDATE interest SET interest = $2 WHERE userid = $1 AND prompt = '2'",
+  [userId, interest2], 
+  (err, results) => {
+    console.log("Sent to index:", err ? err : "Sucess");
+  });
+
+  client.query("UPDATE interest SET interest = $2 WHERE userid = $1 AND prompt = '3'",
+  [userId, interest3], 
+  (err, results) => {
+    console.log("Sent to index:", err ? err : "Sucess");
+  });
+  
+});
+
 
 
 server.listen(3000, () => {
