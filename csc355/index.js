@@ -98,21 +98,17 @@ app.post('/post/classes', (req, res) => {
 app.post('/post/login', (req, res) => {
   let password = req.body.password;
   let email = req.body.email;
-  //console.log(email);
-  //console.log(password);
+  console.log(email);
+  console.log(password);
   client.query('SELECT id FROM users WHERE email = $1 AND password = $2',
   [email, password],
   (err, results) => {
-    console.log(results.rows[0].id);
-    if(results.rows == []) {
-      //console.log("Invalid");
-      res.send("Invalid");
-    } else {
-      //console.log("Valid");
+    console.log(results.rows);
+    if(results.rows[0]) {
       res.send((results.rows[0].id).toString());
+    } else {
+      res.send("Invalid");
     }
-    //console.log("Sent to index:", err ? err : results.rows);
-    //res.json(results.rows);
   })
   
 });
