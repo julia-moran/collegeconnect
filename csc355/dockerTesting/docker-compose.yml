@@ -1,6 +1,6 @@
 version: '3'
 services:
-  db:
+  postgres:
     build: 
       context: ./
       dockerfile: postgres.Dockerfile
@@ -8,11 +8,11 @@ services:
       - ./collegeconnect.sql:/docker-entrypoint-initdb.d/collegeconnect.sql
       - ./createuser.sql:/docker-entrypoint-initdb.d/createuser.sql
     ports:
-      - 54324:5432
+      - 54324:5432  #unique port num
 
-  app:
+  node:
     build: 
       context: ./
       dockerfile: node.Dockerfile
     depends_on:
-      - db
+      - postgres
