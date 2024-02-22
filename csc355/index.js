@@ -54,6 +54,14 @@ app.get('/get/emails', (req, res) => {
     
 });
 
+app.get('/get/classes', (req, res) => {
+  client.query('SELECT classcode, classname FROM chatroom', (err, results) => {
+    console.log("Sent to index:", err ? err : results.rows);
+    res.json(results.rows);
+  })
+  
+});
+
 app.post('/post/userInfo', (req, res) => {
   let id = req.body.id;
 
@@ -93,6 +101,16 @@ app.post('/post/login', (req, res) => {
     //res.json(results.rows);
   })
   
+});
+
+app.post('/post/getID', (req, res) => {
+  let email = req.body.email;
+  client.query('SELECT id FROM users WHERE email = $1',
+    [email],
+    (err, results) => {
+      console.log((results.rows[0].id).toString());
+      res.send((results.rows[0].id).toString());
+    });
 });
 
 app.post('/post/account', (req, res) => {
@@ -144,6 +162,29 @@ app.post('/post/account', (req, res) => {
   //client.end();
   });
 
+});
+
+app.post('/post/classlist', (req, res) => {
+  let email = req.body.email;
+  let classCodes = req.body.classCodes;
+
+  console.log(classCodes);
+
+  client.query('SELECT id FROM users WHERE email = $1',
+    [email],
+    (err, results) => {
+      console.log((results.rows[0].id).toString());
+      let userId = results.rows[0].id;
+      
+      for(i in classCodes) {
+        client.query("INSERT INTO classlist (classcode, userid, email) VALUES ($1, $2, $3)",
+        [classCodes[i], userId, email],
+        (err, results) => {
+          console.log("Sent to index:", err ? err : "Classlist inserted");
+        })
+      }
+    });
+  
 });
 
 app.post('/update/profileInfo', (req, res) => {
