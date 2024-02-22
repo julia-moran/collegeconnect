@@ -1,0 +1,18 @@
+version: '3'
+services:
+  db:
+    build: 
+      context: ./
+      dockerfile: postgres.Dockerfile
+    volumes:
+      - ./collegeconnect.sql:/docker-entrypoint-initdb.d/collegeconnect.sql
+      - ./createuser.sql:/docker-entrypoint-initdb.d/createuser.sql
+    ports:
+      - 54324:5432
+
+  app:
+    build: 
+      context: ./
+      dockerfile: node.Dockerfile
+    depends_on:
+      - db
