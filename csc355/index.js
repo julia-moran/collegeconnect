@@ -81,6 +81,15 @@ app.post('/post/interests', (req, res) => {
   });
 });
 
+app.post('/post/classes', (req, res) => {
+  let id = req.body.id;
+
+  client.query('SELECT * FROM classlist WHERE userid = $1', [id], (err, results) => {
+    console.log(results.rows);
+    res.json(results.rows);
+  });
+});
+
 app.post('/post/login', (req, res) => {
   let password = req.body.password;
   let email = req.body.email;

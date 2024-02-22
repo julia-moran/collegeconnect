@@ -5,6 +5,15 @@ $(document).ready(function() {
     let currentMajor = $("#selectMajor option:selected").text();
     $('.select-multiple').select2();
 
+    $.get("/get/classes", function(classResults, status) {
+        $(classResults).each(function(i, classResult) {
+            $("#CSCCourses").append("<option value= '" + classResult.classcode + "'>" + classResult.classcode + ": " + classResult.classname + "</option>")
+        })
+    });
+
+    $("#selectClasses").val("test").trigger('change');
+    //$("#selectClasses").val("test").trigger('change');
+
     $.post('/post/userInfo', { id: sessionStorage.getItem("currentID") },
         function(result, status) {
             //$("#showID").text(result.minor);
@@ -28,6 +37,22 @@ $(document).ready(function() {
                 
             });
         });
+
+
+        
+
+        $.post('/post/classes', { id: sessionStorage.getItem("currentID") },
+        function(classResults, status) {
+            let selectedClasses = [];
+
+            $(classResults).each(function(i, classResult) {
+                selectedClasses.push(classResult.classcode);
+            });
+
+            $("#selectClasses").val(selectedClasses).trigger('change');;
+        });
+    
+        
 
     const form = document.querySelector('form');
 
