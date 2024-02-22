@@ -1,5 +1,7 @@
 //const client = require('../index.js');
 $(document).ready(function() {
+    
+    $('.select-multiple').select2();
     const password = document.getElementById('password');
     const confirmPassword = document.getElementById('confirmPassword');
     const signUp = document.getElementById('signUp');
@@ -9,11 +11,18 @@ $(document).ready(function() {
     const email = document.getElementById('email');
 
     
-    $('.select-multiple').select2();
     $("form.profileDetails").children().hide();
     $("optgroup.profileDetails").children().hide();
     $("optgroup.profileDetails").hide();
 
+    $.get("/get/classes", function(classResults, status) {
+        $(classResults).each(function(i, classResult) {
+            $("#CSCCourses").append("<option value= '" + classResult.classcode + "'>" + classResult.classcode + ": " + classResult.classname + "</option>")
+        })
+    });
+
+    let classes = $("#selectClasses").select2('data');
+    $("#test").text(classes);
 
 
     signUp.addEventListener('submit', (e) => {
@@ -51,7 +60,9 @@ $(document).ready(function() {
     });
 
     addProfileDetails.addEventListener('submit', (e) => {
+
         e.preventDefault();
+        let classes = $("#selectClasses").val();
 
         $.post('/post/account', {
             first_name:  $("#fname").val(),
@@ -64,23 +75,13 @@ $(document).ready(function() {
             interest2: $("#interest2 option:selected").text(),
             interest3: $("#interest3 option:selected").text()
         });
-        /*$.ajax({
-            url: "/post/account",
-            data: JSON.stringify(request),
-            method: "POST",
-            //dataType: "json",
-            contentType: "application/json",
-            type: "json",
-            //processData: true,
-            success: function(data) {
-               //;
-               // 
-               // $("#password").val();
-               // $("#email").val();
-                console.log(data);
-            }
-            
-        });*/
+
+        $.post('/post/classlist', {
+            email: $("#email").val(),
+            classCodes: classes
+        });
+
+        $("#test").text(classes);
         logInLink.style.display = "block";
         $("form.profileDetails").children().hide();
         $("optgroup.profileDetails").children().hide();
