@@ -4,7 +4,9 @@ CREATE TABLE userInfo (
     email VARCHAR(50),
     clearance BOOLEAN CHECK (clearance::integer = 0 OR clearance::integer = 1),
     firstName VARCHAR(255),
-    lastName VARCHAR(50)
+    lastName VARCHAR(50),
+    major VARCHAR(20),
+    minor VARCHAR(20)
 );
 
 CREATE TABLE userData (
