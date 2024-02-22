@@ -34,12 +34,17 @@ app.get('/create-account', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'create-account.html'));
   });
 
-  app.get('/login', (req, res) => {  
+app.get('/login', (req, res) => {  
 
     res.sendFile(path.join(__dirname, 'public', 'login.html'));
   });
 
-  app.get('/profile-view', (req, res) => {  
+app.get('/logout', (req, res) => {  
+
+    res.sendFile(path.join(__dirname, 'public', 'logout.html'));
+  });
+
+app.get('/profile-view', (req, res) => {  
 
     res.sendFile(path.join(__dirname, 'public', 'profile-view.html'));
   });
