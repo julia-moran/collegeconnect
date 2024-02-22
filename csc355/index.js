@@ -235,7 +235,27 @@ app.post('/update/interests', (req, res) => {
   
 });
 
+app.post('/update/classes', (req, res) => {
+  let userId = req.body.id;
+  let email = req.body.email;
+  let classCodes = req.body.classCodes;
 
+  
+  client.query('DELETE FROM classlist WHERE userid = $1',
+  [userId], 
+  (err, results) => {
+    console.log("Sent to index:", err ? err : "Deleted");
+  });
+
+  for(i in classCodes) {
+    client.query("INSERT INTO classlist (classcode, userid, email) VALUES ($1, $2, $3)",
+    [classCodes[i], userId, email],
+    (err, results) => {
+      console.log("Sent to index:", err ? err : "Classlist inserted");
+    })
+  }
+  
+});
 
 server.listen(3000, () => {
   console.log('listening on *:3000');

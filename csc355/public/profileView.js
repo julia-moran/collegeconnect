@@ -18,6 +18,7 @@ $(document).ready(function() {
         function(result, status) {
             //$("#showID").text(result.minor);
             $("#name").text(result.first_name + " " + result.last_name + "'s Profile");
+            $("#email").text(result.email);
             $("#selectMajor option[value='" + result.major + "']").attr("selected","selected");
             //if(result.minor != NULL) {
             $("#selectMinor option[value='" + result.minor + "']").attr("selected","selected");
@@ -58,6 +59,7 @@ $(document).ready(function() {
 
     form.addEventListener('submit', function(event) {
         event.preventDefault();
+        let classes = $("#selectClasses").val();
     
         $.post('/update/profileInfo', {
             id: sessionStorage.getItem("currentID"),
@@ -70,6 +72,12 @@ $(document).ready(function() {
             interest1: $("#interest1 option:selected").text(),
             interest2: $("#interest2 option:selected").text(),
             interest3: $("#interest3 option:selected").text()
+        });
+
+        $.post('/update/classes', {
+            id: sessionStorage.getItem("currentID"),
+            email: $("#email").text(),
+            classCodes: classes
         });
 
     });
