@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>College Connect</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  </head>
+  <body>
+    <h3>Create Account</h3>
+    <p id="errorMessage"></p>
+    <form action="" id="signUp" method="POST">
+      <input id="fname" class="accountInfo" placeholder="Your first name" type="text" required/><br>
+      <input id="lname" class="accountInfo" placeholder="Your last name" type="text" required/><br>
+      <input id="email" class="accountInfo" placeholder="Your email address" type="text" required/><br>
+      <input id="password" class="accountInfo" placeholder="Pick a password" type="text" required/><br>
+      <p id="passwordTip">Use at least one letter, one numeral, and seven characters</p>
+      <input id="confirmPassword" placeholder="Confirm Password" type="text" required/><br>
+      <input type="submit" value="Sign Up" id="signUpButton"/>
+    </form>
+    
+    <form action="" id="addProfileDetails" class="profileDetails">
+      <select id="selectMajor" required>
+        <option value="" disabled selected>Choose your major</option>
+        <option value="computerScience">Computer Science</option>
+        <option value="informationTechnology">Information Technology</option>
+        <option value="gameDevelopment">Game Development</option>
+      </select>
+      <select id="selectMinor">
+        <option value="" disabled selected>Choose your minor</option>
+        <option value="computerScience">Computer Science</option>
+        <option value="informationTechnology">Information Technology</option>
+        <option value="gameDevelopment">Game Development</option>
+      </select> <br>
+      <label for="selectClasses">Choose your classes</label>
+      <select class="select-multiple" id="selectClasses" name="selectClasses" multiple="multiple" class="profileDetails" style="width: 50%" required>
+        <optgroup label="CSC Courses" class="profileDetails" id="CSCCourses">
+        </optgroup>
+      </select> <br>
+      <label for="interest1">I'm interested in...</label>
+      <select id="interest1">
+        <option value="" disabled selected>Choose an interest</option>
+        <option value="music">Music</option>
+        <option value="sports">Sports</option>
+        <option value="art">Art</option>
+      </select>
+      <select id="interest2">
+        <option value="" disabled selected>Choose an interest</option>
+        <option value="music">Music</option>
+        <option value="sports">Sports</option>
+        <option value="art">Art</option>
+      </select>
+      <select id="interest3">
+        <option value="" disabled selected>Choose an interest</option>
+        <option value="music">Music</option>
+        <option value="sports">Sports</option>
+        <option value="art">Art</option>
+      </select> <br>
+      <input type="submit" value="Create Account" id="createAccountButton"/>
+    </form>
+    <div id="successfulAccountCreation">
+      <p id="successMessage" hidden>Account successfully created! Please log in.</p>
+      <a href="/login" id="logInLink" hidden>Log In</a>  
+    </div>
+    <p id="test"></p>
+    <p id="test2"></p>
+
+    <script type= "text/javascript" src="/public/createAccount.js"></script>
+  </body>
+</html>

@@ -31,6 +31,26 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'home.html'));
 });
 
+app.get('/login', (req, res) => {
+  res.sendFile(path.join(__dirname, 'login.html'));
+});
+
+app.get('/create-account', (req, res) => {
+  res.sendFile(path.join(__dirname, 'create-account.html'));
+});
+
+app.get('/chat-room', (req, res) => {
+  res.sendFile(path.join(__dirname, 'chat-room.html'));
+});
+
+app.get('/logout', (req, res) => {
+  res.sendFile(path.join(__dirname, 'logout.html'));
+});
+
+app.get('/profile-view', (req, res) => {
+  res.sendFile(path.join(__dirname, 'profile-view.html'));
+});
+
 app.listen(3000, () => {
   console.log('App listening on port 3000');
 });
