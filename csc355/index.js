@@ -1,4 +1,6 @@
 const { Pool, Client } = require('pg');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 const express = require('express');
 const app = express();
 const http = require('http');
@@ -19,6 +21,24 @@ const client = new Client({
 })
 
 client.connect();
+
+//Jerome's function to register a user
+function registerUser(username, password) {
+  bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+
+    client.query('INSERT INTO users (username, password) VALUES ($1, $2)', [username, hashedPassword], (err, results) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      console.log('User registered successfully');
+    });
+  });
+}
 
 app.use('/public', express.static(path.join(__dirname, '/public')));
 app.get('/', (req, res) => {
@@ -93,6 +113,16 @@ app.post('/post/classes', (req, res) => {
     console.log(results.rows);
     res.json(results.rows);
   });
+});
+//Jerome's register user part two
+app.post('/register', (req, res) => {
+  const { username, password } = req.body;
+
+  // Call the function to register a user
+  registerUser(username, password);
+
+  // Send a response back to the client
+  res.send('User registered successfully');
 });
 
 app.post('/post/login', (req, res) => {
