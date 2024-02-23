@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>College Connect</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="page-container">
+      <nav class="nav">
+        <div class="navborder"></div>
+        <a href="home.html" class="navlink">
+          <div class="navicon-container">
+            <i class="material-icons">homepage</i>
+          </div>
+          <span class="navlabel">Homapage</span>
+        </a>
+        <a href="#" class="navlink">
+          <div class="navicon-container">
+            <i class="material-icons">classes</i>
+          </div>
+          <span class="navlabel">Classes</span>
+        </a>
+        <a href="#" class="navlink">
+          <div class="navicon-container">
+            <i class="material-icons">messages</i>
+          </div>
+          <span class="navlabel">Messages</span>
+        </a>
+        <a href="logout.html" class="navlink">
+          <div class="navicon-container">
+            <i class="material-icons">logout</i>
+          </div>
+          <span class="navlabel">Logout</span>
+        </a>
+      </nav>
+      <main class="main">
+      </main>
+    </div>
+    <script>
+      // Navigation
+      {
+        const collapsedClass = "nav--collapsed";
+        const lsKey = "navCollapsed";
+        const nav = document.querySelector(".nav");
+        const navBorder = nav.querySelector(".navborder");
+        if (localStorage.getItem(lsKey) === "true") {
+          nav.classList.add(collapsedClass);
+        }
+        navBorder.addEventListener("click", () => {
+          nav.classList.toggle(collapsedClass);
+          localStorage.setItem(lsKey, nav.classList.contains(collapsedClass));
+        });
+      }
+    </script>
+    <div class="messages">
+      <ul id="messages"></ul>
+      <form id="form" action="">
+      <input id="input" autocomplete="off" /><button>Send</button>
+     </form> 
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type= "text/javascript" src="/public/chat.js"></script>
+</body>
+</html>
