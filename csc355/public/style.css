@@ -1,0 +1,176 @@
+:root {
+    --nav-icon-width: 100px;
+    --nav-border-width: 12px;
+  }
+  
+  html,
+  body {
+    background-color: #6F1A31;
+    height: 100%;
+    margin: 0;
+    font-family: sans-serif;
+  }
+  
+  .page-container {
+    height: inherit;
+    display: flex;
+  }
+  
+  .main {
+    height: inherit;
+    padding: 0;
+    padding-left: var(--nav-border-width);
+    overflow-y: auto;
+  }
+  
+  .nav {
+    width: 355px;
+    height: inherit;
+    position: relative;
+    background-color: #9C9B65;
+    transition: width 0.2s;
+    flex-shrink: 0;
+  }
+  
+  .nav--collapsed {
+    width: var(--nav-icon-width);
+  }
+  
+  .nav--collapsed .navlabel {
+    display: none;
+  }
+  
+  .navlink {
+    display: flex;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.75);
+    text-decoration: none;
+  }
+  
+  .navlink:hover {
+    background-color: #dddddd;
+  }
+  
+  .navicon-container {
+    width: var(--nav-icon-width);
+    height: var(--nav-icon-width);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  
+  .navlabel {
+    white-space: nowrap;
+  }
+  
+  .navborder {
+    position: absolute;
+    left: 100%;
+    top: 0;
+    width: var(--nav-border-width);
+    height: inherit;
+    background-color: #dddddd;
+    transition: background-color 0.2s;
+    cursor: ew-resize;
+  }
+  
+  .nav__border:hover {
+    background-color: #cccccc;
+  }
+
+  form {
+    background: rgba(0, 0, 0, 0.15);
+    display: flex;
+    box-sizing: border-box;
+    backdrop-filter: blur(10px); 
+    /*Citation Source: the following properties in this style rule were 
+    retrieved from https://github.com/socketio/chat-examples/chat/public/style.css
+    on October 11, 2023*/ 
+    padding: 0.25rem;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 75%;
+    height: 3rem;
+  }
+
+  /*Citation Source: this style rule was retrieved from
+    https://github.com/socketio/chat-examples/chat/public/style.css
+    on October 11, 2023*/ 
+  #input { 
+    border: none;
+    border-radius: 2rem;
+    padding: 0 1rem;
+    margin: 0.25rem;
+    flex-grow: 1;
+  }
+
+  /*Citation Source: this style rule was retrieved from
+    https://github.com/socketio/chat-examples/chat/public/style.css
+    on October 11, 2023*/ 
+  #input:focus { 
+    outline: none; 
+  }
+  
+  /*Citation Source: this style rule was retrieved from
+    https://github.com/socketio/chat-examples/chat/public/style.css
+    on October 11, 2023*/ 
+  #form > button {
+    background: #9C9B65;
+    color: #fff; 
+    padding: 0 1rem;
+    margin: 0.25rem; 
+    border: none;
+    border-radius: 3px;
+    outline: none;
+  }
+
+  table { 
+    border: 1px solid;
+    padding: 8px;
+    width: 25%; 
+    border-collapse: collapse;
+    position: absolute;
+    height: 100%;
+   }
+
+  td {
+    border: 1px solid;
+    padding: 10px;
+   }
+
+   tr:hover {
+    background-color: #e5d6ff;
+   }
+  
+   #messages { 
+    /*Citation Source: The overflow property was retrieved from 
+        https://developer.mozilla.org/en-US/docs/Web/CSS/overflow on
+        October 14, 2023*/
+    overflow-x: hidden;
+    overflow-y: auto;
+    list-style-type: none;
+    margin: 10;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    width: 75%;
+    height: 90%;
+  }
+
+    /*Citation Source: this style rule was based on
+    https://github.com/socketio/chat-examples/chat/public/style.css
+    on October 11, 2023*/ 
+    #messages > li {
+      padding: 1rem 0.5rem;
+      /*Citation Source: The overflow property was retrieved from 
+        https://developer.mozilla.org/en-US/docs/Web/CSS/overflow on
+        October 14, 2023*/
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+    #messages > li:nth-child(odd) {
+      font-weight: bold;
+      padding: 0.5rem 0.5rem;
+    }
