@@ -12,6 +12,9 @@ const connectWithRetry = () => {
     port: 5432,
   });
 
+
+// comment
+
   return client.connect((err) => {
     if (err) {
       console.error('Failed to connect to postgres on startup - retrying in 5 sec', err);
