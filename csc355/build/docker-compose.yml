@@ -7,6 +7,7 @@ services:
     volumes:
       - ./collegeconnect.sql:/docker-entrypoint-initdb.d/collegeconnect.sql
       - ./createuser.sql:/docker-entrypoint-initdb.d/createuser.sql
+      - data:/var/lib/postgresql/data
     ports:
       - 54324:5432  #unique port num
 
@@ -14,6 +15,8 @@ services:
     build: 
       context: ./
       dockerfile: node.Dockerfile
+    volumes:
+      - ./:/app
     depends_on:
       - postgres
     ports:
