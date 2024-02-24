@@ -57,3 +57,28 @@ app.get('/profile-view', (req, res) => {
 app.listen(3000, () => {
   console.log('App listening on port 3000');
 });
+
+//login
+app.post('/post/login', function(req, res) {
+  const email = req.body.email;
+  const password = req.body.password; // Assuming you're storing hashed passwords
+
+  const query = `
+      SELECT * FROM userInfo 
+      WHERE email = $1 AND password = $2
+  `;
+  db.query(query, [email, password])
+      .then(user => {
+          if (user) {
+              // User found, proceed with login
+              res.send(user.id.toString());
+          } else {
+              // User not found, handle error
+              res.send("Invalid");
+          }
+      })
+      .catch(err => {
+          // Handle error
+          res.send("Invalid");
+      });
+});

@@ -2,13 +2,11 @@ FROM node:14
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY . .
 
 RUN npm install
 RUN npm install pg
 RUN npm install express
-
-COPY . .
 
 EXPOSE 3000
 

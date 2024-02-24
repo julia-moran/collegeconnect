@@ -6,7 +6,8 @@ CREATE TABLE userInfo (
     firstName VARCHAR(255),
     lastName VARCHAR(50),
     major VARCHAR(20),
-    minor VARCHAR(20)
+    minor VARCHAR(20),
+    password VARCHAR(50)
 );
 
 CREATE TABLE userData (
