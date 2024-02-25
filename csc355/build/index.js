@@ -3,6 +3,8 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
+app.use(express.json());
+
 const connectWithRetry = () => {
   const client = new Client({
     user: 'postgres',
@@ -11,9 +13,6 @@ const connectWithRetry = () => {
     password: '0285',
     port: 5432,
   });
-
-
-// comment
 
   return client.connect((err) => {
     if (err) {
@@ -59,26 +58,36 @@ app.listen(3000, () => {
 });
 
 //login
-app.post('/post/login', function(req, res) {
-  const email = req.body.email;
-  const password = req.body.password; // Assuming you're storing hashed passwords
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
 
-  const query = `
-      SELECT * FROM userInfo 
-      WHERE email = $1 AND password = $2
-  `;
-  db.query(query, [email, password])
-      .then(user => {
-          if (user) {
-              // User found, proceed with login
-              res.send(user.id.toString());
-          } else {
-              // User not found, handle error
-              res.send("Invalid");
-          }
-      })
-      .catch(err => {
-          // Handle error
-          res.send("Invalid");
-      });
+  try {
+    const client = new Client({
+      user: 'postgres',
+      host: 'postgres',
+      database: 'collegeconnect',
+      password: '0285',
+      port: 5432,
+    });
+
+    await client.connect();
+
+    const result = await client.query('SELECT * FROM userInfo WHERE email = $1', [email]);
+    const user = result.rows[0];
+
+    if (!user) {
+      res.status(401).json({ message: 'Invalid credentials' });
+      return;
+    }
+
+    if (user.password !== password) {
+      res.status(401).json({ message: 'Invalid credentials' });
+      return;
+    }
+
+    res.status(200).json({ message: 'Login successful!' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'An error occurred' });
+  }
 });

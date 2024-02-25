@@ -133,6 +133,10 @@ INSERT INTO userInfo (displayName, email, clearance, firstName, lastName) VALUES
 ('Jerome Serrao', 'jserr892@live.kutztown.edu', '0', 'Jerome', 'Serrao')
 ;
 
+UPDATE userInfo
+SET password = '0285'
+WHERE email = 'jhami311@live.kutztown.edu';
+
 INSERT INTO classList (roomNum, userID, displayName, email)
 VALUES
 ('OM287', 32412536, 'jmora678', 'jmora678@live.kutztown.edu'),

@@ -1,23 +1,50 @@
-$(document).ready(function() {
-    const form = document.querySelector('form');
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('#loginform');
+document.querySelector('#loginform').addEventListener('submit', async (event) => {
+    event.preventDefault();
 
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
+    const email = document.querySelector('#email').value;
+    const password = document.querySelector('#password').value;
 
-        const formData = new FormData(form);
-        const email = formData.get('email');
-        const password = formData.get('password');
+    if (!email || !password) {
+        alert('Email and password are required');
+        return;
+    }
 
-        $.post('/post/login', {
-            email: email,
-            password: password},
-            function(result, status) {
-                if(result == "Invalid") {
-                     location.reload();
-                    alert("Invalid login");
-                } else {
-                    window.location.href = "home.html";
-                }
-            });
+    if (!email.includes('@')) {
+        alert('Invalid email');
+        return;
+    }
+
+    if (password.length < 1) {
+        alert('Password must be at least 1 character long');
+        return;
+    }
+
+    try {
+        const response = await fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.text();
+
+        if (data === 'Valid') {
+            alert('Login successful!');
+            window.location.href = 'home.html';
+            } else {
+                alert('Login failed. Please check your email and password and try again.');
+                location.reload();
+            }
+        } catch (error) {
+            console.error('There has been a problem with your fetch operation:', error);
+        }
     });
 });
