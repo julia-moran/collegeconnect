@@ -6,13 +6,14 @@ const path = require('path');
 app.use(express.json());
 
 const pool = new Pool({
-  user: 'postgres',
+  user: 'ccadmin',
   host: 'postgres',
   database: 'collegeconnect',
   password: '0285',
   port: 5432
 });
 
+// connect to pg database with above credentials
 const connectWithRetry = async () => {
   try {
     const client = await pool.connect();
@@ -23,7 +24,6 @@ const connectWithRetry = async () => {
     setTimeout(connectWithRetry, 5000);
   }
 };
-
 connectWithRetry();
 
 app.use(express.static(path.join(__dirname)));

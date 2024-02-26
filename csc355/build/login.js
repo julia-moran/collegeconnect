@@ -26,6 +26,7 @@ document.getElementById('login-form').addEventListener('submit', async (event) =
         const data = await response.json();
 
         if (data.message === 'Login successful!') {
+            alert('Login successful! You will be redirected to the homepage.');
             window.location.href = '/';
         }
     } catch (error) {
