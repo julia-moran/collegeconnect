@@ -1,25 +1,8 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.querySelector('#loginform');
-document.querySelector('#loginform').addEventListener('submit', async (event) => {
+document.getElementById('login-form').addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    const email = document.querySelector('#email').value;
-    const password = document.querySelector('#password').value;
-
-    if (!email || !password) {
-        alert('Email and password are required');
-        return;
-    }
-
-    if (!email.includes('@')) {
-        alert('Invalid email');
-        return;
-    }
-
-    if (password.length < 1) {
-        alert('Password must be at least 1 character long');
-        return;
-    }
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
 
     try {
         const response = await fetch('/login', {
@@ -31,20 +14,21 @@ document.querySelector('#loginform').addEventListener('submit', async (event) =>
         });
 
         if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-
-        const data = await response.text();
-
-        if (data === 'Valid') {
-            alert('Login successful!');
-            window.location.href = 'home.html';
+            if (response.status === 401) {
+                alert('Invalid credentials. Please check your email and password and try again.');
             } else {
-                alert('Login failed. Please check your email and password and try again.');
-                location.reload();
+                alert('An error occurred. Please try again later.');
             }
-        } catch (error) {
-            console.error('There has been a problem with your fetch operation:', error);
+            location.reload();
+            return;
         }
-    });
+
+        const data = await response.json();
+
+        if (data.message === 'Login successful!') {
+            window.location.href = '/';
+        }
+    } catch (error) {
+        console.error('There has been a problem with your fetch operation:', error);
+    }
 });

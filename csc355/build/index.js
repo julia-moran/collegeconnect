@@ -1,28 +1,27 @@
-const { Client } = require('pg');
+const { Pool } = require('pg');
 const express = require('express');
 const app = express();
 const path = require('path');
 
 app.use(express.json());
 
-const connectWithRetry = () => {
-  const client = new Client({
-    user: 'postgres',
-    host: 'postgres',
-    database: 'collegeconnect',
-    password: '0285',
-    port: 5432,
-  });
+const pool = new Pool({
+  user: 'postgres',
+  host: 'postgres',
+  database: 'collegeconnect',
+  password: '0285',
+  port: 5432
+});
 
-  return client.connect((err) => {
-    if (err) {
-      console.error('Failed to connect to postgres on startup - retrying in 5 sec', err);
-      client.end();
-      setTimeout(connectWithRetry, 5000);
-    } else {
-      console.log('Successfully connected to postgres');
-    }
-  });
+const connectWithRetry = async () => {
+  try {
+    const client = await pool.connect();
+    console.log('Successfully connected to postgres');
+    client.release();
+  } catch (err) {
+    console.error('Failed to connect to postgres on startup - retrying in 5 sec', err);
+    setTimeout(connectWithRetry, 5000);
+  }
 };
 
 connectWithRetry();
@@ -62,32 +61,26 @@ app.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const client = new Client({
-      user: 'postgres',
-      host: 'postgres',
-      database: 'collegeconnect',
-      password: '0285',
-      port: 5432,
-    });
+    const client = await pool.connect();
 
-    await client.connect();
+    try {
+      const result = await client.query('SELECT * FROM userInfo WHERE email = $1', [email]);
+      const user = result.rows[0];
 
-    const result = await client.query('SELECT * FROM userInfo WHERE email = $1', [email]);
-    const user = result.rows[0];
+      if (!user || user.password !== password) {
+        res.status(401).json({ message: 'Invalid credentials' });
+        return;
+      }
 
-    if (!user) {
-      res.status(401).json({ message: 'Invalid credentials' });
-      return;
+      res.status(200).json({ message: 'Login successful!' });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'An error occurred' });
+    } finally {
+      client.release();
     }
-
-    if (user.password !== password) {
-      res.status(401).json({ message: 'Invalid credentials' });
-      return;
-    }
-
-    res.status(200).json({ message: 'Login successful!' });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'An error occurred' });
+    res.status(500).json({ message: 'Could not connect to the database' });
   }
 });
