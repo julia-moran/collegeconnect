@@ -16,7 +16,7 @@ CREATE TABLE userData (
     interest VARCHAR(255)
 );
 
-CREATE TABLE chatRoom (
+CREATE TABLE classList (
     id SERIAL PRIMARY KEY,
     roomNum VARCHAR(10),
     classCode VARCHAR(6),
@@ -25,7 +25,7 @@ CREATE TABLE chatRoom (
     email VARCHAR(50)
 );
 
-CREATE TABLE classList (
+CREATE TABLE chatRoom (
     id SERIAL PRIMARY KEY,
     roomNum VARCHAR(10),
     classCode VARCHAR(6),
@@ -138,7 +138,7 @@ UPDATE userInfo
 SET password = '0285'
 WHERE email = 'jhami311@live.kutztown.edu';
 
-INSERT INTO chatRoom (roomNum, userID, displayName, email)
+INSERT INTO classList (roomNum, userID, displayName, email)
 VALUES
 ('OM287', 32412536, 'jmora678', 'jmora678@live.kutztown.edu'),
 ('OM287', 32412436, 'jhami311', 'jhami311@live.kutztown.edu'),
@@ -150,7 +150,7 @@ VALUES
 ('OM287', 32417363, 'mmatt325', 'mmatt325@live.kutztown.edu'),
 ('OM287', 32419012, 'smars432', 'smars432@live.kutztown.edu');
 
-INSERT INTO classList(roomnum,classcode,classname,classsection,classroom,classprof)
+INSERT INTO chatRoom(roomnum,classcode,classname,classsection,classroom,classprof)
 VALUES
 (1,'CSC101','Computer Applications','S810','Old Main 159', 'Jici Huang'),
 (2,'CSC111','Computer Forensics','S010','De Francesco 103', 'Griffin Nye'),
