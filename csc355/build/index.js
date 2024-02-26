@@ -84,3 +84,11 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ message: 'Could not connect to the database' });
   }
 });
+
+app.get('/get/classes', (req, res) => {
+  client.query('SELECT classcode, classname FROM chatroom', (err, results) => {
+    console.log("Sent to index:", err ? err : results.rows);
+    res.json(results.rows);
+  })
+  
+});

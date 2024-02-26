@@ -18,7 +18,7 @@ CREATE TABLE userData (
 
 CREATE TABLE classList (
     id SERIAL PRIMARY KEY,
-    roomNum VARCHAR(10),
+    classCode VARCHAR(6),
     userID INTEGER,
     displayName VARCHAR(32),
     email VARCHAR(50)
