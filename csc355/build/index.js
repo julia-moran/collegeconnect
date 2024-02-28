@@ -56,34 +56,34 @@ app.listen(3000, () => {
   console.log('App listening on port 3000');
 });
 
-//login
+//  login endpoint to handle user
 app.post('/login', async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = req.body; //  get email and password from request body
 
   try {
-    const client = await pool.connect();
+    const client = await pool.connect();  //  connect client to database
 
     try {
-      const result = await client.query('SELECT * FROM userInfo WHERE email = $1', [email]);
-      const user = result.rows[0];
+      const result = await client.query('SELECT * FROM userInfo WHERE email = $1', [email]);  //  query database for user with email
+      const user = result.rows[0];  //  get user from result
 
-      if (!user || user.password !== password) {
+      if (!user || user.password !== password) {  //  if user does not exist or password is incorrect
         res.status(401).json({ message: 'Invalid credentials' });
         return;
       }
 
-      const userId = user.id;
+      const userId = user.id; //  get user id
 
-      res.status(200).json({ message: 'Login successful!', id: userId });
+      res.status(200).json({ message: 'Login successful!', id: userId }); //  send success message and user id
     } catch (err) {
       console.error(err);
-      res.status(500).json({ message: 'An error occurred' });
+      res.status(500).json({ message: 'An error occurred' }); //  if error occurs, send error message
     } finally {
-      client.release();
+      client.release(); //  release client from database
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Could not connect to the database' });
+    res.status(500).json({ message: 'Could not connect to the database' }); //  if error occurs, send error message
   }
 });
 
