@@ -72,7 +72,9 @@ app.post('/login', async (req, res) => {
         return;
       }
 
-      res.status(200).json({ message: 'Login successful!' });
+      const userId = user.id;
+
+      res.status(200).json({ message: 'Login successful!', id: userId });
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: 'An error occurred' });

@@ -13,7 +13,10 @@ $(document).ready(function() {
             data: JSON.stringify({ email, password }),
             success: function(data) {
                 if (data.message === 'Login successful!') {
-                    alert('Login successful! You will be redirected to the homepage.');
+        
+                    var userId = data.id;
+                    alert('Login successful! You will be redirected to the homepage. User ID: ' + userId);
+        
                     window.location.href = '/';
                 }
             },
