@@ -28,6 +28,9 @@ connectWithRetry();
 
 app.use(express.static(path.join(__dirname)));
 
+//  serve html files
+
+// launch app at homepage
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'home.html'));
 });
