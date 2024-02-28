@@ -90,6 +90,7 @@ app.post('/login', async (req, res) => {
   }
 });
 
+//  create account endpoint to handle user
 app.get('/get/classes', (req, res) => {
   client.query('SELECT classcode, classname FROM chatroom', (err, results) => {
     console.log("Sent to index:", err ? err : results.rows);
