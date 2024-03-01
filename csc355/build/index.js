@@ -96,5 +96,22 @@ app.get('/get/classes', (req, res) => {
     console.log("Sent to index:", err ? err : results.rows);
     res.json(results.rows);
   })
+app.get('/getClasses', async (req, res) => {
+  try {
+    const client = await pool.connect();
+
+    try {
+      client.query('SELECT classcode, classname FROM chatroom', (err, results) => {
+        console.log("Sent to index:", err ? err : results.rows);
+        res.json(results.rows);
+      });
+    } finally {
+      client.release();
+    }
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
   
 });

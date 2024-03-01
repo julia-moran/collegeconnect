@@ -15,7 +15,7 @@ $(document).ready(function() {
     $("optgroup.profileDetails").children().hide();
     $("optgroup.profileDetails").hide();
 
-    $.get("/get/classes", function(classResults, status) {
+    $.get("/getClasses", function(classResults, status) {
         $(classResults).each(function(i, classResult) {
             $("#CSCCourses").append("<option value= '" + classResult.classcode + "'>" + classResult.classcode + ": " + classResult.classname + "</option>")
         })
