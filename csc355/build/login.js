@@ -1,35 +1,34 @@
-document.getElementById('login-form').addEventListener('submit', async (event) => {
-    event.preventDefault();
+$(document).ready(function() {
 
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+    $('#login-form').on('submit', function(event) {
+        event.preventDefault();
 
-    try {
-        const response = await fetch('/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
+        const email = $('#email').val();
+        const password = $('#password').val();
+
+        $.ajax({
+            url: '/login',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ email, password }),
+            success: function(data) {
+                if (data.message === 'Login successful!') {
+// save userID and print (testing purposes only, will be removed later)
+                    var userId = data.id;
+                    alert('Login successful! You will be redirected to the homepage. User ID: ' + userId);
+        
+                    window.location.href = '/';
+                }
             },
-            body: JSON.stringify({ email, password }),
-        });
-
-        if (!response.ok) {
-            if (response.status === 401) {
-                alert('Invalid credentials. Please check your email and password and try again.');
-            } else {
-                alert('An error occurred. Please try again later.');
+            error: function(jqXHR) {
+                if (jqXHR.status === 401) {
+                    alert('Invalid credentials. Please check your email and password and try again.');
+                } else {
+                    alert('An error occurred. Please try again later.');
+                }
+                location.reload();
             }
-            location.reload();
-            return;
-        }
+        });
+    });
 
-        const data = await response.json();
-
-        if (data.message === 'Login successful!') {
-            alert('Login successful! You will be redirected to the homepage.');
-            window.location.href = '/';
-        }
-    } catch (error) {
-        console.error('There has been a problem with your fetch operation:', error);
-    }
 });
