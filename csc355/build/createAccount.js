@@ -78,14 +78,10 @@ $(document).ready(function() {
         let classes = $("#selectClasses").val();
 
         $.post('/addAccount', {
-            id: sessionStorage.getItem("currentID"),
             email: $("#email").val(),
             password: $("#password").val(),
             major: $("#selectMajor option:selected").text(),
-            minor: $("#selectMinor option:selected").text(),
-            interest1: $("#interest1 option:selected").text(),
-            interest2: $("#interest2 option:selected").text(),
-            interest3: $("#interest3 option:selected").text()
+            minor: $("#selectMinor option:selected").text()
         });
 /*
         $.post('/post/classlist', {

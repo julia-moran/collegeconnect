@@ -152,35 +152,18 @@ app.get('/getClasses', async (req, res) => {
 });
 
 app.post('/addAccount', async (req, res) => {
-  let userID = req.body.id;
   let password = req.body.password;
   let email = req.body.email;
-  let first_name = req.body.first_name;
-  let last_name = req.body.last_name;
   let major = req.body.major;
   let minor = req.body.minor;
-  let interest1 = req.body.interest1;
-  let interest2 = req.body.interest2;
-  let interest3 = req.body.interest3;
-  if(req.body.interest1 == "Choose an interest") {
-    interest1 = "";
-  }
-
-  if(req.body.interest2 == "Choose an interest") {
-    interest2 = "";
-  }
-
-  if(req.body.interest3 == "Choose an interest") {
-    interest3 = "";
-  }
 
   try {
 
     const client = await pool.connect();
 
     try {  
-      client.query('UPDATE userInfo SET password = $1, major = $2, minor = $3 WHERE id = $4',
-      [password, major, minor, userID], 
+      client.query('UPDATE userInfo SET password = $1, major = $2, minor = $3 WHERE email = $4',
+      [password, major, minor, email], 
       (err, results) => {
         console.log("Add account:", err ? err : "Success");
       })
