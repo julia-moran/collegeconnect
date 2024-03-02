@@ -148,7 +148,7 @@ app.get('/getClasses', async (req, res) => {
     console.error(err);
     res.status(500).json({ message: 'Could not connect to the database' });
   }
-  
+  })
 });
 
 app.listen(3000, () => {
