@@ -8,7 +8,7 @@ $(document).ready(function() {
     const errorMessage = document.getElementById('errorMessage');
     const logInLink = document.getElementById("logInLink");
     const addProfileDetails = document.getElementById("addProfileDetails");
-    const email = $("#email").val();
+   
 
     
     $("form.profileDetails").children().hide();
@@ -37,7 +37,7 @@ $(document).ready(function() {
         } else if (!(password.value.match(/[a-zA-Z]/g))){
             errorMessage.innerHTML = "Password must contain at least one letter";
         } else {
-            //$.post('/compareEmails');
+            var email = $("#email").val();
             $.ajax({
                 url: '/compareEmail',
                 type: 'POST',
@@ -47,7 +47,8 @@ $(document).ready(function() {
                 success: function(data) {
                     
                     if(data.message === "Email found") {
-                        errorMessage.innerHTML = "";
+                        errorMessage.innerHTML = data.id;
+                        sessionStorage.setItem("currentID", data.id);
                         for(const child of signUp.children) {
                             child.style.display = "none";
                         }
@@ -76,9 +77,8 @@ $(document).ready(function() {
         e.preventDefault();
         let classes = $("#selectClasses").val();
 
-        $.post('/post/account', {
-            first_name:  $("#fname").val(),
-            last_name: $("#lname").val(),
+        $.post('/addAccount', {
+            id: sessionStorage.getItem("currentID"),
             email: $("#email").val(),
             password: $("#password").val(),
             major: $("#selectMajor option:selected").text(),
@@ -87,18 +87,18 @@ $(document).ready(function() {
             interest2: $("#interest2 option:selected").text(),
             interest3: $("#interest3 option:selected").text()
         });
-
+/*
         $.post('/post/classlist', {
             email: $("#email").val(),
             classCodes: classes
-        });
-
+        });*/
+/*
         $("#test").text(classes);
         logInLink.style.display = "block";
         $("form.profileDetails").children().hide();
         $("optgroup.profileDetails").children().hide();
         $("optgroup.profileDetails").hide();
-        $("#successfulAccountCreation").children().show();
+        $("#successfulAccountCreation").children().show();*/
     });
 
 });

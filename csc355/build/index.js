@@ -110,8 +110,9 @@ app.post('/compareEmail', async (req, res) => {
         res.status(401).json({ message: 'Email not found' });
         return;
       } else {
+        const userId = emailResult.id;
         console.log("Found");
-        res.status(200).json({ message: 'Email found' });
+        res.status(200).json({ message: 'Email found', id: userId });
         
       }
 
@@ -148,7 +149,52 @@ app.get('/getClasses', async (req, res) => {
     console.error(err);
     res.status(500).json({ message: 'Could not connect to the database' });
   }
-  });
+});
+
+app.post('/addAccount', async (req, res) => {
+  let userID = req.body.id;
+  let password = req.body.password;
+  let email = req.body.email;
+  let first_name = req.body.first_name;
+  let last_name = req.body.last_name;
+  let major = req.body.major;
+  let minor = req.body.minor;
+  let interest1 = req.body.interest1;
+  let interest2 = req.body.interest2;
+  let interest3 = req.body.interest3;
+  if(req.body.interest1 == "Choose an interest") {
+    interest1 = "";
+  }
+
+  if(req.body.interest2 == "Choose an interest") {
+    interest2 = "";
+  }
+
+  if(req.body.interest3 == "Choose an interest") {
+    interest3 = "";
+  }
+
+  try {
+
+    const client = await pool.connect();
+
+    try {  
+      client.query('UPDATE userInfo SET password = $1, major = $2, minor = $3 WHERE id = $4',
+      [password, major, minor, userID], 
+      (err, results) => {
+        console.log("Add account:", err ? err : "Success");
+      })
+    } finally {
+      client.release();
+    }
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
+
+});
+
 
 
 app.listen(3000, () => {
