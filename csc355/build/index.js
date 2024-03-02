@@ -178,6 +178,72 @@ app.post('/addAccount', async (req, res) => {
 
 });
 
+app.post('/addClasses', async (req, res) => {
+  let email = req.body.email;
+  let classCodes = req.body.classCodes;
+  let userID = req.body.id;
+
+  try {
+
+    const client = await pool.connect();
+
+    try {  
+      console.log(classCodes);
+          
+      for(i in classCodes) {
+        client.query("INSERT INTO classlist (classcode, userID, email) VALUES ($1, $2, $3)",
+        [classCodes[i], userID, email],
+        (err, results) => {
+          console.log("Sent to index:", err ? err : "Classlist inserted");
+        })
+      }
+    } finally {
+      client.release();
+    }
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
+
+});
+
+app.post('/addInterests', async (req, res) => {
+  let userID = req.body.id;
+  let interest1 = req.body.interest1;
+  let interest2 = req.body.interest2;
+  let interest3 = req.body.interest3;
+
+  if(req.body.interest1 == "Choose an interest") {
+    interest1 = "";
+  }
+  if(req.body.interest2 == "Choose an interest") {
+    interest2 = "";
+  }
+  if(req.body.interest3 == "Choose an interest") {
+    interest3 = "";
+  }
+
+  try {
+
+    const client = await pool.connect();
+
+    try {  
+      client.query("INSERT INTO userData (userid, prompt, interest) VALUES ($1, '1', $2), ($1, '2', $3), ($1, '3', $4)",
+        [userID, interest1, interest2, interest3],
+        (err, results) => {
+          console.log("Sent to index:", err ? err : "Interests inserted");
+        })
+    } finally {
+      client.release();
+    }
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
+
+});
 
 
 app.listen(3000, () => {

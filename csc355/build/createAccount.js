@@ -83,18 +83,26 @@ $(document).ready(function() {
             major: $("#selectMajor option:selected").text(),
             minor: $("#selectMinor option:selected").text()
         });
-/*
-        $.post('/post/classlist', {
+
+        $.post('/addClasses', {
             email: $("#email").val(),
-            classCodes: classes
-        });*/
-/*
+            classCodes: classes,
+            id: sessionStorage.getItem("currentID")
+        });
+
+        $.post('/addInterests', {
+            id: sessionStorage.getItem("currentID"),
+            interest1: $("#interest1 option:selected").text(),
+            interest2: $("#interest2 option:selected").text(),
+            interest3: $("#interest3 option:selected").text()
+        });
+
         $("#test").text(classes);
         logInLink.style.display = "block";
         $("form.profileDetails").children().hide();
         $("optgroup.profileDetails").children().hide();
         $("optgroup.profileDetails").hide();
-        $("#successfulAccountCreation").children().show();*/
+        $("#successfulAccountCreation").children().show();
     });
 
 });
