@@ -8,7 +8,7 @@ $(document).ready(function() {
     const errorMessage = document.getElementById('errorMessage');
     const logInLink = document.getElementById("logInLink");
     const addProfileDetails = document.getElementById("addProfileDetails");
-    const email = document.getElementById('email');
+    const email = $("#email").val();
 
     
     $("form.profileDetails").children().hide();
@@ -37,11 +37,16 @@ $(document).ready(function() {
         } else if (!(password.value.match(/[a-zA-Z]/g))){
             errorMessage.innerHTML = "Password must contain at least one letter";
         } else {
-            $.get("/get/emails", function(emailResults, status) {
-                $(emailResults).each(function(i, emailResult) {
-                    //$("#test").text(email.value);
-                    //$("#test2").text(emailResult.email);
-                    if(emailResult.email == email.value) {
+            //$.post('/compareEmails');
+            $.ajax({
+                url: '/compareEmail',
+                type: 'POST',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({email: email}),
+                success: function(data) {
+                    
+                    if(data.message === "Email found") {
                         errorMessage.innerHTML = "";
                         for(const child of signUp.children) {
                             child.style.display = "none";
@@ -52,9 +57,16 @@ $(document).ready(function() {
                     } else {
                         errorMessage.innerHTML = "Invalid email";
                     }
-                });
-            });
-            
+                },
+                error: function(jqXHR) {
+                    if (jqXHR.status === 401) {
+                        errorMessage.innerHTML = "Invalid email";
+                    } else {
+                        alert('An error occurred. Please try again later.');
+                        location.reload();
+                    }
+                }
+            })
         }
 
     });

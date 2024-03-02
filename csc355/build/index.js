@@ -2,6 +2,10 @@ const { Pool } = require('pg');
 const express = require('express');
 const app = express();
 const path = require('path');
+var bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(express.json());
 
@@ -55,14 +59,12 @@ app.get('/profile-view', (req, res) => {
   res.sendFile(path.join(__dirname, 'profile-view.html'));
 });
 
-app.listen(3000, () => {
-  console.log('App listening on port 3000');
-});
+
 
 //  login endpoint to handle user
 app.post('/login', async (req, res) => {
   const { email, password } = req.body; //  get email and password from request body
-
+  
   try {
     const client = await pool.connect();  //  connect client to database
 
@@ -90,19 +92,52 @@ app.post('/login', async (req, res) => {
   }
 });
 
-//  create account endpoint to handle user
-app.get('/get/classes', (req, res) => {
-  client.query('SELECT classcode, classname FROM chatroom', (err, results) => {
-    console.log("Sent to index:", err ? err : results.rows);
-    res.json(results.rows);
-  })
-app.get('/getClasses', async (req, res) => {
+// Get existing emails to see if a user is a Kutztown student
+app.post('/compareEmail', async (req, res) => {
+  const email = req.body.email;
+  console.log("Email to find: " + email);
+
   try {
     const client = await pool.connect();
 
     try {
+      const result = await client.query('SELECT * FROM userInfo WHERE email = $1', [email]);
+      emailResult = result.rows[0];
+      
+      console.log("Search for email result:" + emailResult);
+      if(emailResult == null) {
+        console.log("Not found");
+        res.status(401).json({ message: 'Email not found' });
+        return;
+      } else {
+        console.log("Found");
+        res.status(200).json({ message: 'Email found' });
+        
+      }
+
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'An error occurred' }); //  if error occurs, send error message
+    } finally {
+      client.release(); //  release client from database
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' }); //  if error occurs, send error message
+  }
+
+  
+});
+
+app.get('/getClasses', async (req, res) => {
+  try {
+
+    const client = await pool.connect();
+
+    try {
       client.query('SELECT classcode, classname FROM chatroom', (err, results) => {
-        console.log("Sent to index:", err ? err : results.rows);
+        //console.log("Sent to index:", err ? err : results.rows);
         res.json(results.rows);
       });
     } finally {
@@ -114,4 +149,8 @@ app.get('/getClasses', async (req, res) => {
     res.status(500).json({ message: 'Could not connect to the database' });
   }
   
+});
+
+app.listen(3000, () => {
+  console.log('App listening on port 3000');
 });
