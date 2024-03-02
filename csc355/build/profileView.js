@@ -1,22 +1,22 @@
 $(document).ready(function() {
 
-   // $("#showID").text(sessionStorage.getItem("currentID"));
+   $("#showID").text(sessionStorage.getItem("currentID"));
 
    if (sessionStorage.length == 0) {
         window.location.replace("../");
    } else {
         $('.select-multiple').select2();
 
-        $.get("/get/classes", function(classResults, status) {
+        $.get("/getClasses", function(classResults, status) {
             $(classResults).each(function(i, classResult) {
                 $("#CSCCourses").append("<option value= '" + classResult.classcode + "'>" + classResult.classcode + ": " + classResult.classname + "</option>")
             })
         });
 
-        $.post('/post/userInfo', { id: sessionStorage.getItem("currentID") },
+        $.post('/displayUserInfo', { id: sessionStorage.getItem("currentID") },
             function(result, status) {
                 //$("#showID").text(result.minor);
-                $("#name").text(result.first_name + " " + result.last_name + "'s Profile");
+                $("#name").text(result.firstname + " " + result.lastname + "'s Profile");
                 $("#email").text(result.email);
                 $("#selectMajor option[value='" + result.major + "']").attr("selected","selected");
                 //if(result.minor != NULL) {
@@ -26,7 +26,7 @@ $(document).ready(function() {
                 //}
             });
 
-        $.post('/post/interests', { id: sessionStorage.getItem("currentID") },
+        $.post('/displayInterests', { id: sessionStorage.getItem("currentID") },
             function(interestResults, status) {
                 $(interestResults).each(function(i, interestResult) {
                     if(interestResult.interest != "") {
@@ -38,19 +38,16 @@ $(document).ready(function() {
                 });
             });
 
+        $.post('/displayClasses', { id: sessionStorage.getItem("currentID") },
+        function(classResults, status) {
+            let selectedClasses = [];
 
-            
-
-            $.post('/post/classes', { id: sessionStorage.getItem("currentID") },
-            function(classResults, status) {
-                let selectedClasses = [];
-
-                $(classResults).each(function(i, classResult) {
-                    selectedClasses.push(classResult.classcode);
-                });
-
-                $("#selectClasses").val(selectedClasses).trigger('change');;
+            $(classResults).each(function(i, classResult) {
+                selectedClasses.push(classResult.classcode);
             });
+
+            $("#selectClasses").val(selectedClasses).trigger('change');;
+        });
         
             
 
@@ -60,20 +57,20 @@ $(document).ready(function() {
             event.preventDefault();
             let classes = $("#selectClasses").val();
         
-            $.post('/update/profileInfo', {
+            $.post('/updateUserInfo', {
                 id: sessionStorage.getItem("currentID"),
                 major: $("#selectMajor option:selected").text(),
                 minor: $("#selectMinor option:selected").text()
             });
 
-            $.post('/update/interests', {
+            $.post('/updateInterests', {
                 id: sessionStorage.getItem("currentID"),
                 interest1: $("#interest1 option:selected").text(),
                 interest2: $("#interest2 option:selected").text(),
                 interest3: $("#interest3 option:selected").text()
             });
 
-            $.post('/update/classes', {
+            $.post('/updateClasses', {
                 id: sessionStorage.getItem("currentID"),
                 email: $("#email").text(),
                 classCodes: classes

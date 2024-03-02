@@ -233,7 +233,165 @@ app.post('/addInterests', async (req, res) => {
         [userID, interest1, interest2, interest3],
         (err, results) => {
           console.log("Sent to index:", err ? err : "Interests inserted");
+        });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'An error occurred' });
+    } finally {
+      client.release();
+    }
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
+
+});
+
+app.post('/displayUserInfo', async (req, res) => {
+  let userID = req.body.id;
+
+  try {
+    const client = await pool.connect();
+    try {  
+      client.query('SELECT * FROM userInfo WHERE id = $1', [userID], (err, results) => {
+        console.log(results.rows[0]);
+        res.json(results.rows[0]);
+      })
+    } finally {
+      client.release();
+    }
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
+
+});
+
+app.post('/displayClasses', async (req, res) => {
+  let userID = req.body.id;
+
+  try {
+    const client = await pool.connect();
+    try {  
+      client.query('SELECT * FROM classlist WHERE userid = $1', [userID], (err, results) => {
+        console.log(results.rows);
+        res.json(results.rows);
+      });
+    } finally {
+      client.release();
+    }
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
+});
+
+app.post('/displayInterests', async (req, res) => {
+  let userID = req.body.id;
+
+  try {
+    const client = await pool.connect();
+    try {  
+      client.query('SELECT * FROM userData WHERE userid = $1', [userID], (err, results) => {
+        console.log(results.rows);
+        res.json(results.rows);
+      });
+    } finally {
+      client.release();
+    }
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
+
+});
+
+app.post('/updateUserInfo', async (req, res) => {
+  let userID = req.body.id;
+  let major = req.body.major;
+  let minor = req.body.minor;
+
+  try {
+    const client = await pool.connect();
+    try {  
+      client.query('UPDATE userInfo SET major = $2, minor = $3 WHERE id = $1',
+      [userID, major, minor], 
+      (err, results) => {
+        console.log("Sent to index:", err ? err : "User Info updated");
+      });
+    } finally {
+      client.release();
+    }
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
+
+});
+
+app.post('/updateClasses', async (req, res) => {
+  let userID = req.body.id;
+  let email = req.body.email;
+  let classCodes = req.body.classCodes;
+
+  try {
+    const client = await pool.connect();
+    try {  
+      client.query('DELETE FROM classlist WHERE userid = $1',
+      [userID], 
+      (err, results) => {
+        console.log("Sent to index:", err ? err : "Deleted");
+      });
+    
+      for(i in classCodes) {
+        client.query("INSERT INTO classlist (classcode, userid, email) VALUES ($1, $2, $3)",
+        [classCodes[i], userID, email],
+        (err, results) => {
+          console.log("Sent to index:", err ? err : "Classlist inserted");
         })
+      }
+    } finally {
+      client.release();
+    }
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
+
+});
+
+app.post('/updateInterests', async (req, res) => {
+  let userID = req.body.id;
+  let interest1 = req.body.interest1;
+  let interest2 = req.body.interest2;
+  let interest3 = req.body.interest3;
+
+  try {
+    const client = await pool.connect();
+    try {  
+      client.query("UPDATE userData SET interest = $2 WHERE userid = $1 AND prompt = '1'",
+      [userID, interest1], 
+      (err, results) => {
+        console.log("Sent to index:", err ? err : "Sucess");
+      });
+    
+      client.query("UPDATE userData SET interest = $2 WHERE userid = $1 AND prompt = '2'",
+      [userID, interest2], 
+      (err, results) => {
+        console.log("Sent to index:", err ? err : "Sucess");
+      });
+    
+      client.query("UPDATE userData SET interest = $2 WHERE userid = $1 AND prompt = '3'",
+      [userID, interest3], 
+      (err, results) => {
+        console.log("Sent to index:", err ? err : "Sucess");
+      });
     } finally {
       client.release();
     }

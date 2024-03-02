@@ -14,10 +14,10 @@ $(document).ready(function() {
             success: function(data) {
                 if (data.message === 'Login successful!') {
 // save userID and print (testing purposes only, will be removed later)
-                    var userId = data.id;
-                    alert('Login successful! You will be redirected to the homepage. User ID: ' + userId);
+                    sessionStorage.setItem("currentID", data.id);
+                    alert('Login successful! You will be redirected to the homepage. User ID: ' + sessionStorage.getItem("currentID"));
         
-                    window.location.href = '/';
+                    window.location.replace("../profile-view");
                 }
             },
             error: function(jqXHR) {
