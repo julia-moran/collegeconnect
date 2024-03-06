@@ -9,6 +9,16 @@ CREATE TABLE userInfo (
     password TEXT
 );
 
+CREATE TABLE majors (
+    id SERIAL PRIMARY KEY,
+    major TEXT
+);
+
+CREATE TABLE minors (
+    id SERIAL PRIMARY KEY,
+    minor TEXT
+);
+
 CREATE TABLE userData (
     userID INTEGER,
     prompt TEXT,
@@ -33,11 +43,11 @@ CREATE TABLE chatRoom (
 CREATE TABLE chatLog (
     id SERIAL PRIMARY KEY,
     roomNum TEXT,
+    classCode TEXT,
     threadID TEXT,
     userID INTEGER,
     msg TEXT,
-    timeSent TIMESTAMP,
-    classCode TEXT
+    timeSent TIMESTAMP
 );
 
 INSERT INTO userInfo (email, clearance, firstName, lastName) VALUES
@@ -161,3 +171,29 @@ VALUES
 ('CSC543','Multiprocessing and Concurrent Programing','Old Main 158','Dale Parson'),
 ('CSC510','Advanced Operating Systems', 'Old Main 158','Dylan Schwesinger'),
 ('CSC555','Applied Cryptography', 'Old Main 158','Yong Zhang');
+
+INSERT INTO majors(major)
+VALUES
+('Computer Science'),
+('Computer Engineering'),
+('Software Engineering'),
+('Information Technology'),
+('Mathematics'),
+('Physics'),
+('Biology'),
+('Chemistry'),
+('Geology')
+;
+
+INSERT INTO minors(minor)
+VALUES
+('Computer Science'),
+('Computer Engineering'),
+('Software Engineering'),
+('Information Technology'),
+('Mathematics'),
+('Physics'),
+('Biology'),
+('Chemistry'),
+('Geology')
+;
