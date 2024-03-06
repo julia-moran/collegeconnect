@@ -17,7 +17,7 @@ $(document).ready(function() {
                     sessionStorage.setItem("currentID", data.id);
                     alert('Login successful! You will be redirected to your profile. User ID: ' + sessionStorage.getItem("currentID"));
         
-                    window.location.replace("../profile-view");
+                    window.location.replace("../chat-room");
                 }
             },
             error: function(jqXHR) {
