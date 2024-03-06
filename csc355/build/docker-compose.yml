@@ -9,8 +9,8 @@ services:
       - ./createuser.sql:/docker-entrypoint-initdb.d/createuser.sql
       - data:/var/lib/postgresql/data
     ports:
-      - 54324:5432  #unique port num for db
-    mem_limit: 1500m  #limit memory to 1.5gb
+      - 54324:5432  #unique port num for postgres
+    mem_limit: 500m  #limit memory to 500mb
 
   node:
     build: 
@@ -19,8 +19,22 @@ services:
     volumes:
       - ./:/app
     ports:
-      - 3000:3000 #unique port num for app
-    mem_limit: 1g  #limit memory to 2gb
+      - 3000:3000 #unique port num for node
+    depends_on:
+      - postgres
+    mem_limit: 250m  #limit memory to 250mb
+
+  nginx:
+    build: 
+      context: ./
+      dockerfile: nginx.Dockerfile
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf  #copy nginx.conf to container
+    ports:
+      - 80:80 #unique port num for nginx
+    depends_on:
+      - node
+    mem_limit: 250m  #limit memory to 250mb
 
 volumes:
   data:
