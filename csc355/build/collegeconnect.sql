@@ -1,6 +1,6 @@
 CREATE TABLE userInfo (
     id SERIAL PRIMARY KEY,
-    email VARCHAR(50),
+    email VARCHAR(30),
     clearance BOOLEAN CHECK (clearance::integer = 0 OR clearance::integer = 1),
     firstName VARCHAR(255),
     lastName VARCHAR(50),
@@ -37,7 +37,7 @@ CREATE TABLE chatLog (
     roomNum VARCHAR(10),
     userID INTEGER,
     msg VARCHAR(255),
-    timeOfmsg TIMESTAMP,
+    timeSent TIMESTAMP,
     className VARCHAR(50),
     classSection VARCHAR(10)
 );
