@@ -19,6 +19,11 @@ CREATE TABLE minors (
     minor TEXT
 );
 
+CREATE TABLE userInterests (
+    id SERIAL PRIMARY KEY,
+    interest TEXT
+);
+
 CREATE TABLE userData (
     userID INTEGER,
     prompt TEXT,
@@ -182,7 +187,39 @@ VALUES
 ('Physics'),
 ('Biology'),
 ('Chemistry'),
-('Geology')
+('Geology'),
+('Mechanical Engineering'),
+('Civil Engineering'),
+('Electrical Engineering'),
+('Aerospace Engineering'),
+('Biomedical Engineering'),
+('Environmental Science'),
+('Psychology'),
+('Sociology'),
+('Economics'),
+('Business Administration'),
+('Marketing'),
+('Accounting'),
+('Finance'),
+('Art History'),
+('Graphic Design'),
+('Music'),
+('Theatre'),
+('English Literature'),
+('Creative Writing'),
+('History'),
+('Political Science'),
+('International Relations'),
+('Philosophy'),
+('Anthropology'),
+('Linguistics'),
+('Foreign Languages'),
+('Education'),
+('Nursing'),
+('Public Health'),
+('Nutrition'),
+('Pharmacy'),
+('Medicine')
 ;
 
 INSERT INTO minors(minor)
@@ -195,5 +232,66 @@ VALUES
 ('Physics'),
 ('Biology'),
 ('Chemistry'),
-('Geology')
+('Geology'),
+('Mechanical Engineering'),
+('Civil Engineering'),
+('Electrical Engineering'),
+('Aerospace Engineering'),
+('Biomedical Engineering'),
+('Environmental Science'),
+('Psychology'),
+('Sociology'),
+('Economics'),
+('Business Administration'),
+('Marketing'),
+('Accounting'),
+('Finance'),
+('Art History'),
+('Graphic Design'),
+('Music'),
+('Theatre'),
+('English Literature'),
+('Creative Writing'),
+('History'),
+('Political Science'),
+('International Relations'),
+('Philosophy'),
+('Anthropology'),
+('Linguistics'),
+('Foreign Languages'),
+('Education'),
+('Nursing'),
+('Public Health'),
+('Nutrition'),
+('Pharmacy'),
+('Medicine')
+;
+
+INSERT INTO userInterests(interest)
+VALUES
+('Music'),
+('Sports'),
+('Movies'),
+('Reading'),
+('Traveling'),
+('Photography'),
+('Cooking'),
+('Gaming'),
+('Art'),
+('Dancing'),
+('Coding'),
+('Fitness'),
+('Gardening'),
+('Fashion'),
+('Writing'),
+('Hiking'),
+('Cycling'),
+('Yoga'),
+('DIY Projects'),
+('Investing'),
+('Podcasts'),
+('Volunteering'),
+('Blogging'),
+('Crafting'),
+('Collecting')
 ;
