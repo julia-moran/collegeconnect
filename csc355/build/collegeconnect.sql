@@ -2,44 +2,42 @@ CREATE TABLE userInfo (
     id SERIAL PRIMARY KEY,
     email VARCHAR(30),
     clearance BOOLEAN CHECK (clearance::integer = 0 OR clearance::integer = 1),
-    firstName VARCHAR(255),
-    lastName VARCHAR(50),
+    firstName TEXT,
+    lastName TEXT,
     major TEXT,
     minor TEXT,
-    password VARCHAR(50)
+    password TEXT
 );
 
 CREATE TABLE userData (
     userID INTEGER,
-    prompt VARCHAR(255),
-    interest VARCHAR(255)
+    prompt TEXT,
+    interest TEXT
 );
 
 CREATE TABLE classList (
     id SERIAL PRIMARY KEY,
-    classCode VARCHAR(6),
+    classCode TEXT,
     userID INTEGER,
-    email VARCHAR(50)
+    email VARCHAR(30)
 );
 
 CREATE TABLE chatRoom (
     id SERIAL PRIMARY KEY,
-    roomNum VARCHAR(10),
-    classCode VARCHAR(6),
-    className VARCHAR(50),
-    classSection VARCHAR(10),
-    classRoom VARCHAR(30),
-    classProf VARCHAR(50)
+    classCode TEXT,
+    className TEXT,
+    classRoom TEXT,
+    classProf TEXT
 );
 
 CREATE TABLE chatLog (
     id SERIAL PRIMARY KEY,
-    roomNum VARCHAR(10),
+    roomNum TEXT,
+    threadID TEXT,
     userID INTEGER,
-    msg VARCHAR(255),
+    msg TEXT,
     timeSent TIMESTAMP,
-    className VARCHAR(50),
-    classSection VARCHAR(10)
+    classCode TEXT
 );
 
 INSERT INTO userInfo (email, clearance, firstName, lastName) VALUES
@@ -146,20 +144,20 @@ VALUES
 ('CSC355', 32417363, 'mmatt325@live.kutztown.edu'),
 ('CSC355', 32419012, 'smars432@live.kutztown.edu');
 
-INSERT INTO chatRoom(roomnum,classcode,classname,classsection,classroom,classprof)
+INSERT INTO chatRoom(classcode,classname,classroom,classprof)
 VALUES
-(1,'CSC101','Computer Applications','S810','Old Main 159', 'Jici Huang'),
-(2,'CSC111','Computer Forensics','S010','De Francesco 103', 'Griffin Nye'),
-(3,'CSC135','Computer Science I','S030','Grim Building 307','Hallie Langley'),
-(4,'CSC223','Advanced Scientific Programming','S010','Old Main 158', 'John Carelli'),
-(5,'CSC220','Object-oriented Programming','S020','Old Main 159','Dylan Schwesinger'),
-(6,'CSC242','Server-side Web Development','S010','Old Main 158','John Carelli'),
-(7,'CSC310','Programming Languages','S010','Old Main 159','Yong-Sang Shim'),
-(8,'CSC330','Introduction to Mobile Architecture and Systems','S010','Old Main 158','Jianfeng Wang'),
-(9,'CSC355', 'Software Engineering II','S811','Old Main 287','Dylan Schwesinger'),
-(10,'CSC402','Data Structures II','S101','Old Main 158','Yong Zhang'),
-(11,'CSC458','Data Mining and Predictive Analytics I','S401','Old Main 158','Dale Parson'),
-(12,'CSC447','Artificial Intelligence I','S900','Online','Dylan Schwesinger'),
-(13,'CSC543','Multiprocessing and Concurrent Programing','S201','Old Main 158','Dale Parson'),
-(14,'CSC510','Advanced Operating Systems','S301','Old Main 158','Dylan Schwesinger'),
-(15,'CSC555','Applied Cryptography','S501','Old Main 158','Yong Zhang');
+('CSC101','Computer Applications','Old Main 159', 'Jici Huang'),
+('CSC111','Computer Forensics','De Francesco 103', 'Griffin Nye'),
+('CSC135','Computer Science I','Grim 307','Hallie Langley'),
+('CSC223','Advanced Scientific Programming','Old Main 158', 'John Carelli'),
+('CSC220','Object-oriented Programming','Old Main 159','Dylan Schwesinger'),
+('CSC242','Server-side Web Development', 'Old Main 158','John Carelli'),
+('CSC310','Programming Languages','Old Main 159','Yong-Sang Shim'),
+('CSC330','Introduction to Mobile Architecture and Systems','Old Main 158','Jianfeng Wang'),
+('CSC355', 'Software Engineering II','Old Main 287','Dylan Schwesinger'),
+('CSC402','Data Structures II','Old Main 158','Yong Zhang'),
+('CSC458','Data Mining and Predictive Analytics I','Old Main 158','Dale Parson'),
+('CSC447','Artificial Intelligence I','Online','Dylan Schwesinger'),
+('CSC543','Multiprocessing and Concurrent Programing','Old Main 158','Dale Parson'),
+('CSC510','Advanced Operating Systems', 'Old Main 158','Dylan Schwesinger'),
+('CSC555','Applied Cryptography', 'Old Main 158','Yong Zhang');
