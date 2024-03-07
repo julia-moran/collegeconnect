@@ -10,7 +10,7 @@ services:
       - data:/var/lib/postgresql/data
     ports:
       - 54324:5432  #unique port num for postgres
-    mem_limit: 500m  #limit memory to 500mb
+    mem_limit: 250m  #limit memory to 500mb
 
   node:
     build: 
@@ -34,7 +34,7 @@ services:
       - 80:80 #unique port num for nginx
     depends_on:
       - node
-    mem_limit: 250m  #limit memory to 250mb
+    mem_limit: 100m  #limit memory to 250mb
 
 volumes:
   data:
