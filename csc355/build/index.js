@@ -1,12 +1,19 @@
 const { Pool } = require('pg');
 const express = require('express');
-const app = express();
 const path = require('path');
 var bodyParser = require('body-parser');
+const { createServer } = require('node:http');
+const { Server } = require('socket.io');
+
+const app = express();
+const server = createServer(app);
+const io = new Server(server);
+
+
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-
 app.use(express.json());
 
 const pool = new Pool({
@@ -59,7 +66,34 @@ app.get('/profile-view', (req, res) => {
   res.sendFile(path.join(__dirname, 'profile-view.html'));
 });
 
+io.on('connection', (socket) => {
+  socket.on('chat message', async (roomNum, classCode, threadID, userID, msg, timeSent) => {
+  let result;
 
+  try {
+    const client = await pool.connect();
+    try {  
+      client.query("INSERT INTO chatLog (roomNum, classCode, threadID, userID, msg, timeSent) VALUES ($1, $2, $3, $4, $5, $6)",
+      [roomNum, classCode, threadID, userID, msg, timeSent], 
+      (err, results) => {
+        console.log("Message sent: " + msg);
+      });
+
+      //io.to(group).emit('chat message', msg, user, group, result.lastID);
+    
+    } catch (e) {
+      console.error('Message failed to send');
+      return;
+    } finally {
+      client.release();
+    }
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
+});
+});
 
 //  login endpoint to handle user
 app.post('/login', async (req, res) => {
@@ -404,6 +438,7 @@ app.post('/updateInterests', async (req, res) => {
 });
 
 
-app.listen(3000, () => {
+
+server.listen(3000, () => {
   console.log('App listening on port 3000');
 });
