@@ -100,8 +100,24 @@ io.on('connection', (socket) => {
   socket.on('chat message', (msg) => {
     io.emit('chat message', msg);
   });
-});
 
+
+  // Join a room
+  socket.on('join-room', async group => {
+    /*Citation Source: the socket.join() function was retrieved from
+    https://socket.io/docs/v4/tutorial/introduction on October 11, 2023*/ 
+    console.log("joined room: " + group);
+    socket.join(group)
+  });
+
+  // Leave a room
+  socket.on('leave-room', groupToLeave => {
+    /*Citation Source: the socket.leave() function was retrieved from
+    https://socket.io/docs/v4/tutorial/introduction on October 11, 2023*/ 
+    //console.log("left room: " + groupToLeave);
+    socket.leave(groupToLeave);
+  });
+});
 //  login endpoint to handle user
 app.post('/login', async (req, res) => {
   const { email, password } = req.body; //  get email and password from request body
