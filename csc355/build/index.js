@@ -66,6 +66,7 @@ app.get('/profile-view', (req, res) => {
   res.sendFile(path.join(__dirname, 'profile-view.html'));
 });
 
+/*
 io.on('connection', (socket) => {
   socket.on('chat message', async (roomNum, classCode, threadID, userID, msg, timeSent) => {
   let result;
@@ -93,6 +94,12 @@ io.on('connection', (socket) => {
     res.status(500).json({ message: 'Could not connect to the database' });
   }
 });
+});
+*/
+io.on('connection', (socket) => {
+  socket.on('chat message', (msg) => {
+    io.emit('chat message', msg);
+  });
 });
 
 //  login endpoint to handle user
