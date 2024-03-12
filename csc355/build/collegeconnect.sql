@@ -47,7 +47,6 @@ CREATE TABLE chatRoom (
 
 CREATE TABLE chatLog (
     id SERIAL PRIMARY KEY,
-    roomNum TEXT,
     classCode TEXT,
     threadID TEXT,
     userID INTEGER,

@@ -5,7 +5,7 @@ $(document).ready(function() {
     const form = document.getElementById('form');
     const input = document.getElementById('input');
     const messages = document.getElementById('messages');
-    var classChoices;
+    let chatRoom = "";
 
     $.post('/displayClasses', { id: sessionStorage.getItem("currentID") },
     function(classResults, status) {
@@ -16,17 +16,25 @@ $(document).ready(function() {
             userClass.id = classResult.classcode;
             $("#userClasses").append(userClass);
             userClass.addEventListener("click", () => {
-                joinRoom(userClass.id);
+                chatRoom = userClass.id;
+                joinRoom(chatRoom);
             })
             $(".classCodes").hide();
         });
     });
+
+    $.get('/testChatLog');
 
     $("#classes").click(function() {
         $(".classCodes").toggle();
     });
     
     function joinRoom(classCode) {
+        // Remove all messages from view
+        while(messages.firstChild) {
+            messages.removeChild(messages.firstChild);
+        }
+
         socket.emit('join-room', classCode);
 
         $(".classCodes").each(function() {
@@ -40,13 +48,19 @@ $(document).ready(function() {
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-        if (input.value) {
-            socket.emit('chat message', input.value);
+        if (input.value && chatRoom) {
+            const timeSent = Date.now();
+            socket.emit('chat message', chatRoom, sessionStorage.getItem("currentID"), input.value, timeSent);
             input.value = '';
         }
     });
 
-    socket.on('chat message', (msg) => {
+    socket.on('chat message', (classCode, userID, msg, timeSent) => {
+        const messageInfo = document.createElement('li');
+        messageInfo.className = classCode;
+        messageInfo.textContent = userID + ": (" + timeSent + ")" ;
+        messages.appendChild(messageInfo);
+        messages.scrollTo(0, messages.scrollHeight)
         const item = document.createElement('li');
         item.textContent = msg;
         messages.appendChild(item);

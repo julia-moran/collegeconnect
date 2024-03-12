@@ -66,41 +66,36 @@ app.get('/profile-view', (req, res) => {
   res.sendFile(path.join(__dirname, 'profile-view.html'));
 });
 
-io.on('connection', (socket) => {
-/*
-io.on('connection', (socket) => {
-  socket.on('chat message', async (roomNum, classCode, threadID, userID, msg, timeSent) => {
-  let result;
+io.on('connection', async (socket) => {
 
-  try {
-    const client = await pool.connect();
-    try {  
-      client.query("INSERT INTO chatLog (roomNum, classCode, threadID, userID, msg, timeSent) VALUES ($1, $2, $3, $4, $5, $6)",
-      [roomNum, classCode, threadID, userID, msg, timeSent], 
-      (err, results) => {
-        console.log("Message sent: " + msg);
-      });
+  socket.on('chat message', async (classCode, userID, msg, timeSent) => {
+    console.log("Message: ", classCode, userID, msg, timeSent);
 
-      //io.to(group).emit('chat message', msg, user, group, result.lastID);
-    
-    } catch (e) {
-      console.error('Message failed to send');
-      return;
-    } finally {
-      client.release();
+    try {
+      const client = await pool.connect();
+      try {  
+        client.query("INSERT INTO chatLog (classCode, userID, msg, timeSent) VALUES ($1, $2, $3, to_timestamp($4 / 1000.0))",
+        [classCode, userID, msg, timeSent], 
+        (err, results) => {
+          console.log("Sent to index:", err ? err : msg);
+        });
+
+        if(classCode !== '') {
+          io.to(classCode).emit('chat message', classCode, userID, msg, timeSent);
+        }
+      
+      } catch (e) {
+        console.error('Message failed to send');
+        return;
+      } finally {
+        client.release();
+      }
+      
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Could not connect to the database' });
     }
-    
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Could not connect to the database' });
-  }
 });
-});
-*/
-
-  socket.on('chat message', (msg) => {
-    io.emit('chat message', msg);
-  });
 
 
   // Join a room
@@ -109,6 +104,30 @@ io.on('connection', (socket) => {
     https://socket.io/docs/v4/tutorial/introduction on October 11, 2023*/ 
     console.log("joined room: " + group);
     socket.join(group)
+
+    try {
+      const client = await pool.connect();
+      try {  
+        client.query("SELECT * FROM chatLog WHERE classCode = $1", [group],
+        (err, results) => {
+          console.log("Sent to index:", err ? err : results.rows);
+          results.rows.forEach(row => {
+            socket.emit('chat message', row.classcode, row.userid, row.msg, row.timesent);
+          })
+          
+        });
+      
+      } catch (e) {
+        console.error('Message failed to send');
+        return;
+      } finally {
+        client.release();
+      }
+      
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Could not connect to the database' });
+    }
   });
 
   // Leave a room
@@ -118,7 +137,38 @@ io.on('connection', (socket) => {
     console.log("left room: " + groupToLeave);
     socket.leave(groupToLeave);
   });
+/*
+  if (!socket.recovered) {
+    try {
+      const client = await pool.connect();
+      try {  
+        client.query("SELECT classCode, userID, msg, timeSent FROM chatLog WHERE class = $1 and threadID = NULL",
+        [classCode], 
+        (err, results) => {
+          results.rows.forEach(row => {
+            socket.emit('chat message', classCode, userID, msg, timeSent);
+          })
+          
+        });
+
+        if(classCode !== '') {
+          io.to(classCode).emit('chat message', classCode, userID, msg, timeSent);
+        }
+      
+      } catch (e) {
+        console.error('Message failed to send');
+        return;
+      } finally {
+        client.release();
+      }
+      
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Could not connect to the database' });
+    }
+  }*/
 });
+
 //  login endpoint to handle user
 app.post('/login', async (req, res) => {
   const { email, password } = req.body; //  get email and password from request body
@@ -356,6 +406,26 @@ app.post('/displayInterests', async (req, res) => {
       client.query('SELECT * FROM userData WHERE userid = $1', [userID], (err, results) => {
         console.log(results.rows);
         res.json(results.rows);
+      });
+    } finally {
+      client.release();
+    }
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
+
+});
+
+app.get('/testChatLog', async (req, res) => {
+  //let userID = req.body.id;
+
+  try {
+    const client = await pool.connect();
+    try {  
+      client.query('SELECT * FROM chatLog', (err, results) => {
+        console.log("TEST Sent to index:", err ? err : results.rows);
       });
     } finally {
       client.release();
