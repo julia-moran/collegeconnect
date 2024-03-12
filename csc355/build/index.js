@@ -329,6 +329,10 @@ app.post('/addAccount', async (req, res) => {
   let major = req.body.major;
   let minor = req.body.minor;
 
+  if(req.body.minor == "Choose your minor") {
+    minor = "";
+  }
+
   try {
 
     const client = await pool.connect();
@@ -447,7 +451,7 @@ app.post('/displayClasses', async (req, res) => {
   try {
     const client = await pool.connect();
     try {  
-      client.query('SELECT * FROM classlist WHERE userid = $1', [userID], (err, results) => {
+      client.query('SELECT classList.classCode, chatRoom.className FROM classList INNER JOIN chatRoom ON chatRoom.classCode = classList.classCode WHERE classList.userID = $1', [userID], (err, results) => {
         //console.log(results.rows);
         res.json(results.rows);
       });
@@ -622,6 +626,29 @@ app.post('/searchUsers', async (req, res) => {
 
 });
 
+app.post('/searchForSharedClasses', async (req, res) => {
+  let userID = req.body.id;
+  let searchedUserID = req.body.searchedUserID;
+
+  try {
+    const client = await pool.connect();
+    try {  
+      client.query("SELECT c1.classCode FROM classList as c1 INNER JOIN classList as c2 ON c1.classCode = c2.classCode  WHERE c1.userID = $1 AND c2.userID = $2",
+      [userID, searchedUserID], 
+      (err, results) => {
+        console.log("Sent to index:", err ? err : results.rows);
+        res.json(results.rows);
+      });
+    } finally {
+      client.release();
+    }
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
+
+});
 
 
 

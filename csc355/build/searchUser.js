@@ -36,6 +36,10 @@ $(document).ready(function() {
 
         form.addEventListener('submit', function(event) {
             event.preventDefault();
+
+            while(table.firstChild) {
+                table.removeChild(table.firstChild);
+            }
         
             $.post('/searchUsers', {
                 id: sessionStorage.getItem("currentID"),
@@ -46,17 +50,29 @@ $(document).ready(function() {
             }, function(results, status) {
                 $(results).each(function(i, result) {
                     const tableRow = document.createElement('tr');
+                    tableRow.id = "result" + result.id;
                     const name = document.createElement('td')
                     table.appendChild(tableRow);
                     name.textContent = result.firstname + " " + result.lastname;
                     tableRow.appendChild(name);
                     const major = document.createElement('td')
-                    major.textContent = result.major;
+                    major.textContent = "Major: " + result.major;
                     tableRow.appendChild(major);
-                //messageInfo.className = classCode;
+                    const minor = document.createElement('td')
+                    minor.textContent = "Minor: " + result.minor;
+                    tableRow.appendChild(minor);
+                    const sharedClass = document.createElement('td')
+                    sharedClass.textContent = "Shares ";
+                    $.post('/searchForSharedClasses', { id: sessionStorage.getItem("currentID"), searchedUserID: result.id },
+                    function(classResults, status) {
+                        $(classResults).each(function(i, classResult) {
+                            sharedClass.textContent = sharedClass.textContent + classResult.classcode + " ";
+                            tableRow.appendChild(sharedClass);
+                    });
                 });
-                
             });
-        });
+            });
+
+        }); 
     }
 })
