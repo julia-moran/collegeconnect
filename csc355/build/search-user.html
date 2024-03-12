@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search User</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <!--link rel="stylesheet" href="styles.css"-->
+</head>
+
+<body>
+    <nav>
+        <a href="/logout">Log Out</a>
+    </nav>
+    <main>
+        <form id="searchForm" action="" method="POST">
+            <input id="fname" placeholder="First Name" type="text"/>
+            <input id="lname" placeholder="Last Name" type="text"/><br>
+            <select class="selectMajor" id="selectMajor">
+                <option value="" disabled selected>Major</option>
+                <option value="Computer Science">Computer Science</option>
+                <option value="Information Technology">Information Technology</option>
+                <option value="Game Development">Game Development</option>
+              </select> <br>
+              <select class="selectMinor" id="selectMinor">
+                <option value="" disabled selected>Minor</option>
+                <option value="Computer Science">Computer Science</option>
+                <option value="Information Technology">Information Technology</option>
+                <option value="Game Development">Game Development</option>
+            </select> <br>
+            <label for="selectClasses">Classes</label>
+            <select class="select-multiple" id="selectClasses" name="selectClasses" multiple="multiple" class="searchDetails" style="width: 50%">
+                <optgroup label="CSC Courses" class="profileDetails" id="CSCCourses">
+                </optgroup>
+            </select> <br>
+            <label for="selectInterests">Interests</label>
+            <select class="select-multiple" id="selectInterests" name="selectInterests" multiple="multiple" class="searchDetails" style="width: 50%">
+                <option value="Music">Music</option>
+                <option value="Sports">Sports</option>
+                <option value="Art">Art</option>
+            </select> <br>
+
+            <button type="submit">Search</button>
+            <hr>
+        </form>
+        <table id="results">
+        </table>
+    </main>
+    <script type= "text/javascript" src="/searchUser.js"></script>
+</body>
+
+</html>

@@ -66,6 +66,10 @@ app.get('/profile-view', (req, res) => {
   res.sendFile(path.join(__dirname, 'profile-view.html'));
 });
 
+app.get('/search-user', (req, res) => {
+  res.sendFile(path.join(__dirname, 'search-user.html'));
+});
+
 io.on('connection', async (socket) => {
 
   socket.on('chat message', async (classCode, userID, msg, timeSent) => {
@@ -531,6 +535,32 @@ app.post('/updateInterests', async (req, res) => {
 
 });
 
+app.post('/searchUsers', async (req, res) => {
+  let userID = req.body.id;
+  let firstName = req.body.fname;
+  let lastName = req.body.lname;
+  let major = req.body.major;
+  let minor = req.body.minor;
+
+  try {
+    const client = await pool.connect();
+    try {  
+      client.query("SELECT * FROM userInfo WHERE id <> $5 AND (firstName = $1 OR lastName = $2 OR major = $3 OR minor = $4)",
+      [firstName, lastName, major, minor, userID], 
+      (err, results) => {
+        console.log("Sent to index:", err ? err : results.rows);
+        res.json(results.rows);
+      });
+    } finally {
+      client.release();
+    }
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
+
+});
 
 
 server.listen(3000, () => {
