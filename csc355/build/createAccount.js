@@ -21,6 +21,26 @@ $(document).ready(function() {
         })
     });
 
+    $.get("/getMajors", function(majorResults, status) {
+        $(majorResults).each(function(i, majorResult) {
+            $("#selectMajor").append("<option value= '" + majorResult.major + "'>" + majorResult.major + "</option>")
+        })
+    });
+
+    $.get("/getMinors", function(minorResults, status) {
+        $(minorResults).each(function(i, minorResult) {
+            $("#selectMinor").append("<option value= '" + minorResult.minor + "'>" + minorResult.minor + "</option>")
+        })
+    });
+
+    $.get("/getInterests", function(interestResults, status) {
+        $(interestResults).each(function(i, interestResult) {
+            $("#interest1").append("<option value= '" + interestResult.interest + "'>" + interestResult.interest + "</option>")
+            $("#interest2").append("<option value= '" + interestResult.interest + "'>" + interestResult.interest + "</option>")
+            $("#interest3").append("<option value= '" + interestResult.interest + "'>" + interestResult.interest + "</option>")
+        })
+    });
+
     let classes = $("#selectClasses").select2('data');
     $("#test").text(classes);
 

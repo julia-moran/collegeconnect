@@ -263,6 +263,66 @@ app.get('/getClasses', async (req, res) => {
   }
 });
 
+app.get('/getMajors', async (req, res) => {
+  try {
+
+    const client = await pool.connect();
+
+    try {
+      client.query('SELECT major FROM majors', (err, results) => {
+        //console.log("Sent to index:", err ? err : results.rows);
+        res.json(results.rows);
+      });
+    } finally {
+      client.release();
+    }
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
+});
+
+app.get('/getMinors', async (req, res) => {
+  try {
+
+    const client = await pool.connect();
+
+    try {
+      client.query('SELECT minor FROM minors', (err, results) => {
+        //console.log("Sent to index:", err ? err : results.rows);
+        res.json(results.rows);
+      });
+    } finally {
+      client.release();
+    }
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
+});
+
+app.get('/getInterests', async (req, res) => {
+  try {
+
+    const client = await pool.connect();
+
+    try {
+      client.query('SELECT interest FROM userInterests', (err, results) => {
+        //console.log("Sent to index:", err ? err : results.rows);
+        res.json(results.rows);
+      });
+    } finally {
+      client.release();
+    }
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
+});
+
 app.post('/addAccount', async (req, res) => {
   let password = req.body.password;
   let email = req.body.email;
@@ -561,6 +621,8 @@ app.post('/searchUsers', async (req, res) => {
   }
 
 });
+
+
 
 
 server.listen(3000, () => {
