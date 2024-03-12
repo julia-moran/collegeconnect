@@ -108,7 +108,7 @@ io.on('connection', async (socket) => {
     try {
       const client = await pool.connect();
       try {  
-        client.query("SELECT * FROM chatLog WHERE classCode = $1", [group],
+        client.query("SELECT * FROM chatLog WHERE classCode = $1 and threadID = NULL", [group],
         (err, results) => {
           console.log("Sent to index:", err ? err : results.rows);
           results.rows.forEach(row => {
@@ -363,7 +363,7 @@ app.post('/displayUserInfo', async (req, res) => {
     const client = await pool.connect();
     try {  
       client.query('SELECT * FROM userInfo WHERE id = $1', [userID], (err, results) => {
-        console.log(results.rows[0]);
+        //console.log(results.rows[0]);
         res.json(results.rows[0]);
       })
     } finally {
@@ -384,7 +384,7 @@ app.post('/displayClasses', async (req, res) => {
     const client = await pool.connect();
     try {  
       client.query('SELECT * FROM classlist WHERE userid = $1', [userID], (err, results) => {
-        console.log(results.rows);
+        //console.log(results.rows);
         res.json(results.rows);
       });
     } finally {
@@ -404,7 +404,7 @@ app.post('/displayInterests', async (req, res) => {
     const client = await pool.connect();
     try {  
       client.query('SELECT * FROM userData WHERE userid = $1', [userID], (err, results) => {
-        console.log(results.rows);
+        //console.log(results.rows);
         res.json(results.rows);
       });
     } finally {

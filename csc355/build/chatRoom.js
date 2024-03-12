@@ -49,22 +49,25 @@ $(document).ready(function() {
     form.addEventListener('submit', (e) => {
         e.preventDefault();
         if (input.value && chatRoom) {
-            const timeSent = Date.now();
+            const timeSent = new Date().toISOString();
             socket.emit('chat message', chatRoom, sessionStorage.getItem("currentID"), input.value, timeSent);
             input.value = '';
         }
     });
 
     socket.on('chat message', (classCode, userID, msg, timeSent) => {
-        const messageInfo = document.createElement('li');
-        messageInfo.className = classCode;
-        messageInfo.textContent = userID + ": (" + timeSent + ")" ;
-        messages.appendChild(messageInfo);
-        messages.scrollTo(0, messages.scrollHeight)
-        const item = document.createElement('li');
-        item.textContent = msg;
-        messages.appendChild(item);
-        window.scrollTo(0, document.body.scrollHeight);
+        $.post('/displayUserInfo', { id: userID },
+        function(result, status) {
+            const messageInfo = document.createElement('li');
+            messageInfo.className = classCode;
+            messageInfo.textContent = result.firstname + " " + result.lastname + ": (" + timeSent + ")" ;
+            messages.appendChild(messageInfo);
+            messages.scrollTo(0, messages.scrollHeight)
+            const item = document.createElement('li');
+            item.textContent = msg;
+            messages.appendChild(item);
+            window.scrollTo(0, document.body.scrollHeight);
+        });
     });
 
 })
