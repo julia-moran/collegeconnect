@@ -28,6 +28,14 @@ $(document).ready(function() {
     
     function joinRoom(classCode) {
         socket.emit('join-room', classCode);
+
+        $(".classCodes").each(function() {
+            if(classCode !== $(this).attr("id")) {
+                console.log($(this).attr("id"))
+                socket.emit('leave-room', $(this).attr("id")) 
+            }
+            
+        });
     }
 
     form.addEventListener('submit', (e) => {

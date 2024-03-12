@@ -66,6 +66,7 @@ app.get('/profile-view', (req, res) => {
   res.sendFile(path.join(__dirname, 'profile-view.html'));
 });
 
+io.on('connection', (socket) => {
 /*
 io.on('connection', (socket) => {
   socket.on('chat message', async (roomNum, classCode, threadID, userID, msg, timeSent) => {
@@ -96,7 +97,7 @@ io.on('connection', (socket) => {
 });
 });
 */
-io.on('connection', (socket) => {
+
   socket.on('chat message', (msg) => {
     io.emit('chat message', msg);
   });
@@ -114,7 +115,7 @@ io.on('connection', (socket) => {
   socket.on('leave-room', groupToLeave => {
     /*Citation Source: the socket.leave() function was retrieved from
     https://socket.io/docs/v4/tutorial/introduction on October 11, 2023*/ 
-    //console.log("left room: " + groupToLeave);
+    console.log("left room: " + groupToLeave);
     socket.leave(groupToLeave);
   });
 });
