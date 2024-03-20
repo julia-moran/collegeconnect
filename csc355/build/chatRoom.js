@@ -3,7 +3,7 @@
 /* Course:  CSC355: Software Engineering II */
 /* School: Kutztown University of Pennsylvania */
 /* Professor Name: Dr. Dylan Schwesinger */
-/* Filename:  */
+/* Filename: chatRoom.js */
 /* Purpose: */
 /************************************************************/
 

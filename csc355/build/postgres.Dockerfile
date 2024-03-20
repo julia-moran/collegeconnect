@@ -3,7 +3,7 @@
 #/* Course:  CSC355: Software Engineering II */
 #/* School: Kutztown University of Pennsylvania */
 #/* Professor Name: Dr. Dylan Schwesinger */
-#/* Filename:  */
+#/* Filename: postgres.Dockerfile */
 #/* Purpose: */
 #/************************************************************/
 
@@ -15,8 +15,8 @@ ENV POSTGRES_USER postgres
 ENV POSTGRES_PASSWORD 0285
 ENV POSTGRES_DB collegeconnect
 
-COPY collegeconnect.sql /docker-entrypoint-initdb.d/
+COPY collegeConnect.sql /docker-entrypoint-initdb.d/
 
-COPY createuser.sql /docker-entrypoint-initdb.d/
+COPY createUser.sql /docker-entrypoint-initdb.d/
 
 EXPOSE 54324

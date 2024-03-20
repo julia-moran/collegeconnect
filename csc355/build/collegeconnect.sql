@@ -3,11 +3,11 @@
 /* Course:  CSC355: Software Engineering II */
 /* School: Kutztown University of Pennsylvania */
 /* Professor Name: Dr. Dylan Schwesinger */
-/* Filename:  */
+/* Filename: collegeConnect.sql */
 /* Purpose: */
 /************************************************************/
 
-CREATE TABLE userInfo (
+CREATE TABLE userInfo(
     id SERIAL PRIMARY KEY,
     email VARCHAR(30),
     clearance BOOLEAN CHECK (clearance::integer = 0 OR clearance::integer = 1),

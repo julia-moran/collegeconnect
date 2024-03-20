@@ -3,7 +3,7 @@
 #/* Course:  CSC355: Software Engineering II */
 #/* School: Kutztown University of Pennsylvania */
 #/* Professor Name: Dr. Dylan Schwesinger */
-#/* Filename:  */
+#/* Filename: docker-compose.yml */
 #/* Purpose: */
 #/************************************************************/
 
@@ -14,8 +14,8 @@ services:
       context: ./
       dockerfile: postgres.Dockerfile
     volumes:
-      - ./collegeconnect.sql:/docker-entrypoint-initdb.d/collegeconnect.sql
-      - ./createuser.sql:/docker-entrypoint-initdb.d/createuser.sql
+      - ./collegeConnect.sql:/docker-entrypoint-initdb.d/collegeConnect.sql
+      - ./createUser.sql:/docker-entrypoint-initdb.d/createUser.sql
       - data:/var/lib/postgresql/data
     ports:
       - 54324:5432  #unique port num for postgres
