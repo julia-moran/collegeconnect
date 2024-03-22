@@ -25,13 +25,15 @@ $(document).ready(function() {
 
         $.get("/getMajors", function(majorResults, status) {
             $(majorResults).each(function(i, majorResult) {
-                $("#selectMajor").append("<option value= '" + majorResult.major + "'>" + majorResult.major + "</option>")
+                $("#selectMajor").append("<option value= '" + majorResult.major + "'>" + majorResult.major + "</option>");
+                $("#filterMajor").append("<option value= '" + majorResult.major + "'>" + majorResult.major + "</option>");
             })
         });
     
         $.get("/getMinors", function(minorResults, status) {
             $(minorResults).each(function(i, minorResult) {
-                $("#selectMinor").append("<option value= '" + minorResult.minor + "'>" + minorResult.minor + "</option>")
+                $("#selectMinor").append("<option value= '" + minorResult.minor + "'>" + minorResult.minor + "</option>");
+                $("#filterMinor").append("<option value= '" + minorResult.minor + "'>" + minorResult.minor + "</option>");
             })
         });
     
@@ -52,7 +54,6 @@ $(document).ready(function() {
             }
 
             for(let i in searchResults) {
-                console.log(searchResults[i]);
                 const tableRow = document.createElement('tr');
                 tableRow.id = "result" + searchResults[i].id;
                 const name = document.createElement('td')
@@ -81,6 +82,7 @@ $(document).ready(function() {
         filterForm.addEventListener('submit', function(event) {
             event.preventDefault();
 
+            console.log($("#filterMajor option:selected").text());
             if($("#filterlname").val()) {
                 searchResults = searchResults.filter((result) => result.lname == $("#filterlname").val());
             }
@@ -89,6 +91,14 @@ $(document).ready(function() {
                 searchResults = searchResults.filter((result) => result.fname == $("#filterfname").val());
             }
             
+            if($("#filterMajor option:selected").text() != "Major") {
+                searchResults = searchResults.filter((result) => result.major == $("#filterMajor option:selected").text());
+            }
+
+            if($("#filterMinor option:selected").text() != "Minor") {
+                searchResults = searchResults.filter((result) => result.minor == $("#filterMinor option:selected").text());
+            }
+
             populateResults(searchResults);
         });
 
