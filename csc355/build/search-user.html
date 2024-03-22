@@ -21,7 +21,7 @@
             <input id="lname" placeholder="Last Name" type="text"/><br>
             <select class="selectMajor" id="selectMajor">
                 <option value="" selected>Major</option>
-              </select> <br>
+            </select> <br>
               <select class="selectMinor" id="selectMinor">
                 <option value="" selected>Minor</option>
             </select> <br>
@@ -37,6 +37,15 @@
             <button type="submit">Search</button>
             <hr>
         </form>
+        <div id="filter">
+            <p>Filter</p>
+            <form id="filterForm">
+                <input id="filterfname" placeholder="First Name" type="text"/>
+                <input id="filterlname" placeholder="Last Name" type="text"/><br>
+                <button type="submit">Filter</button>
+            </form>            
+        </div>
+
         <table id="results">
         </table>
     </main>
