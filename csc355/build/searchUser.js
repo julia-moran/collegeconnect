@@ -76,13 +76,20 @@ $(document).ready(function() {
                      });
             
                 });
+                
+                const interests = document.createElement('td')
+                for(let j = 0; j < 3; j++) {
+                    interests.textContent = interests.textContent + " " + searchResults[i].interests[j];
+                
+                }
+                tableRow.appendChild(interests);
+
             }
         }
 
         filterForm.addEventListener('submit', function(event) {
             event.preventDefault();
 
-            console.log($("#filterMajor option:selected").text());
             if($("#filterlname").val()) {
                 searchResults = searchResults.filter((result) => result.lname == $("#filterlname").val());
             }
@@ -104,24 +111,30 @@ $(document).ready(function() {
 
         form.addEventListener('submit', function(event) {
             event.preventDefault();
-        
+
+            searchResults = [];
+            let selectedInterests = $("#selectInterests").val();
+            
             $.post('/searchUsers', {
                 id: sessionStorage.getItem("currentID"),
                 fname: $("#fname").val(),
                 lname: $("#lname").val(),
                 major: $("#selectMajor option:selected").text(),
-                minor: $("#selectMinor option:selected").text()
+                minor: $("#selectMinor option:selected").text(),
+                interests: selectedInterests
             }, function(results, status) {
                 if(results) {
                     $("#filter").show();
                 }
                 $(results).each(function(i, result) {
+                    console.log(result.interest1);
                     searchResults.push({
                         id: result.id,
                         fname: result.firstname,
                         lname: result.lastname,
                         major: result.major,
-                        minor: result.minor
+                        minor: result.minor,
+                        interests: [result.interest1, result.interest2, result.interest3]
                     });
                 })
 
