@@ -1,3 +1,12 @@
+/************************************************************/
+/* Authors: Julia Moran, Jerome Serrao, Thomas Kasper, Jack Hamilton */
+/* Course:  CSC355: Software Engineering II */
+/* School: Kutztown University of Pennsylvania */
+/* Professor Name: Dr. Dylan Schwesinger */
+/* Filename: createAccount.js */
+/* Purpose: */
+/************************************************************/
+
 //const client = require('../index.js');
 $(document).ready(function() {
     

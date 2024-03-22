@@ -1,3 +1,12 @@
+#/************************************************************/
+#/* Authors: Julia Moran, Jerome Serrao, Thomas Kasper, Jack Hamilton */
+#/* Course:  CSC355: Software Engineering II */
+#/* School: Kutztown University of Pennsylvania */
+#/* Professor Name: Dr. Dylan Schwesinger */
+#/* Filename: docker-compose.yml */
+#/* Purpose: */
+#/************************************************************/
+
 version: '3'
 services:
   postgres:
@@ -5,8 +14,8 @@ services:
       context: ./
       dockerfile: postgres.Dockerfile
     volumes:
-      - ./collegeconnect.sql:/docker-entrypoint-initdb.d/collegeconnect.sql
-      - ./createuser.sql:/docker-entrypoint-initdb.d/createuser.sql
+      - ./collegeConnect.sql:/docker-entrypoint-initdb.d/collegeConnect.sql
+      - ./createUser.sql:/docker-entrypoint-initdb.d/createUser.sql
       - data:/var/lib/postgresql/data
     ports:
       - 54324:5432  #unique port num for postgres
