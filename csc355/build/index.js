@@ -87,7 +87,7 @@ io.on('connection', async (socket) => {
     try {
       const client = await pool.connect();
       try {  
-        client.query("INSERT INTO chatLog (classCode, userID, msg, timeSent) VALUES ($1, $2, $3, to_timestamp($4 / 1000.0))",
+        client.query("INSERT INTO chatLog (classCode, userID, msg, timeSent) VALUES ($1, $2, $3, $4)",
         [classCode, userID, msg, timeSent], 
         (err, results) => {
           console.log("Sent to index:", err ? err : msg);
@@ -121,9 +121,9 @@ io.on('connection', async (socket) => {
     try {
       const client = await pool.connect();
       try {  
-        client.query("SELECT * FROM chatLog WHERE classCode = $1 and threadID = NULL", [group],
+        client.query("SELECT * FROM chatLog WHERE classCode = $1 AND threadID is NULL", [group],
         (err, results) => {
-          console.log("Sent to index:", err ? err : results.rows);
+          console.log("Join Room Sent to index:", err ? err : results.rows);
           results.rows.forEach(row => {
             socket.emit('chat message', row.classcode, row.userid, row.msg, row.timesent);
           })
@@ -141,6 +141,26 @@ io.on('connection', async (socket) => {
       console.error(err);
       res.status(500).json({ message: 'Could not connect to the database' });
     }
+  });
+
+  app.get('/testChatLog', async (req, res) => {
+    //let userID = req.body.id;
+  
+    try {
+      const client = await pool.connect();
+      try {  
+        client.query('SELECT * FROM chatLog', (err, results) => {
+          console.log("TEST Sent to index:", err ? err : results.rows);
+        });
+      } finally {
+        client.release();
+      }
+      
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Could not connect to the database' });
+    }
+  
   });
 
   // Leave a room
@@ -495,25 +515,7 @@ app.post('/displayInterests', async (req, res) => {
 
 });
 
-app.get('/testChatLog', async (req, res) => {
-  //let userID = req.body.id;
 
-  try {
-    const client = await pool.connect();
-    try {  
-      client.query('SELECT * FROM chatLog', (err, results) => {
-        console.log("TEST Sent to index:", err ? err : results.rows);
-      });
-    } finally {
-      client.release();
-    }
-    
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Could not connect to the database' });
-  }
-
-});
 
 app.post('/updateUserInfo', async (req, res) => {
   let userID = req.body.id;

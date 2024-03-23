@@ -58,7 +58,10 @@ $(document).ready(function() {
     form.addEventListener('submit', (e) => {
         e.preventDefault();
         if (input.value && chatRoom) {
-            const timeSent = new Date().toISOString();
+            let timeSent = new Date().toISOString();
+            timeSent = timeSent.replace('T', ' ');
+            timeSent = timeSent.substring(0, timeSent.length - 5)
+            console.log(timeSent);
             socket.emit('chat message', chatRoom, sessionStorage.getItem("currentID"), input.value, timeSent);
             input.value = '';
         }

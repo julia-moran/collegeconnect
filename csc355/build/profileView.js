@@ -20,6 +20,17 @@ $(document).ready(function() {
             $(classResults).each(function(i, classResult) {
                 $("#CSCCourses").append("<option value= '" + classResult.classcode + "'>" + classResult.classcode + ": " + classResult.classname + "</option>")
             })
+
+            $.post('/displayClasses', { id: sessionStorage.getItem("currentID") },
+            function(classResults, status) {
+                let selectedClasses = [];
+    
+                $(classResults).each(function(i, classResult) {
+                    selectedClasses.push(classResult.classcode);
+                });
+    
+                $("#selectClasses").val(selectedClasses).trigger('change');;
+            });
         });
 
         $.get("/getMajors", function(majorResults, status) {
@@ -40,6 +51,19 @@ $(document).ready(function() {
                 $("#interest2").append("<option value= '" + interestResult.interest + "'>" + interestResult.interest + "</option>")
                 $("#interest3").append("<option value= '" + interestResult.interest + "'>" + interestResult.interest + "</option>")
             })
+
+            $.post('/displayInterests', { id: sessionStorage.getItem("currentID") },
+            function(interestResults, status) {
+                $(interestResults).each(function(i, interestResult) {
+                    console.log(interestResult.interest);
+                    if(interestResult.interest != "") {
+                        $("#interest" + interestResult.prompt + " option[value= '" + interestResult.interest + "']").attr("selected", "selected");
+                    } else {
+                        $("#interest" + interestResult.prompt + " option[value= '']").attr("selected", "selected");
+                    }
+                    
+                });
+            });
         });
 
         $.post('/displayUserInfo', { id: sessionStorage.getItem("currentID") },
@@ -54,29 +78,6 @@ $(document).ready(function() {
                 //    $("#selectMinor option[text='None']").attr("selected","selected");$
                 //}
             });
-
-        $.post('/displayInterests', { id: sessionStorage.getItem("currentID") },
-            function(interestResults, status) {
-                $(interestResults).each(function(i, interestResult) {
-                    if(interestResult.interest != "") {
-                        $("#interest" + interestResult.prompt + " option[value= '" + interestResult.interest + "']").attr("selected", "selected");
-                    } else {
-                        $("#interest" + interestResult.prompt + " option[value= '']").attr("selected", "selected");
-                    }
-                    
-                });
-            });
-
-        $.post('/displayClasses', { id: sessionStorage.getItem("currentID") },
-        function(classResults, status) {
-            let selectedClasses = [];
-
-            $(classResults).each(function(i, classResult) {
-                selectedClasses.push(classResult.classcode);
-            });
-
-            $("#selectClasses").val(selectedClasses).trigger('change');;
-        });
         
             
 
