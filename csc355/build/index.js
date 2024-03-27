@@ -75,6 +75,26 @@ app.get('/editProfile', (req, res) => {
   res.sendFile(path.join(__dirname, 'editProfile.html'));
 });
 
+app.get('/viewProfile', (req, res) => {
+  res.sendFile(path.join(__dirname, 'viewProfile.html'));
+});
+
+app.get('/viewProfile/:id', (req, res) => {
+  var options = {
+    root: path.join(__dirname),
+    headers: {
+      'id': req.params.id
+    }
+  }
+
+  res.sendFile('viewProfile.html', options, function (err) {
+    if (err) {
+      console.log(err);
+    }
+  })
+});
+
+
 app.get('/searchUser', (req, res) => {
   res.sendFile(path.join(__dirname, 'searchUser.html'));
 });

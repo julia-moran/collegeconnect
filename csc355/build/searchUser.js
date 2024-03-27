@@ -84,7 +84,12 @@ $(document).ready(function() {
                 
                 //}
                 tableRow.appendChild(interests);
-
+                const linkTD = document.createElement('td')
+                tableRow.appendChild(linkTD);
+                const profileLink = document.createElement('a')
+                profileLink.textContent = "Profile";
+                profileLink.setAttribute('href', '/viewProfile/' + searchResults[i].id);
+                linkTD.appendChild(profileLink);
             }
         }
 
