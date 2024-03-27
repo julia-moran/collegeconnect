@@ -13,7 +13,7 @@ const path = require('path');
 var bodyParser = require('body-parser');
 const { createServer } = require('node:http');
 const { Server } = require('socket.io');
-
+const crypto = require('crypto');
 const app = express();
 const server = createServer(app);
 const io = new Server(server);
@@ -724,8 +724,81 @@ app.post('/searchForSharedClasses', async (req, res) => {
   }
 
 });
+// Jerome's attempt at encryption and decryption
+// Function to generate RSA key pairs
+// source:https://stackoverflow.com/questions/8520973/how-to-create-a-pair-private-public-keys-using-node-js-crypto
+// source #2: https://nodejs.org/api/crypto.html
 
+function generateKeyPair() {
+  return crypto.generateKeyPairSync('rsa', {
+    modulusLength: 4096,
+    publicKeyEncoding: {
+      //public key format
+      type: 'spki',
+      format: 'pem'
+    },
+    privateKeyEncoding: {
+      //private key format
+      type: 'pkcs8',
+      format: 'pem'
+    }
+  });
+}
+// Attempt at encrypting messages for recipients
+function encryptMessage(message, recipients) {
+  // Generate a random symmetric key and initalization vector
+  // 256 bit key and 128 bit iv
+  const symmetricKey = crypto.randomBytes(32);
+  const iv = crypto.randomBytes(16);
 
+  // Encrypt message using AES
+  const cipher = crypto.createCipheriv('aes-256-cbc', symmetricKey, iv);
+  let encryptedMessage = cipher.update(message, 'utf8', 'hex');
+  encryptedMessage += cipher.final('hex');
+
+  // Encrypt symmetric key using RSA public key
+  const encryptedKeys = recipients.map(recipient => {
+    return {
+      recipientName: recipient.name,
+      encryptedSymmetricKey: crypto.publicEncrypt(
+        {
+          key: recipient.publicKey,
+          padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
+          oaepHash: 'sha256',
+        },
+        symmetricKey).toString('base64')
+      };
+    });
+  // Return the encrypted message and encrypted symmetric key and initialization vector
+  return {encryptedMessage,encryptedKeys,iv };
+
+}
+
+// attempt to decrypt messages using private ket via function
+function decryptMessage(encryptedMessage,encryptedKeys,iv, privateKey) {
+  let decryptedMessage = null;
+  // goes through each encrypted key and decrypts the symmetric key
+    encryptedKeys.forEach(keyInfo => {
+      const  decryptedSymmetricKey = crypto.privateDecrypt(
+        {
+          key: privateKey,
+          padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
+          oaepHash: 'sha256',
+        },
+        Buffer.from(keyInfo.encryptedSymmetricKey, 'base64')
+      );
+  // will work if decryption of symmetric key is successful
+if( decryptedSymmetricKey) {
+  // Decrypt the message using the symmetric key and initialization vector
+  const decipher = crypto.createDecipheriv('aes-256-cbc', decryptedSymmetricKey, iv);
+  decryptedMessage = decipher.update(encryptedMessage, 'hex', 'utf8');
+  decryptedMessage += decipher.final('utf8');
+  }
+});
+
+return decryptedMessage;
+}
+module.exports = { generateKeyPair, encryptMessage, decryptMessage };
 
 server.listen(3000, () => {
   console.log('App listening on port 3000');
