@@ -71,8 +71,8 @@ app.get('/logout', (req, res) => {
   res.sendFile(path.join(__dirname, 'logout.html'));
 });
 
-app.get('/profileView', (req, res) => {
-  res.sendFile(path.join(__dirname, 'profileView.html'));
+app.get('/editProfile', (req, res) => {
+  res.sendFile(path.join(__dirname, 'editProfile.html'));
 });
 
 app.get('/searchUser', (req, res) => {
@@ -620,38 +620,46 @@ app.post('/searchUsers', async (req, res) => {
 
   try {
     const client = await pool.connect();
-    try {  //select userInfo.id, firstName, lastName, major, minor, interest from userInfo left join userData on userInfo.id = userData.userID where interest = 'Music';
+    try {  
+      client.query("SELECT * FROM userInfo WHERE id <> $5 AND (firstName = $1 OR lastName = $2 OR major = $3 OR minor = $4)",
+      [firstName, lastName, major, minor, userID], 
+      (err, results) => {
+        console.log("Sent to index:", err ? err : results.rows);
+        res.json(results.rows);
+      });
+          /*console.log("Interests", results.rows.interests);
+          if(results.rows.interests) {
+            console.log(results.rows.interests.length);
+            
+            for(i in interests) {
+              //console.log(interests[i]);
+              let sqlStmt = `WITH joinData AS (SELECT  userInfo.id AS id, firstName, lastName, major, minor, 
+                ARRAY_AGG(interest) as interests
+              FROM userInfo
+                INNER JOIN userData on userInfo.id = userData.userID
+              GROUP BY userInfo.id)
+              SELECT id, firstName, lastName, major, minor, interests
+              FROM joinData
+              WHERE id <> 19 AND (firstName = '' OR lastName = '' OR major = '' OR minor = '' OR interests[` + (parseInt(i) + 1) + `] = 'Reading');`;
+              console.log(sqlStmt)
+              client.query(sqlStmt,
+              [], 
+              (err, results) => {
+                console.log("Sent to index:", err ? err : results.rows);
+                res.json(results.rows);
+              });
+            }          
+          
+//select userInfo.id, firstName, lastName, major, minor, interest from userInfo left join userData on userInfo.id = userData.userID where interest = 'Music';
       //SELECT userInfo.id, firstName, lastName, major, minor, interest FROM userInfo LEFT JOIN userData ON userInfo.id = userData.userID WHERE userInfo.id <> $5 AND (firstName = $1 OR lastName = $2 OR major = $3 OR minor = $4)
-      if(interests) {
-        for(i in interests) {
-          console.log(interests[i]);
-          client.query(`WITH joinData AS (SELECT  userInfo.id AS id, firstName, lastName, major, minor, 
-          MAX (CASE WHEN prompt = '1' THEN interest ELSE null END) AS interest1,
-          MAX (CASE WHEN prompt = '2' THEN interest ELSE null END) AS interest2,
-          MAX (CASE WHEN prompt = '3' THEN interest ELSE null END) AS interest3
-          FROM userInfo
-          LEFT JOIN userData on userInfo.id = userData.userID
-          GROUP BY userInfo.id)
-          SELECT id, firstName, lastName, major, minor, interest1, interest2, interest3
-          FROM joinData
-          WHERE id <> $5 AND (firstName = $1 OR lastName = $2 OR major = $3 OR minor = $4 OR interest1 = $6 OR interest2 = $6 OR interest3 = $6);`,
-          [firstName, lastName, major, minor, userID, interests[i]], 
-          (err, results) => {
-            console.log("Sent to index:", err ? err : results.rows);
-            res.json(results.rows);
-          });
-        }
+      //if(interests) {
 
+      
+      });*/ 
+/*
       } else {
-        client.query(`WITH joinData AS (SELECT  userInfo.id AS id, firstName, lastName, major, minor, 
-          MAX (CASE WHEN prompt = '1' THEN interest ELSE null END) AS interest1,
-          MAX (CASE WHEN prompt = '2' THEN interest ELSE null END) AS interest2,
-          MAX (CASE WHEN prompt = '3' THEN interest ELSE null END) AS interest3
+        client.query(` SELECT id, firstName, lastName, major, minor
           FROM userInfo
-          LEFT JOIN userData on userInfo.id = userData.userID
-          GROUP BY userInfo.id)
-          SELECT id, firstName, lastName, major, minor, interest1, interest2, interest3
-          FROM joinData
           WHERE id <> $5 AND (firstName = $1 OR lastName = $2 OR major = $3 OR minor = $4);`,
           [firstName, lastName, major, minor, userID], 
           (err, results) => {
@@ -660,7 +668,7 @@ app.post('/searchUsers', async (req, res) => {
           });
       }
 
-      
+     */ 
       
     } finally {
       client.release();

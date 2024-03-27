@@ -39,7 +39,8 @@ $(document).ready(function() {
     
         $.get("/getInterests", function(interestResults, status) {
             $(interestResults).each(function(i, interestResult) {
-                $("#selectInterests").append("<option value= '" + interestResult.interest + "'>" + interestResult.interest + "</option>")
+                $("#selectInterests").append("<option value= '" + interestResult.interest + "'>" + interestResult.interest + "</option>");
+                $("#filterInterests").append("<option value= '" + interestResult.interest + "'>" + interestResult.interest + "</option>");
             })
         });
 
@@ -78,10 +79,10 @@ $(document).ready(function() {
                 });
                 
                 const interests = document.createElement('td')
-                for(let j = 0; j < 3; j++) {
-                    interests.textContent = interests.textContent + " " + searchResults[i].interests[j];
+                //for(let j = 0; j < 3; j++) {
+                    interests.textContent = interests.textContent + " " + searchResults[i].interests;
                 
-                }
+                //}
                 tableRow.appendChild(interests);
 
             }
@@ -89,6 +90,8 @@ $(document).ready(function() {
 
         filterForm.addEventListener('submit', function(event) {
             event.preventDefault();
+
+            let filteredInterests = $("#filterInterests").val();
 
             if($("#filterlname").val()) {
                 searchResults = searchResults.filter((result) => result.lname == $("#filterlname").val());
@@ -106,6 +109,23 @@ $(document).ready(function() {
                 searchResults = searchResults.filter((result) => result.minor == $("#filterMinor option:selected").text());
             }
 
+            if(filteredInterests != []) {
+                searchResults.forEach((result) => {
+                /*for(let j = 0; j < 3; j++) {
+                    result.interests[j];
+                }*/
+                console.log(result.interests.filter(r => filteredInterests.includes(r)));
+                })
+                console.log(searchResults.filter((result) => (result.interests.filter(r => filteredInterests.includes(r))) != []));
+                //earchResults = searchResults.filter(result.interests.filter(r => filteredInterests.includes(r)));
+                //console.log(searchResults);
+            }
+            /*console.log(filteredInterests);
+                    console.log(result.interests);
+                    //arrA.filter(x => arrB.includes(x));
+                    console.log("Filter", result.interests.filter(r => filteredInterests.includes(r)));
+                    result.interests.filter(r => filteredInterests.includes(r))
+*/
             populateResults(searchResults);
         });
 
@@ -114,7 +134,7 @@ $(document).ready(function() {
 
             searchResults = [];
             let selectedInterests = $("#selectInterests").val();
-            
+
             $.post('/searchUsers', {
                 id: sessionStorage.getItem("currentID"),
                 fname: $("#fname").val(),
@@ -134,7 +154,7 @@ $(document).ready(function() {
                         lname: result.lastname,
                         major: result.major,
                         minor: result.minor,
-                        interests: [result.interest1, result.interest2, result.interest3]
+                        interests: result.interests
                     });
                 })
 
