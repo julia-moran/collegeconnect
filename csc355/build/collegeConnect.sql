@@ -70,7 +70,7 @@ CREATE TABLE directMessages (
     threadID TEXT,
     msg TEXT,
     timeSent TIMESTAMP
-)
+);
 
 INSERT INTO userInfo (email, clearance, firstName, lastName) VALUES
 ('erutk865@live.kutztown.edu', '1', 'Ethan', 'Rutkowski'),
