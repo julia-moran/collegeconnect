@@ -63,6 +63,15 @@ CREATE TABLE chatLog (
     timeSent TIMESTAMP
 );
 
+CREATE TABLE directMessages (
+    id SERIAL PRIMARY KEY,
+    toUserID INTEGER,
+    fromUserID INTEGER,
+    threadID TEXT,
+    msg TEXT,
+    timeSent TIMESTAMP
+)
+
 INSERT INTO userInfo (email, clearance, firstName, lastName) VALUES
 ('erutk865@live.kutztown.edu', '1', 'Ethan', 'Rutkowski'),
 ('Jtula518@live.kutztown.edu', '1', 'Joel', 'Tulanowski'),

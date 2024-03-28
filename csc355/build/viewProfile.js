@@ -26,11 +26,8 @@ $(document).ready(function() {
         $.post('/displayInterests', { id: userID },
         function(interestResults, status) {
             $(interestResults).each(function(i, interestResult) {
-                //console.log(interestResult.interest);
                 interests.textContent = interests.textContent + interestResult.interest + " ";
                 profileDiv.appendChild(interests);
-                //$("#interest" + interestResult.prompt).text(interestResult.interest);
-                
             });
         });
 
