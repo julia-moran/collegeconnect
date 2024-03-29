@@ -4,7 +4,8 @@
 #/* School: Kutztown University of Pennsylvania */
 #/* Professor Name: Dr. Dylan Schwesinger */
 #/* Filename: nginx.Dockerfile */
-#/* Purpose: */
+#/* Purpose: This Dockerfile defines the options and inclusions needed to build an nginx  */
+#/*                docker container for this application.              */
 #/************************************************************/
 
 FROM nginx:latest

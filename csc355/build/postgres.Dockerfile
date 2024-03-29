@@ -4,7 +4,8 @@
 #/* School: Kutztown University of Pennsylvania */
 #/* Professor Name: Dr. Dylan Schwesinger */
 #/* Filename: postgres.Dockerfile */
-#/* Purpose: */
+#/* Purpose: This Dockerfile defines the options and inclusions needed to build a postgres   */
+#/*                docker container for this application.              */
 #/************************************************************/
 
 FROM postgres:latest
