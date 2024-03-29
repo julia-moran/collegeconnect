@@ -4,7 +4,7 @@
 /* School: Kutztown University of Pennsylvania */
 /* Professor Name: Dr. Dylan Schwesinger */
 /* Filename: chatRoom.js */
-/* Purpose: */
+/* Purpose: This file defines the JS scripting to handle chat room instances in the application. */
 /************************************************************/
 
 $(document).ready(function() {

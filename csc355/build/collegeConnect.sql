@@ -4,7 +4,7 @@
 /* School: Kutztown University of Pennsylvania */
 /* Professor Name: Dr. Dylan Schwesinger */
 /* Filename: collegeConnect.sql */
-/* Purpose: */
+/* Purpose: This file contains the scripting to create the College Connect database. */
 /************************************************************/
 
 CREATE TABLE userInfo(
