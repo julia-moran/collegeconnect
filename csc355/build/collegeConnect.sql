@@ -65,6 +65,7 @@ CREATE TABLE chatLog (
 
 CREATE TABLE directMessage (
     id SERIAL PRIMARY KEY,
+    chatRoomID TEXT,
     toUserID INTEGER,
     fromUserID INTEGER,
     threadID TEXT,

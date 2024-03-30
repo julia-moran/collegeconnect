@@ -22,6 +22,7 @@ $(document).ready(function() {
                 toUserID = userName.id;
                 console.log(toUserID);
                 joinPrivateMessage(toUserID);
+                $.get('/testChatLog');
             });
         });
 
@@ -46,7 +47,7 @@ $(document).ready(function() {
             messages.removeChild(messages.firstChild);
         }
 
-        socket.emit('private message', toUserID, sessionStorage.getItem("currentID"));
+        socket.emit('joinPrivateChat', toUserID, sessionStorage.getItem("currentID"));
     }
 
     socket.on('direct message', (toUserID, fromUserID, msg, timeSent) => {

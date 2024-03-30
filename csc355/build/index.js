@@ -151,18 +151,26 @@ io.on('connection', async (socket) => {
 socket.on('direct message', async (toUserID, fromUserID, msg, timeSent) => {
   console.log("Message: ", toUserID, fromUserID, msg, timeSent);
 
+  let chatRoomID = "";
+      
+  if(toUserID > fromUserID) {
+    chatRoomID = toUserID + "+" + fromUserID;
+  } else {
+    chatRoomID = fromUserID + "+" + toUserID;
+  }
+
   try {
     const client = await pool.connect();
     try {  
-      client.query("INSERT INTO directMessage (toUserID, fromUserID, msg, timeSent) VALUES ($1, $2, $3, $4)",
-      [toUserID, fromUserID, msg, timeSent], 
+      client.query("INSERT INTO directMessage (chatRoomID, toUserID, fromUserID, msg, timeSent) VALUES ($1, $2, $3, $4, $5)",
+      [chatRoomID, toUserID, fromUserID, msg, timeSent], 
       (err, results) => {
         console.log("Direct Message. Sent to index:", err ? err : msg);
       });
 
-      if(toUserID !== '') {
-        //console.log("Emit hit");
-        io.to(toUserID).emit('direct message', toUserID, fromUserID, msg, timeSent);
+      if(chatRoomID !== '') {
+        console.log("Emit hit");
+        io.to(chatRoomID).emit('direct message', toUserID, fromUserID, msg, timeSent);
       }
     
     } catch (e) {
@@ -212,16 +220,24 @@ socket.on('direct message', async (toUserID, fromUserID, msg, timeSent) => {
   });
 
     // Private chat
-    socket.on('private chat', async (toUserID, fromUserID) => {
+    socket.on('joinPrivateChat', async (toUserID, fromUserID) => {
       /*Citation Source: the socket.join() function was retrieved from
-      https://socket.io/docs/v4/tutorial/introduction on October 11, 2023*/ 
-      console.log("joined room: " + toUserID);
-      socket.join(toUserID)
+      https://socket.io/docs/v4/tutorial/introduction on October 11, 2023*/
+      let chatRoomID = "";
+      
+      if(toUserID > fromUserID) {
+        chatRoomID = toUserID + "+" + fromUserID;
+      } else {
+        chatRoomID = fromUserID + "+" + toUserID;
+      }
+      
+      console.log("joined room: " + chatRoomID);
+      socket.join(chatRoomID);
   
       try {
         const client = await pool.connect();
         try {  
-          client.query("SELECT * FROM directMessage WHERE toUserID = $1 AND fromUserID = $2 AND threadID is NULL", [toUserID, fromUserID],
+          client.query("SELECT * FROM directMessage WHERE chatRoomID = $1 AND threadID is NULL", [chatRoomID],
           (err, results) => {
             console.log("Private Message Sent to index:", err ? err : results.rows);
             results.rows.forEach(row => {
@@ -229,7 +245,6 @@ socket.on('direct message', async (toUserID, fromUserID, msg, timeSent) => {
             })
             
           });
-        
         } catch (e) {
           console.error('Message failed to send');
           return;
