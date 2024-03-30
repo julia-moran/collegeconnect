@@ -4,13 +4,14 @@
 #/* School: Kutztown University of Pennsylvania */
 #/* Professor Name: Dr. Dylan Schwesinger */
 #/* Filename: docker-compose.yml */
-#/* Purpose: */
+#/* Purpose: This file defines options and details for the multiple Docker containers  */
+#/*                used in this application.                  */
 #/************************************************************/
 
 version: '3'
 services:
   postgres:
-    build: 
+    build:
       context: ./
       dockerfile: postgres.Dockerfile
     volumes:

@@ -4,7 +4,8 @@
 #/* School: Kutztown University of Pennsylvania */
 #/* Professor Name: Dr. Dylan Schwesinger */
 #/* Filename: node.Dockerfile */
-#/* Purpose: */
+#/* Purpose: This Dockerfile defines the options and inclusions needed to build a node.js   */
+#/*                docker container for this application.              */
 #/************************************************************/
 
 FROM node:14
