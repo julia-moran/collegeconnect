@@ -20,6 +20,7 @@ $(document).ready(function() {
             function(classResults, status) {
                 $(classResults).each(function(i, classResult) {
                     $("#CSCCourses").append("<option value= '" + classResult.classcode + "'>" + classResult.classcode + ": " + classResult.classname + "</option>")
+                    $("#filterCSCCourses").append("<option value= '" + classResult.classcode + "'>" + classResult.classcode + ": " + classResult.classname + "</option>")
                 })
         });
 
@@ -49,15 +50,16 @@ $(document).ready(function() {
         const filterForm = document.getElementById('filterForm');
         let searchResults = [];
 
-        function populateResults (searchResults, interestResults, classResults) {
+        function populateResults (userInfoResults, interestResults, classResults) {
             console.log(interestResults);
+            searchResults = [];
             while(table.firstChild) {
                 table.removeChild(table.firstChild);
             }
-            if(!(searchResults.length === 0)) {
+            if(!(userInfoResults.length === 0)) {
                 //console.log('Search',searchResults);
-                for(let i in searchResults) {
-                    createRow(searchResults[i].id, interestResults);
+                for(let i in userInfoResults) {
+                    createRow(userInfoResults[i].id);
                 }                
             } else if(!(interestResults.length === 0)) {
                 let existingIDs = [];
@@ -67,7 +69,7 @@ $(document).ready(function() {
                     }
                 }
                 for(let i in existingIDs) {
-                    createRow(existingIDs[i], interestResults);
+                    createRow(existingIDs[i]);
                 }
             } else if (!(classResults.length === 0)) {
                 let existingIDs = [];
@@ -77,7 +79,7 @@ $(document).ready(function() {
                     }
                 }
                 for(let i in existingIDs) {
-                    createRow(existingIDs[i], interestResults);
+                    createRow(existingIDs[i]);
                 }
             } else {
                 console.log("Empty");
@@ -85,7 +87,8 @@ $(document).ready(function() {
             
         }
 
-        function createRow(searchedUserID, interestResults) {
+        function createRow(searchedUserID) {
+            let classes = [];
             $.post('/displayUserInfo', { id: searchedUserID },
                 function(results, status) {
                     $(results).each(function(i, result) {
@@ -108,15 +111,26 @@ $(document).ready(function() {
                         $(sharedClassResults).each(function(i, classResult) {
                             sharedClass.textContent = sharedClass.textContent + classResult.classcode + " ";
                             tableRow.appendChild(sharedClass);
+                            classes.push(classResult.classcode);
                         });
                     });
-                    showInterests(result.id, interestResults);
+                    userInterests = showInterests(result.id);
                     const linkTD = document.createElement('td')
                     tableRow.appendChild(linkTD);
                     const profileLink = document.createElement('a')
                     profileLink.textContent = "Profile";
                     profileLink.setAttribute('href', '/viewProfile/' + result.id);
                     linkTD.appendChild(profileLink);
+                    searchResults.push({
+                        id: result.id,
+                        fname: result.firstname,
+                        lname: result.lastname,
+                        major: result.major,
+                        minor: result.minor,
+                        classes: classes,
+                        interests: userInterests
+                    });
+                    //console.log('Row results', searchResults);
                 })
             });
         }
@@ -124,7 +138,13 @@ $(document).ready(function() {
         filterForm.addEventListener('submit', function(event) {
             event.preventDefault();
 
+            let searchIDs = [];
             let filteredInterests = $("#filterInterests").val();
+            let filteredClasses = $("#filterClasses").val();
+
+            while(table.firstChild) {
+                table.removeChild(table.firstChild);
+            }
 
             if($("#filterlname").val()) {
                 searchResults = searchResults.filter((result) => result.lname == $("#filterlname").val());
@@ -142,32 +162,50 @@ $(document).ready(function() {
                 searchResults = searchResults.filter((result) => result.minor == $("#filterMinor option:selected").text());
             }
 
-            /*console.log(filteredInterests);
-                    console.log(result.interests);
-                    //arrA.filter(x => arrB.includes(x));
-                    console.log("Filter", result.interests.filter(r => filteredInterests.includes(r)));
-                    result.interests.filter(r => filteredInterests.includes(r))
-*/
-            populateResults(searchResults);
+            if(!(filteredInterests === 0)) {
+                    for(let i in filteredInterests) {
+                        searchResults = searchResults.filter((result) => result.interests.includes(filteredInterests[i]));
+                    }
+            }
+
+            if(!(filteredClasses === 0)) {
+                for(let i in filteredClasses) {
+                    searchResults = searchResults.filter((result) => result.classes.includes(filteredClasses[i]));
+                }
+            }
+
+            for(let i in searchResults) {
+                if(!(searchIDs.includes(searchResults[i].id))) {
+                    searchIDs.push(searchResults[i].id);
+                }
+            }
+
+            for(let i in searchIDs) {
+                createRow(searchIDs[i]);
+            }
         });
 
-        function showInterests(userID, interests) {
+        function showInterests(userID) {
             let tableRow = document.getElementById(userID);
+            let userInterests = [];
                 const resultInterests = document.createElement('td')
                 resultInterests.textContent = "Likes";
-                let usersInterests = interests.filter((interest) => interest.id == userID);
-                //console.log(usersInterests);
-                for(let i in usersInterests) {
-                    //console.log(usersInterests[i].interest);
-                    resultInterests.textContent = resultInterests.textContent + " " + usersInterests[i].interest;
-                    tableRow.appendChild(resultInterests);
-                }                
+                $.post('/displayInterests', { id: userID },
+                function(interestResults, status) {
+                    $(interestResults).each(function(i, interestResult) {
+                        resultInterests.textContent = resultInterests.textContent + " " + interestResult.interest;
+                        tableRow.appendChild(resultInterests);
+                        userInterests.push(interestResult.interest);
+                    });
+                });
+                //console.log("userinterests", userInterests);
+                return userInterests;                
         }
 
         form.addEventListener('submit', function(event) {
             event.preventDefault();
 
-            let searchResults = [];
+            let userInfoResults = [];
             let interestResults = [];
             let classResults = [];
             let selectedInterests = $("#selectInterests").val();
@@ -184,7 +222,7 @@ $(document).ready(function() {
                     $("#filter").show();
                 }
                 $(results).each(function(i, result) {
-                    searchResults.push({
+                    userInfoResults.push({
                         id: result.id,
                         fname: result.firstname,
                         lname: result.lastname,
@@ -235,7 +273,7 @@ $(document).ready(function() {
                     });
                 })
                 //console.log(searchResults, interestResults, classResults);
-                populateResults(searchResults, interestResults, classResults);
+                populateResults(userInfoResults, interestResults, classResults);
             });
         }); 
     }
