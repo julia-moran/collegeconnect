@@ -49,48 +49,76 @@ $(document).ready(function() {
         const filterForm = document.getElementById('filterForm');
         let searchResults = [];
 
-        function populateResults (searchResults) {
+        function populateResults (searchResults, interestResults, classResults) {
+            console.log(interestResults);
             while(table.firstChild) {
                 table.removeChild(table.firstChild);
             }
-
-            for(let i in searchResults) {
-                const tableRow = document.createElement('tr');
-                tableRow.id = "result" + searchResults[i].id;
-                const name = document.createElement('td')
-                table.appendChild(tableRow);
-                name.textContent = searchResults[i].fname + " " + searchResults[i].lname;
-                tableRow.appendChild(name);
-                const major = document.createElement('td')
-                major.textContent = "Major: " + searchResults[i].major;
-                tableRow.appendChild(major);
-                const minor = document.createElement('td')
-                minor.textContent = "Minor: " + searchResults[i].minor;
-                tableRow.appendChild(minor);
-                const sharedClass = document.createElement('td')
-                sharedClass.textContent = "Shares ";
-                $.post('/searchForSharedClasses', { id: sessionStorage.getItem("currentID"), searchedUserID: searchResults[i].id },
-                function(classResults, status) {
-                    $(classResults).each(function(i, classResult) {
-                        sharedClass.textContent = sharedClass.textContent + classResult.classcode + " ";
-                        tableRow.appendChild(sharedClass);
-                     });
-            
-                });
-                
-                const interests = document.createElement('td')
-                //for(let j = 0; j < 3; j++) {
-                    interests.textContent = interests.textContent + " " + searchResults[i].interests;
-                
-                //}
-                tableRow.appendChild(interests);
-                const linkTD = document.createElement('td')
-                tableRow.appendChild(linkTD);
-                const profileLink = document.createElement('a')
-                profileLink.textContent = "Profile";
-                profileLink.setAttribute('href', '/viewProfile/' + searchResults[i].id);
-                linkTD.appendChild(profileLink);
+            if(!(searchResults.length === 0)) {
+                //console.log('Search',searchResults);
+                for(let i in searchResults) {
+                    createRow(searchResults[i].id, interestResults);
+                }                
+            } else if(!(interestResults.length === 0)) {
+                let existingIDs = [];
+                for(let i in interestResults) {
+                    if(!(existingIDs.includes(interestResults[i].id))) {
+                        existingIDs.push(interestResults[i].id);
+                    }
+                }
+                for(let i in existingIDs) {
+                    createRow(existingIDs[i], interestResults);
+                }
+            } else if (!(classResults.length === 0)) {
+                let existingIDs = [];
+                for(let i in classResults) {
+                    if(!(existingIDs.includes(classResults[i].id))) {
+                        existingIDs.push(classResults[i].id);
+                    }
+                }
+                for(let i in existingIDs) {
+                    createRow(existingIDs[i], interestResults);
+                }
+            } else {
+                console.log("Empty");
             }
+            
+        }
+
+        function createRow(searchedUserID, interestResults) {
+            $.post('/displayUserInfo', { id: searchedUserID },
+                function(results, status) {
+                    $(results).each(function(i, result) {
+                    const tableRow = document.createElement('tr');
+                    tableRow.id = result.id;
+                    const name = document.createElement('td')
+                    table.appendChild(tableRow);
+                    name.textContent = result.firstname + " " + result.lastname;
+                    tableRow.appendChild(name);
+                    const major = document.createElement('td')
+                    major.textContent = "Major: " + result.major;
+                    tableRow.appendChild(major);
+                    const minor = document.createElement('td')
+                    minor.textContent = "Minor: " + result.minor;
+                    tableRow.appendChild(minor);
+                    const sharedClass = document.createElement('td')
+                    sharedClass.textContent = "Shares ";
+                    $.post('/searchForSharedClasses', { id: sessionStorage.getItem("currentID"), searchedUserID: result.id },
+                    function(sharedClassResults, status) {
+                        $(sharedClassResults).each(function(i, classResult) {
+                            sharedClass.textContent = sharedClass.textContent + classResult.classcode + " ";
+                            tableRow.appendChild(sharedClass);
+                        });
+                    });
+                    showInterests(result.id, interestResults);
+                    const linkTD = document.createElement('td')
+                    tableRow.appendChild(linkTD);
+                    const profileLink = document.createElement('a')
+                    profileLink.textContent = "Profile";
+                    profileLink.setAttribute('href', '/viewProfile/' + result.id);
+                    linkTD.appendChild(profileLink);
+                })
+            });
         }
 
         filterForm.addEventListener('submit', function(event) {
@@ -114,17 +142,6 @@ $(document).ready(function() {
                 searchResults = searchResults.filter((result) => result.minor == $("#filterMinor option:selected").text());
             }
 
-            if(filteredInterests != []) {
-                searchResults.forEach((result) => {
-                /*for(let j = 0; j < 3; j++) {
-                    result.interests[j];
-                }*/
-                console.log(result.interests.filter(r => filteredInterests.includes(r)));
-                })
-                console.log(searchResults.filter((result) => (result.interests.filter(r => filteredInterests.includes(r))) != []));
-                //earchResults = searchResults.filter(result.interests.filter(r => filteredInterests.includes(r)));
-                //console.log(searchResults);
-            }
             /*console.log(filteredInterests);
                     console.log(result.interests);
                     //arrA.filter(x => arrB.includes(x));
@@ -134,11 +151,27 @@ $(document).ready(function() {
             populateResults(searchResults);
         });
 
+        function showInterests(userID, interests) {
+            let tableRow = document.getElementById(userID);
+                const resultInterests = document.createElement('td')
+                resultInterests.textContent = "Likes";
+                let usersInterests = interests.filter((interest) => interest.id == userID);
+                //console.log(usersInterests);
+                for(let i in usersInterests) {
+                    //console.log(usersInterests[i].interest);
+                    resultInterests.textContent = resultInterests.textContent + " " + usersInterests[i].interest;
+                    tableRow.appendChild(resultInterests);
+                }                
+        }
+
         form.addEventListener('submit', function(event) {
             event.preventDefault();
 
-            searchResults = [];
+            let searchResults = [];
+            let interestResults = [];
+            let classResults = [];
             let selectedInterests = $("#selectInterests").val();
+            let selectedClasses = $("#selectClasses").val();
 
             $.post('/searchUsers', {
                 id: sessionStorage.getItem("currentID"),
@@ -146,27 +179,64 @@ $(document).ready(function() {
                 lname: $("#lname").val(),
                 major: $("#selectMajor option:selected").text(),
                 minor: $("#selectMinor option:selected").text(),
-                interests: selectedInterests
             }, function(results, status) {
                 if(results) {
                     $("#filter").show();
                 }
                 $(results).each(function(i, result) {
-                    console.log(result.interest1);
                     searchResults.push({
                         id: result.id,
                         fname: result.firstname,
                         lname: result.lastname,
                         major: result.major,
                         minor: result.minor,
-                        interests: result.interests
                     });
                 })
 
-                populateResults(searchResults);
+                //populateResults(searchResults, interestResults);
             });
         
+            $.post('/searchInterests', {
+                id: sessionStorage.getItem("currentID"),
+                interests: selectedInterests
+            }, function(results, status) {
+                //console.log(results);
+                if(results) {
+                    $("#filter").show();
+                }
+                $(results).each(function(i, result) {
+                    interestResults.push({
+                        id: result.id,
+                        fname: result.firstname,
+                        lname: result.lastname,
+                        major: result.major,
+                        minor: result.minor,
+                        interest: result.interest
+                    });
+                })
+            });
 
+            $.post('/searchClasses', {
+                id: sessionStorage.getItem("currentID"),
+                classCodes: selectedClasses
+            }, function(results, status) {
+                //console.log(results);
+                if(results) {
+                    $("#filter").show();
+                }
+                $(results).each(function(i, result) {
+                    classResults.push({
+                        id: result.id,
+                        fname: result.firstname,
+                        lname: result.lastname,
+                        major: result.major,
+                        minor: result.minor,
+                        classcode: result.classcode
+                    });
+                })
+                //console.log(searchResults, interestResults, classResults);
+                populateResults(searchResults, interestResults, classResults);
+            });
         }); 
     }
 })

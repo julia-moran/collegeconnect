@@ -94,6 +94,24 @@ app.get('/viewProfile/:id', (req, res) => {
   })
 });
 
+app.get('/directMessage', (req, res) => {
+  res.sendFile(path.join(__dirname, 'directMessage.html'));
+});
+
+app.get('/directMessage/:id', (req, res) => {
+  var options = {
+    root: path.join(__dirname),
+    headers: {
+      'id': req.params.id
+    }
+  }
+
+  res.sendFile('directMessage.html', options, function (err) {
+    if (err) {
+      console.log(err);
+    }
+  })
+});
 
 app.get('/searchUser', (req, res) => {
   res.sendFile(path.join(__dirname, 'searchUser.html'));
@@ -110,7 +128,7 @@ io.on('connection', async (socket) => {
         client.query("INSERT INTO chatLog (classCode, userID, msg, timeSent) VALUES ($1, $2, $3, $4)",
         [classCode, userID, msg, timeSent], 
         (err, results) => {
-          console.log("Sent to index:", err ? err : msg);
+          console.log("Chat Message. Sent to index:", err ? err : msg);
         });
 
         if(classCode !== '') {
@@ -128,6 +146,36 @@ io.on('connection', async (socket) => {
       console.error(err);
       res.status(500).json({ message: 'Could not connect to the database' });
     }
+});
+
+socket.on('direct message', async (toUserID, fromUserID, msg, timeSent) => {
+  console.log("Message: ", toUserID, fromUserID, msg, timeSent);
+
+  try {
+    const client = await pool.connect();
+    try {  
+      client.query("INSERT INTO directMessage (toUserID, fromUserID, msg, timeSent) VALUES ($1, $2, $3, $4)",
+      [toUserID, fromUserID, msg, timeSent], 
+      (err, results) => {
+        console.log("Direct Message. Sent to index:", err ? err : msg);
+      });
+
+      if(toUserID !== '') {
+        //console.log("Emit hit");
+        io.to(toUserID).emit('direct message', toUserID, fromUserID, msg, timeSent);
+      }
+    
+    } catch (e) {
+      console.error('Message failed to send');
+      return;
+    } finally {
+      client.release();
+    }
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
 });
 
 
@@ -163,13 +211,45 @@ io.on('connection', async (socket) => {
     }
   });
 
+    // Private chat
+    socket.on('private chat', async (toUserID, fromUserID) => {
+      /*Citation Source: the socket.join() function was retrieved from
+      https://socket.io/docs/v4/tutorial/introduction on October 11, 2023*/ 
+      console.log("joined room: " + toUserID);
+      socket.join(toUserID)
+  
+      try {
+        const client = await pool.connect();
+        try {  
+          client.query("SELECT * FROM directMessage WHERE toUserID = $1 AND fromUserID = $2 AND threadID is NULL", [toUserID, fromUserID],
+          (err, results) => {
+            console.log("Private Message Sent to index:", err ? err : results.rows);
+            results.rows.forEach(row => {
+              socket.emit('direct message', row.touserid, row.fromuserid, row.msg, row.timesent);
+            })
+            
+          });
+        
+        } catch (e) {
+          console.error('Message failed to send');
+          return;
+        } finally {
+          client.release();
+        }
+        
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Could not connect to the database' });
+      }
+    });
+
   app.get('/testChatLog', async (req, res) => {
     //let userID = req.body.id;
   
     try {
       const client = await pool.connect();
       try {  
-        client.query('SELECT * FROM chatLog', (err, results) => {
+        client.query('SELECT * FROM directMessage', (err, results) => {
           console.log("TEST Sent to index:", err ? err : results.rows);
         });
       } finally {
@@ -480,7 +560,7 @@ app.post('/displayUserInfo', async (req, res) => {
     const client = await pool.connect();
     try {  
       client.query('SELECT * FROM userInfo WHERE id = $1', [userID], (err, results) => {
-        //console.log(results.rows[0]);
+        console.log("User Info: ", results.rows[0]);
         res.json(results.rows[0]);
       })
     } finally {
@@ -636,7 +716,6 @@ app.post('/searchUsers', async (req, res) => {
   let lastName = req.body.lname;
   let major = req.body.major;
   let minor = req.body.minor;
-  let interests = req.body.interests;
 
   try {
     const client = await pool.connect();
@@ -690,6 +769,72 @@ app.post('/searchUsers', async (req, res) => {
 
      */ 
       
+    } finally {
+      client.release();
+    }
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
+
+});
+
+app.post('/searchInterests', async (req, res) => {
+  let userID = req.body.id;
+  let interests = req.body.interests;
+  let resultsToSend = [];
+
+  try {
+    const client = await pool.connect();
+    try {  
+      
+      for(i in interests) {
+        client.query("SELECT id, firstName, lastName, major, minor, interest FROM userInfo INNER JOIN userData on id = userID WHERE id <> $1 AND interest = $2",
+        [userID, interests[i]], 
+        (err, results) => {
+          //console.log("Sent to index:", err ? err : results.rows);
+          resultsToSend = resultsToSend.concat(results.rows);
+          //console.log("Between Search Interests Sent to index: ", resultsToSend);
+        });
+      }
+      setTimeout(function(){
+      //if(resultsToSend.length > 0) {
+        console.log("Search Interests Sent to index: ", resultsToSend);
+        res.json(resultsToSend);            
+      //}
+      }, 10);
+    } finally {
+      client.release();
+    }
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
+
+});
+
+app.post('/searchClasses', async (req, res) => {
+  let userID = req.body.id;
+  let classCodes = req.body.classCodes;
+  let resultsToSend = [];
+
+  try {
+    const client = await pool.connect();
+    try {  
+      
+      for(i in classCodes) {
+        client.query("SELECT userInfo.id, firstName, lastName, major, minor, classCode FROM userInfo INNER JOIN classList on userInfo.id = userID WHERE userInfo.id <> $1 AND classCode = $2",
+        [userID, classCodes[i]], 
+        (err, results) => {
+          resultsToSend = resultsToSend.concat(results.rows);
+        });
+      }
+      setTimeout(function(){
+        console.log("Search Classes Sent to index: ", resultsToSend);
+        res.json(resultsToSend);            
+      }, 10);
     } finally {
       client.release();
     }

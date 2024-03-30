@@ -13,6 +13,8 @@ $(document).ready(function() {
         sharedClass.textContent = "Shares ";
         interests.textContent = "Likes ";
 
+        $("#directMessageLink").attr("href", "/directMessage/" + userID);
+
         $.post('/displayUserInfo', { id: userID },
         function(result, status) {
             //$("#showID").text(result.minor);

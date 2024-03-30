@@ -1,0 +1,31 @@
+<!--/************************************************************/
+/* Authors: Julia Moran, Jerome Serrao, Thomas Kasper, Jack Hamilton */
+/* Course:  CSC355: Software Engineering II */
+/* School: Kutztown University of Pennsylvania */
+/* Professor Name: Dr. Dylan Schwesinger */
+/* Filename: directMessage.html */
+/* Purpose: */
+/************************************************************/-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>College Connect</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <p id="test"></p>
+    <div>
+        <ul id="usersWithChatHistory"></ul>
+    </div>
+    <div class="messages">
+        <ul id="messages"></ul>
+        <form id="form" action="">
+            <input id="input" autocomplete="off" /><button>Send</button>
+        </form> 
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+  <script type= "text/javascript" src="/directMessage.js"></script>
+</body>
+</html>

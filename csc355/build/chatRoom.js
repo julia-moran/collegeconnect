@@ -27,7 +27,7 @@ $(document).ready(function() {
             userClass.addEventListener("click", () => {
                 chatRoom = userClass.id;
                 joinRoom(chatRoom);
-            })
+            });
             $(".classCodes").hide();
         });
     });
@@ -61,7 +61,7 @@ $(document).ready(function() {
             let timeSent = new Date().toISOString();
             timeSent = timeSent.replace('T', ' ');
             timeSent = timeSent.substring(0, timeSent.length - 5)
-            console.log(timeSent);
+            //console.log(timeSent);
             socket.emit('chat message', chatRoom, sessionStorage.getItem("currentID"), input.value, timeSent);
             input.value = '';
         }

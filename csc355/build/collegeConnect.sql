@@ -63,7 +63,7 @@ CREATE TABLE chatLog (
     timeSent TIMESTAMP
 );
 
-CREATE TABLE directMessages (
+CREATE TABLE directMessage (
     id SERIAL PRIMARY KEY,
     toUserID INTEGER,
     fromUserID INTEGER,
