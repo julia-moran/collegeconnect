@@ -884,6 +884,30 @@ app.post('/searchForSharedClasses', async (req, res) => {
   }
 
 });
+
+app.post('/getUsersWithChatHistory', async (req, res) => {
+  let userID = req.body.id;
+
+  try {
+    const client = await pool.connect();
+    try {  
+      client.query("SELECT DISTINCT userInfo.id, firstName, lastName FROM userInfo INNER JOIN directMessage ON toUserID = userInfo.id OR fromUserID = userInfo.id WHERE userInfo.id <> $1 AND toUserID = $1 OR fromUserID = $1",
+      [userID], 
+      (err, results) => {
+        console.log("Sent to index:", err ? err : results.rows);
+        res.json(results.rows);
+      });
+    } finally {
+      client.release();
+    }
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
+
+});
+
 // Jerome's attempt at encryption and decryption
 // Function to generate RSA key pairs
 // source:https://stackoverflow.com/questions/8520973/how-to-create-a-pair-private-public-keys-using-node-js-crypto

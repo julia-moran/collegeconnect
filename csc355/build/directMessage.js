@@ -12,17 +12,38 @@ $(document).ready(function() {
         const input = document.getElementById('input');
         const messages = document.getElementById('messages');
 
-        $.post('/displayUserInfo', { id: userID },
-        function(result, status) {
-            const userName = document.createElement("li");
-            userName.textContent = result.firstname + " " + result.lastname;
-            userName.id = result.id;
-            $("#usersWithChatHistory").append(userName);
-            userName.addEventListener("click", () => {
-                toUserID = userName.id;
-                console.log(toUserID);
-                joinPrivateMessage(toUserID);
-                $.get('/testChatLog');
+        if(userID) {
+            $.post('/displayUserInfo', { id: userID },
+            function(result, status) {
+                const userName = document.createElement("li");
+                userName.textContent = result.firstname + " " + result.lastname;
+                userName.id = result.id;
+                $("#usersWithChatHistory").append(userName);
+                userName.addEventListener("click", () => {
+                    toUserID = userName.id;
+                    console.log(toUserID);
+                    joinPrivateMessage(toUserID);
+                    //$.get('/testChatLog');
+                });
+            });            
+        }
+
+
+        $.post('/getUsersWithChatHistory', { id: sessionStorage.getItem("currentID") },
+        function(results, status) {
+            $(results).each(function(i, result) {
+                if(result.id != userID) {
+                    const userName = document.createElement("li");
+                    userName.textContent = result.firstname + " " + result.lastname;
+                    userName.id = result.id;
+                    $("#usersWithChatHistory").append(userName);
+                    userName.addEventListener("click", () => {
+                        toUserID = userName.id;
+                        console.log(toUserID);
+                        joinPrivateMessage(toUserID);
+                        //$.get('/testChatLog');
+                    });                    
+                }
             });
         });
 
