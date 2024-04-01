@@ -1,3 +1,21 @@
+import re
+import csv
+
+def parse_and_write(text):
+    # Regular expression to match the department, number, and name
+    pattern = r"([A-Z]+)\s(\d+\w*)\s(.*?)(?=(?:[A-Z]+\s\d+|$))"
+
+    # Find all matches in the text
+    matches = re.findall(pattern, text)
+
+    # Append the matches to a CSV file
+    with open('classes.csv', 'a', newline='') as file:
+        writer = csv.writer(file)
+        for match in matches:
+            writer.writerow(match)
+
+# The text to parse
+text1 = """
 ACC 121 Financial Accounting ACC 122 Managerial Accounting ACC 305 Cost Accounting ACC 317 Tax Accounting I ACC 321 Intermediate Accounting I ACC 322 Intermediate Accounting II ACC 323 Advanced Accounting ACC 335 Forensic Accounting
 ANT 010CD Cultural Anthropology ANT 020 Physical Anthropology ANT 30 Introduction to Archaeology ANT 40 Language & Culture ANT 105 Classical Archaeology ANT 131 New World Archeology ANT 201 Archaeology Theory & Technique ANT 213 Word Religions  ANT 215 Gender X Cultures ANT 239 Historical Archeology ANT/SOC 232 Marriage in Cross-Cultural Perspective ANT 272 Human Heredity ANT 360CMWI History & Theory of Anthropology
 ANI 141 Intro to Visual Storytelling ANI 171 Intro 3D Model/Rendering APD 231 Intro to 2D Animation APD 341 Visual Storytelling  APD 351 3D Model Rendering Studio  APD 361 Animation Studio
@@ -58,4 +76,7 @@ SPT 160 Intro to Sport Management SPT 195QL Accounting Survey for Sport Manageme
 SPU 101 Early Intervention for Stud w/ Disabilities SPU 201CD Cognitive Development Standards SPU 204 Anatomy Eye/Assess Students w/ Visual Impairments SPU 216 Evidence-based Pract. In Math for Stud with Dis SPU 221 Assessment of Students with Visual Impairments SPU 300 Reading/Writing/Other Braille Code SPU 313 Making Content Area Inst Access for Stud with Disabil SPU 314 Students with Disabilities-Inclusive Settings SPU 316WI Literary Development and Instruction SPU 317 Intensive Read Wri, Math Intervention App SPU 318 Assessments and Instructional Methods SPU 320CT Special Education Process and IEP Dev SPU 322 High Incidence Disabilities SPU 327 Trans, Self-Deter & Self Advocacy for Adol & Ad w/ Dis SPU 328 Pos Behavioral Intervention & Support SPU 330 Low Incidence Disabilities SPU 390/391 Clinical Experience & Practicum (VI-1) SPU 392/393 Clinical Experience & Practicum (MPH-1) SPU 514 Stand-Aligned Instruct for Stud w/Disabil in Inc Classrooms SPU 530 Teach Students with Low Incidence Disabilities 
 STA 530 Help INT Student Affairs & Higher EduSTA 570 Contemporary College Students STA 572 Seminar in Leadership in Student Affairs STA 589 Research Methods in Student Affairs & Higher Ed STA 590 Contemporary Issues STA 593 Internship in Student Affairs & Higher Ed II
 SWK 100CDCT Intro to Social Work SWK 130CDCT Poverty & Social Welfare SWK 200CMWI Professional Context SWK 250 SWK Prac/Individual: Prac I SWK 255WICD Social Welfare Policy SWK 265 Social Work w/Groups/Fam: Prac II SWK 280 Social Work Prac w/Comm/Org: Prac III SWK 286 Social Work & Substance Abuse SWK/SOC 290 Social Gerontology & Social Work SWK 320 Case Mgm: An Interdisciplinary Approach SWK 321 Profess Dimensions of Case Management SWK 328 Child Welfare & Social Work Prac SWK 360 Methods/Prac Social Work Research SWK 384 Prof Seminar in Social Work II SWK 400 Found Hum Behar/Soc Env SWK 450 Found of SW Prac W/Individual SWK 455 Found of Soc Welfare Policy SWK 460 Foundations of SW Res Method SWK 465 Found of SWK Prac w/Groups SWK 480 Found of Social Work Prac w/Org SWK 482 Integ Gen Social Work Prac Sem I SWK 484 Integ Gen Social Work Prac Sem II SWK 500 Fam in the Soc Environment SWK 502 Social Work Crisis Intervention with Families SWK 504 Short-term Treatment Mod/Social Work SWK 507 Diff Assessment Tech/Social Workers SWK 508 Maltreatment in Fam: Social work SWK 516 Soc Work in Health Care SWK 520 Comm Social Needs Assessment SWK 524 Program Evaluation & Social Work SWK 527 Social Entrepreneurship & Social Work SWK 528 Social Work & Nonprofit Leadership SWK 529 Fin Sustain of Entrepreneurial Social Work SWK 538 Org & Prac/Fam Decision I SWK 539 Org & Prac/Fam Decision II SWK 540 Org & Prac/Fam Decision III SWK 555 App Fam Pol/Fam Serv Prog SWK 559 SW Interv w/Sub Abuse Pop SWK 560 App Methods of SW Research SWK 561 Motivational Interview Skill SWK 574 Family Mediation/Adv Social Work SWK 575 Clinical Supervision/Social Work SWK 582 Adv Theory/Fam SW Prac I SWK 584 Adv Theory/Fam SW Prac II SWK 590 Social Work Practice in Schools SWK 591 Meeting Diverse Needs of Stud with Exceptionality SWK 595 Capstone: SW/Fam Environment SWK 700 Social Work Leadership I SWK 701 Social Work Leadership II SWK 705 Social Work Teacher-Scholar II SWK 710 Research Methodology SWK 721 Leadership/Teaching Praxis II
-WGS 10 Introduction to Women’s Studies WGS/MAT 45 Women in Mathematics WGS/AST 16 Core to the Cosmos: Contribs of Women to Agriculture WGS/COM 130 Interpersonal Communication WGS/ARC/HUM 211VLCD Women in the Arts WGS/SOC 217 LGBQT Studies WGS/COM 237 Women Writers & Performances
+WGS 10 Introduction to Women’s Studies WGS/MAT 45 Women in Mathematics WGS/AST 16 Core to the Cosmos: Contribs of Women to Agriculture WGS/COM 130 Interpersonal Communication WGS/ARC/HUM 211VLCD Women in the Arts WGS/SOC 217 LGBQT Studies WGS/COM 237 Women Writers & Performances"""
+
+# Call the function for each line of text
+parse_and_write(text1)
