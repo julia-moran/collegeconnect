@@ -3,7 +3,7 @@
 /* Course:  CSC355: Software Engineering II */
 /* School: Kutztown University of Pennsylvania */
 /* Professor Name: Dr. Dylan Schwesinger */
-/* Filename: collegeConnect.sql */
+/* Filename: courses.sql */
 /* Purpose: This file contains the scripting to populate the classes available to select. */
 /************************************************************/
 

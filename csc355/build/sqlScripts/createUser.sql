@@ -3,8 +3,8 @@
 /* Course:  CSC355: Software Engineering II */
 /* School: Kutztown University of Pennsylvania */
 /* Professor Name: Dr. Dylan Schwesinger */
-/* Filename: collegeConnect.sql */
-/* Purpose: This file contains the scripting to create the College Connect database admin user. */
+/* Filename: createUser.sql */
+/* Purpose: This file contains the scripting to create the College Connect database admin user as well as user accounts for the service. */
 /************************************************************/
 
 CREATE USER ccadmin WITH PASSWORD '0285';

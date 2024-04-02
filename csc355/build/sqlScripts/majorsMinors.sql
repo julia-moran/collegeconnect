@@ -3,7 +3,7 @@
 /* Course:  CSC355: Software Engineering II */
 /* School: Kutztown University of Pennsylvania */
 /* Professor Name: Dr. Dylan Schwesinger */
-/* Filename: interests.sql */
+/* Filename: majorsMinors.sql */
 /* Purpose: This file contains the scripting to populate user major and minor options. */
 /************************************************************/
 
