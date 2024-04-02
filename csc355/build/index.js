@@ -4,7 +4,7 @@
 /* School: Kutztown University of Pennsylvania */
 /* Professor Name: Dr. Dylan Schwesinger */
 /* Filename: index.js */
-/* Purpose: */
+/* Purpose: Main hub document for the methods included using JS within the .html and other .js scripts in the application. */
 /************************************************************/
 
 const { Pool } = require('pg');
