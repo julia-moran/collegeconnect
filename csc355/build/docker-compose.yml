@@ -17,7 +17,9 @@ services:
     volumes:
       - ./sqlScripts/collegeConnect.sql:/docker-entrypoint-initdb.d/01-collegeConnect.sql
       - ./sqlScripts/createUser.sql:/docker-entrypoint-initdb.d/02-createUser.sql
-      - ./sqlScripts/classList.sql:/docker-entrypoint-initdb.d/03-classList.sql
+      - ./sqlScripts/courses.sql:/docker-entrypoint-initdb.d/03-courses.sql
+      - ./sqlScripts/interests.sql:/docker-entrypoint-initdb.d/04-interests.sql
+      - ./sqlScripts/majorsMinors.sql:/docker-entrypoint-initdb.d/05-majorsMinors.sql
       - data:/var/lib/postgresql/data
     ports:
       - 54324:5432  #unique port num for postgres

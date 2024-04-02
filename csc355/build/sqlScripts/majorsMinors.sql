@@ -1,0 +1,98 @@
+/************************************************************/
+/* Authors: Julia Moran, Jerome Serrao, Thomas Kasper, Jack Hamilton */
+/* Course:  CSC355: Software Engineering II */
+/* School: Kutztown University of Pennsylvania */
+/* Professor Name: Dr. Dylan Schwesinger */
+/* Filename: interests.sql */
+/* Purpose: This file contains the scripting to populate user major and minor options. */
+/************************************************************/
+
+INSERT INTO majors(major)
+VALUES
+('Computer Science'),
+('Computer Engineering'),
+('Software Engineering'),
+('Information Technology'),
+('Mathematics'),
+('Physics'),
+('Biology'),
+('Chemistry'),
+('Geology'),
+('Mechanical Engineering'),
+('Civil Engineering'),
+('Electrical Engineering'),
+('Aerospace Engineering'),
+('Biomedical Engineering'),
+('Environmental Science'),
+('Psychology'),
+('Sociology'),
+('Economics'),
+('Business Administration'),
+('Marketing'),
+('Accounting'),
+('Finance'),
+('Art History'),
+('Graphic Design'),
+('Music'),
+('Theatre'),
+('English Literature'),
+('Creative Writing'),
+('History'),
+('Political Science'),
+('International Relations'),
+('Philosophy'),
+('Anthropology'),
+('Linguistics'),
+('Foreign Languages'),
+('Education'),
+('Nursing'),
+('Public Health'),
+('Nutrition'),
+('Pharmacy'),
+('Medicine')
+;
+
+INSERT INTO minors(minor)
+VALUES
+('Computer Science'),
+('Computer Engineering'),
+('Software Engineering'),
+('Information Technology'),
+('Mathematics'),
+('Physics'),
+('Biology'),
+('Chemistry'),
+('Geology'),
+('Mechanical Engineering'),
+('Civil Engineering'),
+('Electrical Engineering'),
+('Aerospace Engineering'),
+('Biomedical Engineering'),
+('Environmental Science'),
+('Psychology'),
+('Sociology'),
+('Economics'),
+('Business Administration'),
+('Marketing'),
+('Accounting'),
+('Finance'),
+('Art History'),
+('Graphic Design'),
+('Music'),
+('Theatre'),
+('English Literature'),
+('Creative Writing'),
+('History'),
+('Political Science'),
+('International Relations'),
+('Philosophy'),
+('Anthropology'),
+('Linguistics'),
+('Foreign Languages'),
+('Education'),
+('Nursing'),
+('Public Health'),
+('Nutrition'),
+('Pharmacy'),
+('Medicine')
+;
