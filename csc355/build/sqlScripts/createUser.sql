@@ -96,3 +96,7 @@ INSERT INTO userInfo (email, clearance, firstName, lastName) VALUES
 ('npost969@live.kutztown.edu', '0', 'Nathan', 'Post'),
 ('tkasp445@live.kutztown.edu', '1', 'Thomas', 'Kasper'),
 ('jserr892@live.kutztown.edu', '1', 'Jerome', 'Serrao');
+
+UPDATE userInfo
+SET password = '0285'
+WHERE email = 'jhami311@live.kutztown.edu';

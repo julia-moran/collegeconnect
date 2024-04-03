@@ -73,10 +73,6 @@ CREATE TABLE directMessage (
     timeSent TIMESTAMP
 );
 
-UPDATE userInfo
-SET password = '0285'
-WHERE email = 'jhami311@live.kutztown.edu';
-
 INSERT INTO classList (classCode, userID, email)
 VALUES
 ('CSC355', 32412536, 'jmora678@live.kutztown.edu'),
