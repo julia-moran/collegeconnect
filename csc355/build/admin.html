@@ -1,0 +1,39 @@
+<!--/************************************************************/
+/* Authors: Julia Moran, Jerome Serrao, Thomas Kasper, Jack Hamilton */
+/* Course:  CSC355: Software Engineering II */
+/* School: Kutztown University of Pennsylvania */
+/* Professor Name: Dr. Dylan Schwesinger */
+/* Filename: login.html */
+/* Purpose: */
+/************************************************************/-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+</head>
+
+<body>
+    <h1>Admin Page</h1>
+    <main>
+        <form id="adminForm">
+            <input type="text" id="email" placeholder="Admin Email">
+            <input type="text" id="clearance" placeholder="Admin Clearance">
+            <input type="text" id="operation" placeholder="Operation">
+            <input type="text" id="userEmail" placeholder="User Email">
+            <input type="text" id="userClearance" placeholder="User Clearance">
+            <input type="text" id="userFirstName" placeholder="User First Name">
+            <input type="text" id="userLastName" placeholder="User Last Name">
+            <button type="submit">Submit</button>
+          </form>
+    <br>
+    <a href="/create-account">Sign Up</a>
+    </main>
+    <script src="admin.js"></script>
+</body>
