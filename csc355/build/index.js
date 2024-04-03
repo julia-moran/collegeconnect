@@ -124,7 +124,7 @@ io.on('connection', async (socket) => {
     let publicKey = generateKeyPair().publicKey;
     let privateKey = generateKeyPair().privateKey;
     let encryption = encryptMessage(msg, classCode, publicKey);
-
+    console.log(encryption);
     try {
       const client = await pool.connect();
       try {  
@@ -970,14 +970,14 @@ function encryptMessage(message, recipientName, recipientPublicKey) {
 function decryptMessage(encryptedMessage,encryptedKeys,iv, privateKey) {
   let decryptedMessage = null;
   // goes through each encrypted key and decrypts the symmetric key
-    encryptedKeys.forEach(keyInfo => {
+    //encryptedKeys.forEach(keyInfo => {
       const  decryptedSymmetricKey = crypto.privateDecrypt(
         {
           key: privateKey,
           padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
           oaepHash: 'sha256',
         },
-        Buffer.from(keyInfo.encryptedSymmetricKey, 'base64')
+        Buffer.from(encryptedKeys.encryptedSymmetricKey, 'base64')
       );
   // will work if decryption of symmetric key is successful
 if( decryptedSymmetricKey) {
@@ -986,7 +986,7 @@ if( decryptedSymmetricKey) {
   decryptedMessage = decipher.update(encryptedMessage, 'hex', 'utf8');
   decryptedMessage += decipher.final('utf8');
   }
-});
+
 
 return decryptedMessage;
 }
