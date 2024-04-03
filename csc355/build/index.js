@@ -1020,12 +1020,15 @@ app.post('/admin', async (req, res) => {
       switch (operation) {
         case 'delete':
           await client.query('DELETE FROM userInfo WHERE email = $1', [userEmail]);
+          console.log(`User with email ${userEmail} deleted.`);
           break;
         case 'alter':
           await client.query('UPDATE userInfo SET firstName = $1, lastName = $2, clearance = $3 WHERE email = $4', [userFirstName, userLastName, userClearance, userEmail]);
+          console.log(`User with email ${userEmail} updated.`);
           break;
         case 'create':
           await client.query('INSERT INTO userInfo (email, clearance, firstName, lastName) VALUES ($1, $2, $3, $4)', [userEmail, userClearance, userFirstName, userLastName]);
+          console.log(`User with email ${userEmail} created.`);
           break;
         default:
           return res.status(400).json({ message: 'Invalid operation.' });
