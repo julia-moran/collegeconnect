@@ -995,3 +995,46 @@ module.exports = { generateKeyPair, encryptMessage, decryptMessage };
 server.listen(3000, () => {
   console.log('App listening on port 3000');
 });
+
+// admin functionality
+
+app.post('/admin', async (req, res) => {
+  const { email, clearance, operation, user } = req.body;
+
+  const client = await pool.connect();
+
+  try {
+    const result = await client.query('SELECT * FROM userInfo WHERE email = $1', [email]);
+
+    if (result.rows.length > 0) {
+      const user = result.rows[0];
+
+      if (user.clearance !== '0') {
+        return res.status(403).json({ message: 'You do not have admin clearance.' });
+      }
+
+      switch (operation) {
+        case 'delete':
+          await client.query('DELETE FROM userInfo WHERE email = $1', [user.email]);
+          break;
+        case 'alter':
+          await client.query('UPDATE userInfo SET firstName = $1, lastName = $2 WHERE email = $3', [user.firstName, user.lastName, user.email]);
+          break;
+        case 'create':
+          await client.query('INSERT INTO userInfo (email, clearance, firstName, lastName) VALUES ($1, $2, $3, $4)', [user.email, user.clearance, user.firstName, user.lastName]);
+          break;
+        default:
+          return res.status(400).json({ message: 'Invalid operation.' });
+      }
+
+      res.json({ message: 'Operation successful.' });
+    } else {
+      res.status(404).json({ message: 'User not found.' });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'An error occurred.' });
+  } finally {
+    client.release();
+  }
+});
