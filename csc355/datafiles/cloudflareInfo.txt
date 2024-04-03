@@ -1,0 +1,5 @@
+domain name: kucollegeconnect.com
+
+nameservers: HUGH.NS.CLOUDFLARE.COM POPPY.NS.CLOUDFLARE.COM
+
+registry domain ID: 2867209769_DOMAIN_COM-VRSN
