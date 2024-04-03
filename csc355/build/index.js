@@ -121,19 +121,27 @@ io.on('connection', async (socket) => {
 
   socket.on('chat message', async (classCode, userID, msg, timeSent) => {
     console.log("Message: ", classCode, userID, msg, timeSent);
+    let publicKey = generateKeyPair().publicKey;
+    let privateKey = generateKeyPair().privateKey;
+    let encryption = encryptMessage(msg, classCode, publicKey);
 
     try {
       const client = await pool.connect();
       try {  
         client.query("INSERT INTO chatLog (classCode, userID, msg, timeSent) VALUES ($1, $2, $3, $4)",
-        [classCode, userID, msg, timeSent], 
+        [classCode, userID, encryption.encryptedMessage, timeSent], 
         (err, results) => {
-          console.log("Chat Message. Sent to index:", err ? err : msg);
+          console.log("Chat Message. Sent to index:", err ? err : encryption.encryptedMessage);
         });
-
-        if(classCode !== '') {
-          io.to(classCode).emit('chat message', classCode, userID, msg, timeSent);
+        try {
+          if(classCode !== '') {
+            console.log(decryptMessage(encryption.encryptedMessage, encryption.encryptedKeys,encryption.iv, privateKey));
+            io.to(classCode).emit('chat message', classCode, userID, msg, timeSent);
+          }          
+        } catch (e) {
+          console.log('Message failed to be recived', e);
         }
+
       
       } catch (e) {
         console.error('Message failed to send');
@@ -929,7 +937,7 @@ function generateKeyPair() {
   });
 }
 // Attempt at encrypting messages for recipients
-function encryptMessage(message, recipients) {
+function encryptMessage(message, recipientName, recipientPublicKey) {
   // Generate a random symmetric key and initalization vector
   // 256 bit key and 128 bit iv
   const symmetricKey = crypto.randomBytes(32);
@@ -941,18 +949,18 @@ function encryptMessage(message, recipients) {
   encryptedMessage += cipher.final('hex');
 
   // Encrypt symmetric key using RSA public key
-  const encryptedKeys = recipients.map(recipient => {
-    return {
-      recipientName: recipient.name,
+  //const encryptedKeys = recipients.map(recipient => {
+    const encryptedKeys = {
+      recipientName: recipientName,
       encryptedSymmetricKey: crypto.publicEncrypt(
         {
-          key: recipient.publicKey,
+          key: recipientPublicKey,
           padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
           oaepHash: 'sha256',
         },
         symmetricKey).toString('base64')
       };
-    });
+   // });
   // Return the encrypted message and encrypted symmetric key and initialization vector
   return {encryptedMessage,encryptedKeys,iv };
 
