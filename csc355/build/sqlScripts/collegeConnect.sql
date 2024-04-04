@@ -34,7 +34,7 @@ CREATE TABLE userInterests (
 );
 
 CREATE TABLE userData (
-    userID INTEGER REFERENCES userInfo(id),
+    userID INTEGER,
     prompt TEXT,
     interest TEXT
 );
@@ -42,13 +42,13 @@ CREATE TABLE userData (
 CREATE TABLE classList (
     id SERIAL PRIMARY KEY,
     classCode TEXT,
-    userID INTEGER REFERENCES userInfo(id),
+    userID INTEGER,
     email VARCHAR(30)
 );
 
 CREATE TABLE chatRoom (
     id SERIAL PRIMARY KEY,
-    classCode TEXT REFERENCES classList(classCode),
+    classCode TEXT,
     className TEXT,
     classRoom TEXT,
     classProf TEXT
@@ -56,10 +56,21 @@ CREATE TABLE chatRoom (
 
 CREATE TABLE chatLog (
     id SERIAL PRIMARY KEY,
-    classCode TEXT REFERENCES classList(classCode),
-    userID INTEGER REFERENCES userInfo(id),
-    message TEXT,
-    timestamp TIMESTAMP
+    classCode TEXT,
+    threadID TEXT,
+    userID INTEGER,
+    msg TEXT,
+    timeSent TIMESTAMP
+);
+
+CREATE TABLE directMessage (
+    id SERIAL PRIMARY KEY,
+    chatRoomID TEXT,
+    toUserID INTEGER,
+    fromUserID INTEGER,
+    threadID TEXT,
+    msg TEXT,
+    timeSent TIMESTAMP
 );
 
 INSERT INTO classList (classCode, userID, email)
