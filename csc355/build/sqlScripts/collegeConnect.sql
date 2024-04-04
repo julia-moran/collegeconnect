@@ -34,7 +34,7 @@ CREATE TABLE userInterests (
 );
 
 CREATE TABLE userData (
-    userID INTEGER,
+    userID INTEGER REFERENCES userInfo(id),
     prompt TEXT,
     interest TEXT
 );
@@ -42,7 +42,7 @@ CREATE TABLE userData (
 CREATE TABLE classList (
     id SERIAL PRIMARY KEY,
     classCode TEXT,
-    userID INTEGER,
+    userID INTEGER REFERENCES userInfo(id),
     email VARCHAR(30)
 );
 
@@ -73,14 +73,14 @@ CREATE TABLE directMessage (
     timeSent TIMESTAMP
 );
 
-INSERT INTO classList (classCode, userID, email)
+INSERT INTO classList (classCode, email)
 VALUES
-('CSC355', 32412536, 'jmora678@live.kutztown.edu'),
-('CSC355', 32412436, 'jhami311@live.kutztown.edu'),
-('CSC355', 32412336, 'tkasp445@live.kutztown.edu'),
-('CSC355', 32412111, 'lblac213@live.kutztown.edu'),
-('CSC355', 32412862, 'jruss324@live.kutztown.edu'),
-('CSC355', 32413590,  'jpace578@live.kutztown.edu'),
-('CSC355', 32412278,  'nhoga231@live.kutztown.edu'),
-('CSC355', 32417363, 'mmatt325@live.kutztown.edu'),
-('CSC355', 32419012, 'smars432@live.kutztown.edu');
+('CSC355', 'jmora678@live.kutztown.edu'),
+('CSC355', 'jhami311@live.kutztown.edu'),
+('CSC355', 'tkasp445@live.kutztown.edu'),
+('CSC355', 'lblac213@live.kutztown.edu'),
+('CSC355', 'jruss324@live.kutztown.edu'),
+('CSC355',  'jpace578@live.kutztown.edu'),
+('CSC355',  'nhoga231@live.kutztown.edu'),
+('CSC355', 'mmatt325@live.kutztown.edu'),
+('CSC355', 'smars432@live.kutztown.edu');
