@@ -10,7 +10,7 @@
 
 FROM nginx:latest
 
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY ./configs/nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 80
 
