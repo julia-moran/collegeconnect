@@ -24,8 +24,9 @@ html,
 body {
   background-color: #6F1A31;
   height: 100%;
-  margin: 0;
+  margin: 0px;
   font-family: sans-serif;
+  padding: 0px 300px 0px;
 }
 
 .page-container {
@@ -100,9 +101,19 @@ form {
   background: rgba(0, 0, 0, 0.15);
   display: block;
   box-sizing: border-box;
+<<<<<<< Updated upstream
   backdrop-filter: blur(10px); 
   padding: 0.25rem;
   position: static;
+=======
+  /*Citation Source: the following properties in this style rule were 
+  retrieved from https://github.com/socketio/chat-examples/chat/public/style.css
+  on October 11, 2023*/ 
+  padding: 0.25rem;
+  position: fixed;
+  bottom: 600px;
+  right: 100px;
+>>>>>>> Stashed changes
   width: 75%;
 }
 
@@ -137,23 +148,6 @@ form {
   outline: none;
 }
 
-table { 
-  border: 1px solid;
-  padding: 8px;
-  width: 25%; 
-  border-collapse: collapse;
-  position: absolute;
-  height: 100%;
- }
-
-td {
-  border: 1px solid;
-  padding: 10px;
- }
-
- tr:hover {
-  background-color: #e5d6ff;
- }
 
  #messages { 
   /*Citation Source: The overflow property was retrieved from 

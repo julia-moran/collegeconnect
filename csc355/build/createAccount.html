@@ -16,45 +16,85 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
   </head>
   <body>
     <figure><img src="images/logo.jpg" alt="College Connect Logo"></figure>
     <h3>Create Account</h3>
     <p id="errorMessage"></p>
+  <table>
     <form action="" id="signUp" method="POST">
-      <input id="email" class="accountInfo" placeholder="Your email address" type="text" required/><br>
-      <input id="password" class="accountInfo" placeholder="Pick a password" type="text" required/><br>
-      <p id="passwordTip">Use at least one letter, one numeral, and seven characters</p>
-      <input id="confirmPassword" placeholder="Confirm Password" type="text" required/><br>
-      <input type="submit" value="Sign Up" id="signUpButton"/>
+      <tr>
+        <td>
+          <input id="email" class="accountInfo" placeholder="Your email address" type="text" required/>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input id="password" class="accountInfo" placeholder="Pick a password" type="text" required/><br>
+          <p id="passwordTip">Use at least one letter, one numeral, and seven characters</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input id="confirmPassword" placeholder="Confirm Password" type="text" required/>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type="submit" value="Sign Up" id="signUpButton"/>
+        </td>
+      </tr>
     </form>
-    
+  </table>
+  <table>  
     <form action="" id="addProfileDetails" class="profileDetails">
-      <label for="selectMajor">Your Major:</label>
-      <select id="selectMajor" required>
-        <option value="" disabled selected></option>
-      </select>
-      <label for="selectMajor">Your Minor:</label>
-      <select id="selectMinor">
-        <option value="" disabled selected></option>
-      </select> <br>
-      <label for="selectClasses">Choose your classes</label>
-      <select class="select-multiple" id="selectClasses" name="selectClasses" multiple="multiple" class="profileDetails" style="width: 50%">
-        <optgroup label="CSC Courses" class="profileDetails" id="CSCCourses">
-        </optgroup>
-      </select> <br>
-      <label for="interest1">I'm interested in...</label>
-      <select id="interest1">
-        <option value="" disabled selected></option>
-      </select>
-      <select id="interest2">
-        <option value="" disabled selected></option>
-      </select>
-      <select id="interest3">
-        <option value="" disabled selected></option>
-      </select> <br>
-      <input type="submit" value="Create Account" id="createAccountButton"/>
+      <tr>
+        <td>
+          <label for="selectMajor">Your Major:</label>  
+          <select id="selectMajor" required>
+            <option value="" disabled selected></option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="selectMajor">Your Minor:</label>
+            <select id="selectMinor">
+              <option value="" disabled selected></option>
+            </select> 
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="selectClasses">Choose your classes</label>
+            <select class="select-multiple" id="selectClasses" name="selectClasses" multiple="multiple" class="profileDetails" style="width: 50%">
+              <optgroup label="CSC Courses" class="profileDetails" id="CSCCourses">
+              </optgroup>
+            </select> 
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="interest1">I'm interested in...</label>
+            <select id="interest1">
+              <option value="" disabled selected></option>
+            </select>
+            <select id="interest2">
+              <option value="" disabled selected></option>
+            </select>
+            <select id="interest3">
+              <option value="" disabled selected></option>
+            </select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type="submit" value="Create Account" id="createAccountButton"/>
+        </td>
+      </tr>
     </form>
+  </table>
     <div id="successfulAccountCreation">
       <p id="successMessage" hidden>Account successfully created! Please log in.</p>
       <a href="/login" id="logInLink" hidden>Log In</a>  
