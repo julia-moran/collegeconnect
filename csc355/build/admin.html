@@ -3,7 +3,7 @@
 /* Course:  CSC355: Software Engineering II */
 /* School: Kutztown University of Pennsylvania */
 /* Professor Name: Dr. Dylan Schwesinger */
-/* Filename: editProfile.html */
+/* Filename: login.html */
 /* Purpose: */
 /************************************************************/-->
 
@@ -13,10 +13,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile View</title>
+    <title>Admin Page</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
 </head>
@@ -66,45 +64,18 @@
         </nav>
       </div>
     <main>
-        <p id="showID"></p>
-        <h1 id="name"></h1>
-        <h2 id="email"></h2>
-        <form action="" method="POST">
-            <label for="selectMajor">Your Major: </label>
-            <select class="select-multiple" id="selectMajor" required>
-                <option value="Computer Science">Computer Science</option>
-                <option value="Information Technology">Information Technology</option>
-                <option value="Game Development">Game Development</option>
-              </select> <br>
-              <label for="selectMinor">Your Minor: </label>
-              <select class="select-multiple" id="selectMinor">
-                  <option value="None">None</option>
-                  <option value="Computer Science">Computer Science</option>
-                  <option value="Information Technology">Information Technology</option>
-                  <option value="Game Development">Game Development</option>
-            </select> <br>
-            <label for="selectClasses">Choose your classes</label>
-            <select class="select-multiple" id="selectClasses" name="selectClasses" multiple="multiple" class="profileDetails" style="width: 50%">
-                <optgroup label="CSC Courses" class="profileDetails" id="CSCCourses">
-                </optgroup>
-            </select> <br>
-            <label for="interest1">I'm interested in...</label>
-            <select id="interest1">
-                <option value=""></option>
-            </select>
-            <select id="interest2">
-                <option value=""></option>
-              </select>
-              <select id="interest3">
-                <option value=""></option>
-              </select> <br>
-
-            <button type="submit">Update Profile</button>
-            <hr>
-        </form>
-
+        <form id="adminForm">
+            <input type="text" id="email" placeholder="Admin Email">
+            <input type="text" id="clearance" placeholder="Admin Clearance">
+            <input type="text" id="operation" placeholder="Operation">
+            <input type="text" id="userEmail" placeholder="User Email">
+            <input type="text" id="userClearance" placeholder="User Clearance">
+            <input type="text" id="userFirstName" placeholder="User First Name">
+            <input type="text" id="userLastName" placeholder="User Last Name">
+            <button type="submit">Submit</button>
+          </form>
+    <br>
+    <a href="/create-account">Sign Up</a>
     </main>
-    <script type= "text/javascript" src="/editProfile.js"></script>
+    <script src="admin.js"></script>
 </body>
-
-</html>

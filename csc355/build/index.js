@@ -75,6 +75,10 @@ app.get('/editProfile', (req, res) => {
   res.sendFile(path.join(__dirname, 'editProfile.html'));
 });
 
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'admin.html'));
+});
+
 app.get('/viewProfile', (req, res) => {
   res.sendFile(path.join(__dirname, 'viewProfile.html'));
 });
@@ -994,4 +998,50 @@ module.exports = { generateKeyPair, encryptMessage, decryptMessage };
 
 server.listen(3000, () => {
   console.log('App listening on port 3000');
+});
+
+// admin functionality
+app.post('/admin', async (req, res) => {
+  const { email, clearance, operation, userEmail, userClearance, userFirstName, userLastName } = req.body;
+
+  const client = await pool.connect();
+
+  try {
+    const result = await client.query('SELECT * FROM userInfo WHERE email = $1', [email]);
+
+    if (result.rows.length > 0) {
+      const user = result.rows[0];
+      console.log(user); // Log the user data to the console
+
+      if (user.clearance !== true) {
+        return res.status(403).json({ message: 'You do not have admin clearance.', userData: user });
+      }
+
+      switch (operation) {
+        case 'delete':
+          await client.query('DELETE FROM userInfo WHERE email = $1', [userEmail]);
+          console.log(`User with email ${userEmail} deleted.`);
+          break;
+        case 'alter':
+          await client.query('UPDATE userInfo SET firstName = $1, lastName = $2, clearance = $3 WHERE email = $4', [userFirstName, userLastName, userClearance, userEmail]);
+          console.log(`User with email ${userEmail} updated.`);
+          break;
+        case 'create':
+          await client.query('INSERT INTO userInfo (email, clearance, firstName, lastName) VALUES ($1, $2, $3, $4)', [userEmail, userClearance, userFirstName, userLastName]);
+          console.log(`User with email ${userEmail} created.`);
+          break;
+        default:
+          return res.status(400).json({ message: 'Invalid operation.' });
+      }
+
+      res.json({ message: 'Operation successful.' });
+    } else {
+      res.status(404).json({ message: 'User not found.' });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'An error occurred.' });
+  } finally {
+    client.release();
+  }
 });

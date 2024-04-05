@@ -42,7 +42,10 @@ services:
       context: ./
       dockerfile: nginx.Dockerfile
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf  #copy nginx.conf to container
+      - ./configs/nginx.conf:/etc/nginx/nginx.conf
+      - ./configs/config.yml:/etc/.cloudflared/config.yml
+      - ./configs/5282b77c-d87f-47b4-95e8-499fc92ef5fd.json:/etc/.cloudflared/5282b77c-d87f-47b4-95e8-499fc92ef5fd.json
+      - ./configs/cert.pem:/etc/.cloudflared/cert.pem
     ports:
       - 80:80 #unique port num for nginx
     depends_on:
