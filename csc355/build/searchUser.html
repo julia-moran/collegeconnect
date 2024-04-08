@@ -66,48 +66,83 @@
         </nav>
       </div>
     <main>
+      <table>
         <form id="searchForm" action="" method="POST">
-            <input id="fname" placeholder="First Name" type="text"/>
-            <input id="lname" placeholder="Last Name" type="text"/><br>
-            <select class="selectMajor" id="selectMajor">
+          <tr>
+            <td>
+              <input id="fname" placeholder="First Name" type="text"/>
+              <input id="lname" placeholder="Last Name" type="text"/><br>
+              <select class="selectMajor" id="selectMajor">
                 <option value="" selected>Major</option>
-            </select> <br>
+              </select> 
               <select class="selectMinor" id="selectMinor">
                 <option value="" selected>Minor</option>
-            </select> <br>
-            <label for="selectClasses">Classes</label>
-            <select class="select-multiple" id="selectClasses" name="selectClasses" multiple="multiple" class="searchDetails" style="width: 50%">
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td> 
+              <label for="selectClasses">Classes</label>
+              <select class="select-multiple" id="selectClasses" name="selectClasses" multiple="multiple" class="searchDetails" style="width: 50%">
                 <optgroup label="CSC Courses" class="profileDetails" id="CSCCourses">
                 </optgroup>
-            </select> <br>
-            <label for="selectInterests">Interests</label>
-            <select class="select-multiple" id="selectInterests" name="selectInterests" multiple="multiple" class="searchDetails" style="width: 50%">
-            </select> <br>
-
-            <button type="submit">Search</button>
-            <hr>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td> 
+              <label for="selectInterests">Interests</label>
+              <select class="select-multiple" id="selectInterests" name="selectInterests" multiple="multiple" class="searchDetails" style="width: 50%">
+              </select>
+            </td>
+          </tr> 
+          <tr>
+            <td>
+              <button type="submit">Search</button>
+              <hr>
+            </td>
+          </tr>
         </form>
+      </table>
         <div id="filter">
             <p>Filter</p>
+          <table>
             <form id="filterForm">
-                <input id="filterfname" placeholder="First Name" type="text"/>
-                <input id="filterlname" placeholder="Last Name" type="text"/><br>
-                <select class="filterMajor" id="filterMajor">
+              <tr>
+                <td>
+                  <input id="filterfname" placeholder="First Name" type="text"/>
+                  <input id="filterlname" placeholder="Last Name" type="text"/><br>
+                  <select class="filterMajor" id="filterMajor">
                     <option value="" selected>Major</option>
-                </select> <br>
+                  </select>
                   <select class="filterMinor" id="filterMinor">
                     <option value="" selected>Minor</option>
-                </select> <br>
-                <label for="filterClasses">Classes</label>
-                <select class="select-multiple" id="filterClasses" name="filterClasses" multiple="multiple" style="width: 50%">
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="filterClasses">Classes</label>
+                  <select class="select-multiple" id="filterClasses" name="filterClasses" multiple="multiple" style="width: 50%">
                     <optgroup label="CSC Courses" class="profileDetails" id="filterCSCCourses">
                     </optgroup>
-                </select> <br>
-                <label for="filterInterests">Interests</label>
-                <select class="select-multiple" id="filterInterests" name="filterInterests" multiple="multiple" style="width: 50%">
-                </select> <br>
-                <button type="submit">Filter</button>
-            </form>            
+                  </select> 
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="filterInterests">Interests</label>
+                  <select class="select-multiple" id="filterInterests" name="filterInterests" multiple="multiple" style="width: 50%">
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <button type="submit">Filter</button>
+                </td>
+              </tr>
+            </form> 
+          </table>           
         </div>
 
         <table id="results">

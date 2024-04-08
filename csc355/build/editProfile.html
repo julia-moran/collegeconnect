@@ -69,39 +69,60 @@
         <p id="showID"></p>
         <h1 id="name"></h1>
         <h2 id="email"></h2>
+      <table>
         <form action="" method="POST">
-            <label for="selectMajor">Your Major: </label>
-            <select class="select-multiple" id="selectMajor" required>
+          <tr>
+            <td>
+              <label for="selectMajor">Your Major: </label>
+              <select class="select-multiple" id="selectMajor" required>
                 <option value="Computer Science">Computer Science</option>
                 <option value="Information Technology">Information Technology</option>
                 <option value="Game Development">Game Development</option>
-              </select> <br>
+              </select> 
+            </td>
+          </tr>
+          <tr>
+            <td>
               <label for="selectMinor">Your Minor: </label>
               <select class="select-multiple" id="selectMinor">
                   <option value="None">None</option>
                   <option value="Computer Science">Computer Science</option>
                   <option value="Information Technology">Information Technology</option>
                   <option value="Game Development">Game Development</option>
-            </select> <br>
-            <label for="selectClasses">Choose your classes</label>
-            <select class="select-multiple" id="selectClasses" name="selectClasses" multiple="multiple" class="profileDetails" style="width: 50%">
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="selectClasses">Choose your classes</label>
+              <select class="select-multiple" id="selectClasses" name="selectClasses" multiple="multiple" class="profileDetails" style="width: 50%">
                 <optgroup label="CSC Courses" class="profileDetails" id="CSCCourses">
                 </optgroup>
-            </select> <br>
-            <label for="interest1">I'm interested in...</label>
-            <select id="interest1">
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="interest1">I'm interested in...</label>
+              <select id="interest1">
                 <option value=""></option>
-            </select>
-            <select id="interest2">
+              </select>
+             <select id="interest2">
                 <option value=""></option>
               </select>
               <select id="interest3">
                 <option value=""></option>
-              </select> <br>
-
-            <button type="submit">Update Profile</button>
-            <hr>
+              </select> 
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <button type="submit">Update Profile</button>
+              <hr>
+            </td>
+          </tr>
         </form>
+      </table>
 
     </main>
     <script type= "text/javascript" src="/editProfile.js"></script>
