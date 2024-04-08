@@ -100,3 +100,9 @@ INSERT INTO userInfo (email, clearance, firstName, lastName) VALUES
 UPDATE userInfo
 SET password = '0285'
 WHERE email = 'jhami311@live.kutztown.edu';
+
+INSERT INTO userInfo (email, clearance, firstName, lastName) VALUES
+('test1@live.kutztown.edu', '0', 'taqueer', 'hussain'),
+('test2@live.kutztown.edu', '0', 'jay', 'wang'),
+('test3@live.kutztown.edu', '0', 'dylan', 'schwesinger'),
+('test4@live.kutztown.edu', '0', 'charlie', 'shim');
