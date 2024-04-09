@@ -972,6 +972,8 @@ function encryptMessage(message, recipientName, recipientPublicKey) {
 
 // attempt to decrypt messages using private ket via function
 function decryptMessage(encryptedMessage,encryptedKeys,iv, privateKey) {
+  try {
+
   let decryptedMessage = null;
   // goes through each encrypted key and decrypts the symmetric key
     //encryptedKeys.forEach(keyInfo => {
@@ -983,6 +985,9 @@ function decryptMessage(encryptedMessage,encryptedKeys,iv, privateKey) {
         },
         Buffer.from(encryptedKeys.encryptedSymmetricKey, 'base64')
       );
+
+      console.log("decryptedSymmetricKey", decryptedSymmetricKey.toString('hex'));
+
   // will work if decryption of symmetric key is successful
 if( decryptedSymmetricKey) {
   // Decrypt the message using the symmetric key and initialization vector
@@ -990,9 +995,13 @@ if( decryptedSymmetricKey) {
   decryptedMessage = decipher.update(encryptedMessage, 'hex', 'utf8');
   decryptedMessage += decipher.final('utf8');
   }
-
+    console.log("decryptedMessage", decryptedMessage);
 
 return decryptedMessage;
+  } catch(error) {
+    console.error("error decrypting message", error);
+    return null;
+  }
 }
 module.exports = { generateKeyPair, encryptMessage, decryptMessage };
 
