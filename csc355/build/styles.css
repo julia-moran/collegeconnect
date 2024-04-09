@@ -26,7 +26,7 @@ body {
   height: 100%;
   margin: 0px;
   font-family: sans-serif;
-  padding: 0px 300px 0px;
+  padding: 0px;
 }
 
 .page-container {
@@ -101,11 +101,6 @@ form {
   background: rgba(0, 0, 0, 0.15);
   display: block;
   box-sizing: border-box;
-<<<<<<< Updated upstream
-  backdrop-filter: blur(10px); 
-  padding: 0.25rem;
-  position: static;
-=======
   /*Citation Source: the following properties in this style rule were 
   retrieved from https://github.com/socketio/chat-examples/chat/public/style.css
   on October 11, 2023*/ 
@@ -113,7 +108,6 @@ form {
   position: fixed;
   bottom: 600px;
   right: 100px;
->>>>>>> Stashed changes
   width: 75%;
 }
 
