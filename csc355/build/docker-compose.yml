@@ -50,7 +50,7 @@ services:
       - 80:80 #unique port num for nginx
     depends_on:
       - node
-    mem_limit: 100m  #limit memory to 250mb
+    mem_limit: 50m  #limit memory to 50mb
 
 volumes:
   data:
