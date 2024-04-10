@@ -992,7 +992,7 @@ function decryptMessage(encryptedMessage,encryptedKeys,iv, privateKey) {
 if( decryptedSymmetricKey) {
   // Decrypt the message using the symmetric key and initialization vector
   const decipher = crypto.createDecipheriv('aes-256-cbc', decryptedSymmetricKey, iv);
-  decryptedMessage = decipher.update(encryptedMessage, 'hex', 'utf8');
+ let decryptedMessage = decipher.update(encryptedMessage, 'hex', 'utf8');
   decryptedMessage += decipher.final('utf8');
   }
     console.log("decryptedMessage", decryptedMessage);
