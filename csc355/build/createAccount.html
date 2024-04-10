@@ -22,7 +22,7 @@
     <figure><img src="images/logo.jpg" alt="College Connect Logo"></figure>
     <h3>Create Account</h3>
     <p id="errorMessage"></p>
-  <table>
+  <table id = "userDetails">
     <form action="" id="signUp" method="POST">
       <tr>
         <td>
@@ -31,13 +31,13 @@
       </tr>
       <tr>
         <td>
-          <input id="password" class="accountInfo" placeholder="Pick a password" type="text" required/><br>
+          <input id="password" type="password" class="accountInfo" placeholder="Pick a password" type="text" required/><br>
           <p id="passwordTip">Use at least one letter, one numeral, and seven characters</p>
         </td>
       </tr>
       <tr>
         <td>
-          <input id="confirmPassword" placeholder="Confirm Password" type="text" required/>
+          <input id="confirmPassword" type="password" placeholder="Confirm Password" type="text" required/>
         </td>
       </tr>
       <tr>
@@ -47,7 +47,7 @@
       </tr>
     </form>
   </table>
-  <table>  
+  <table id="profileDetails">  
     <form action="" id="addProfileDetails" class="profileDetails">
       <tr>
         <td>
@@ -95,9 +95,9 @@
       </tr>
     </form>
   </table>
-    <div id="successfulAccountCreation">
-      <p id="successMessage" hidden>Account successfully created! Please log in.</p>
-      <a href="/login" id="logInLink" hidden>Log In</a>  
+    <div id="successfulAccountCreation" hidden>
+      <p id="successMessage">Account successfully created! Please log in.</p>
+      <a href="/login" id="logInLink">Log In</a>  
     </div>
     <p id="test"></p>
     <p id="test2"></p>
