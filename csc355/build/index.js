@@ -129,8 +129,6 @@ io.on('connection', async (socket) => {
     let privateKey = generateKeyPair().privateKey;
     let encryption = encryptMessage(msg, classCode, publicKey);
     console.log(encryption);
-    console.log(privateKey);
-    console.log(publicKey);
     try {
       const client = await pool.connect();
       try {  
@@ -994,7 +992,7 @@ function decryptMessage(encryptedMessage,encryptedKeys,iv, privateKey) {
 if( decryptedSymmetricKey) {
   // Decrypt the message using the symmetric key and initialization vector
   const decipher = crypto.createDecipheriv('aes-256-cbc', decryptedSymmetricKey, iv);
- let decryptedMessage = decipher.update(encryptedMessage, 'hex', 'utf8');
+  decryptedMessage = decipher.update(encryptedMessage, 'hex', 'utf8');
   decryptedMessage += decipher.final('utf8');
   }
     console.log("decryptedMessage", decryptedMessage);
