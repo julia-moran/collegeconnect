@@ -927,54 +927,84 @@ app.post('/getUsersWithChatHistory', async (req, res) => {
 // source:https://stackoverflow.com/questions/8520973/how-to-create-a-pair-private-public-keys-using-node-js-crypto
 // source #2: https://nodejs.org/api/crypto.html
 
-//const crypto = require('crypto');
-
 function generateKeyPair() {
-  const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
-    modulusLength: 2048,
+  return crypto.generateKeyPairSync('rsa', {
+    modulusLength: 4096,
     publicKeyEncoding: {
-      type: 'pkcs1', // or 'spki' for PEM format
+      //public key format
+      type: 'spki',
       format: 'pem'
     },
     privateKeyEncoding: {
-      type: 'pkcs1', // or 'pkcs8' for PEM format
+      //private key format
+      type: 'pkcs8',
       format: 'pem'
     }
   });
-  return { publicKey, privateKey };
 }
-function encryptMessage(message, publicKey) {
-  try {
-    const encrypted = crypto.publicEncrypt(publicKey, Buffer.from(message, 'utf8'));
-    return encrypted.toString('base64');
-  } catch (error) {
-    console.error("error encrypting message", error);
-    return null;
-  }
+// Attempt at encrypting messages for recipients
+function encryptMessage(message, recipientName, recipientPublicKey) {
+  // Generate a random symmetric key and initalization vector
+  // 256 bit key and 128 bit iv
+  const symmetricKey = crypto.randomBytes(32);
+  const iv = crypto.randomBytes(16);
+
+  // Encrypt message using AES
+  const cipher = crypto.createCipheriv('aes-256-cbc', symmetricKey, iv);
+  let encryptedMessage = cipher.update(message, 'utf8', 'hex');
+  encryptedMessage += cipher.final('hex');
+
+  // Encrypt symmetric key using RSA public key
+  //const encryptedKeys = recipients.map(recipient => {
+    const encryptedKeys = {
+      recipientName: recipientName,
+      encryptedSymmetricKey: crypto.publicEncrypt(
+        {
+          key: recipientPublicKey,
+          padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
+          oaepHash: 'sha256',
+        },
+        symmetricKey).toString('base64')
+      };
+   // });
+  // Return the encrypted message and encrypted symmetric key and initialization vector
+  return {encryptedMessage,encryptedKeys,iv };
+
 }
 
-function decryptMessage(encryptedMessage, privateKey) {
+// attempt to decrypt messages using private ket via function
+function decryptMessage(encryptedMessage,encryptedKeys,iv, privateKey) {
   try {
-    const decrypted = crypto.privateDecrypt(privateKey, Buffer.from(encryptedMessage, 'base64'));
-    return decrypted.toString('utf8');
-  } catch (error) {
+
+  let decryptedMessage = null;
+  // goes through each encrypted key and decrypts the symmetric key
+    //encryptedKeys.forEach(keyInfo => {
+      const  decryptedSymmetricKey = crypto.privateDecrypt(
+        {
+          key: privateKey,
+          padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
+          oaepHash: 'sha256',
+        },
+        Buffer.from(encryptedKeys.encryptedSymmetricKey, 'base64')
+      );
+
+      console.log("decryptedSymmetricKey", decryptedSymmetricKey.toString('hex'));
+
+  // will work if decryption of symmetric key is successful
+if( decryptedSymmetricKey) {
+  // Decrypt the message using the symmetric key and initialization vector
+  const decipher = crypto.createDecipheriv('aes-256-cbc', decryptedSymmetricKey, iv);
+ let decryptedMessage = decipher.update(encryptedMessage, 'hex', 'utf8');
+  decryptedMessage += decipher.final('utf8');
+  }
+    console.log("decryptedMessage", decryptedMessage);
+
+return decryptedMessage;
+  } catch(error) {
     console.error("error decrypting message", error);
     return null;
   }
 }
-
-// Generate key pair
-const { publicKey, privateKey } = generateKeyPair();
-
-// Encrypt message
-const message = 'Hello, world!';
-const encryptedMessage = encryptMessage(message, publicKey);
-console.log('Encrypted Message:', encryptedMessage);
-
-// Decrypt message
-const decryptedMessage = decryptMessage(encryptedMessage, privateKey);
-console.log('Decrypted Message:', decryptedMessage);
-
 module.exports = { generateKeyPair, encryptMessage, decryptMessage };
 
 server.listen(3000, () => {
