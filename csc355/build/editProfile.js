@@ -9,7 +9,7 @@
 
 $(document).ready(function() {
 
-   $("#showID").text(sessionStorage.getItem("currentID"));
+   //$("#showID").text(sessionStorage.getItem("currentID"));
 
    if (sessionStorage.length == 0) {
         window.location.replace("../");

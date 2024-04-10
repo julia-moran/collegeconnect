@@ -20,7 +20,7 @@ $(document).ready(function() {
    
 
     
-    $("form.profileDetails").children().hide();
+    $("#profileDetails").hide();
     $("optgroup.profileDetails").children().hide();
     $("optgroup.profileDetails").hide();
 
@@ -76,12 +76,10 @@ $(document).ready(function() {
                 success: function(data) {
                     
                     if(data.message === "Email found") {
-                        errorMessage.innerHTML = data.id;
+                        //errorMessage.innerHTML = data.id;
                         sessionStorage.setItem("currentID", data.id);
-                        for(const child of signUp.children) {
-                            child.style.display = "none";
-                        }
-                        $("form.profileDetails").children().show();
+                        $("#userDetails").hide();
+                        $("#profileDetails").show();
                         $("optgroup.profileDetails").children().show();
                         $("optgroup.profileDetails").show();
                     } else {
@@ -126,12 +124,12 @@ $(document).ready(function() {
             interest3: $("#interest3 option:selected").text()
         });
 
-        $("#test").text(classes);
+       // $("#test").text(classes);
         logInLink.style.display = "block";
-        $("form.profileDetails").children().hide();
+        $("#profileDetails").hide();
         $("optgroup.profileDetails").children().hide();
         $("optgroup.profileDetails").hide();
-        $("#successfulAccountCreation").children().show();
+        $("#successfulAccountCreation").show();
     });
 
 });
