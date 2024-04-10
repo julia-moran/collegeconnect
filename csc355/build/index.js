@@ -129,6 +129,8 @@ io.on('connection', async (socket) => {
     let privateKey = generateKeyPair().privateKey;
     let encryption = encryptMessage(msg, classCode, publicKey);
     console.log(encryption);
+    console.log(privateKey);
+    console.log(publicKey);
     try {
       const client = await pool.connect();
       try {  
@@ -925,7 +927,7 @@ app.post('/getUsersWithChatHistory', async (req, res) => {
 // source:https://stackoverflow.com/questions/8520973/how-to-create-a-pair-private-public-keys-using-node-js-crypto
 // source #2: https://nodejs.org/api/crypto.html
 
-const crypto = require('crypto');
+//const crypto = require('crypto');
 
 function generateKeyPair() {
   const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
