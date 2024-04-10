@@ -52,11 +52,11 @@ app.use(express.static(path.join(__dirname)));
 
 // launch app at homepage
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'home.html'));
+  res.sendFile(path.join(__dirname, 'main.html'));
 });
 
-app.get('/main', (req, res) => {
-  res.sendFile(path.join(__dirname, 'main.html'));
+app.get('/home', (req, res) => {
+  res.sendFile(path.join(__dirname, 'home.html'));
 });
 
 app.get('/login', (req, res) => {
@@ -87,6 +87,10 @@ app.get('/viewProfile', (req, res) => {
   res.sendFile(path.join(__dirname, 'viewProfile.html'));
 });
 
+app.get('/directMessage', (req, res) => {
+  res.sendFile(path.join(__dirname, 'directMessage.html'));
+});
+
 app.get('/viewProfile/:id', (req, res) => {
   var options = {
     root: path.join(__dirname),
@@ -100,10 +104,6 @@ app.get('/viewProfile/:id', (req, res) => {
       console.log(err);
     }
   })
-});
-
-app.get('/directMessage', (req, res) => {
-  res.sendFile(path.join(__dirname, 'directMessage.html'));
 });
 
 app.get('/directMessage/:id', (req, res) => {

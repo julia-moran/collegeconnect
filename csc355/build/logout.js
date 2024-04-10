@@ -8,4 +8,4 @@
 /************************************************************/
 
 sessionStorage.removeItem("currentID");
-window.location.replace("../");
+window.location.replace("/");

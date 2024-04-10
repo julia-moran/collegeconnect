@@ -1,16 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Single Page App</title>
+  <title>College Connect</title>
   <script src="main.js"></script>
 </head>
 <body>
-    <iframe id="mainFrame" src="" style="width:100%; height:100vh;"></iframe>
+    <iframe id="mainFrame" src="/home" style="width:100%; height:100vh;"></iframe>
   <nav>
-    <button onclick="navigateTo('home.html')">Home</button>
-    <button onclick="navigateTo('login.html')">Login</button>
-    <button onclick="navigateTo('createAccount.html')">Create Account</button>
-    <!-- Add more buttons for each of your pages -->
+    <button onclick="navigateTo('/home')">Home</button>
+    <button onclick="navigateTo('/login')">Login</button>
+    <button onclick="navigateTo('/createAccount')">Create Account</button>
+    <button onclick="navigateTo('/chatRoom')">Classes</button>
+    <button onclick="navigateTo('/directMessage')">Direct Message</button>
+    <button onclick="navigateTo('/searchUser')">Search User</button>
+    <button onclick="navigateTo('/editProfile')">Edit Profile</button>
+    <button onclick="navigateTo('/admin')">Admin</button>
+    <button onclick="navigateTo('/logout')">Logout</button>
   </nav>
+  <script src="index.js"></script>
 </body>
 </html>
