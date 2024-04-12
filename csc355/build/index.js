@@ -129,22 +129,20 @@ io.on('connection', async (socket) => {
 
   socket.on('chat message', async (classCode, userID, msg, timeSent) => {
     console.log("Message: ", classCode, userID, msg, timeSent);
-    let publicKey = generateKeyPair().publicKey;
-    let privateKey = generateKeyPair().privateKey;
-    let encryption = encryptMessage(msg, classCode, publicKey);
-    console.log(encryption);
+    
+    let encryptedMessage = encryptMessage(msg);
     try {
       const client = await pool.connect();
       try {  
         client.query("INSERT INTO chatLog (classCode, userID, msg, timeSent) VALUES ($1, $2, $3, $4)",
-        [classCode, userID, encryption.encryptedMessage, timeSent], 
+        [classCode, userID, encryptedMessage, timeSent], 
         (err, results) => {
-          console.log("Chat Message. Sent to index:", err ? err : encryption.encryptedMessage);
+          console.log("Chat Message. Sent to index:", err ? err : msg);
         });
         try {
           if(classCode !== '') {
-            console.log(decryptMessage(encryption.encryptedMessage, encryption.encryptedKeys,encryption.iv, privateKey));
-            io.to(classCode).emit('chat message', classCode, userID, msg, timeSent);
+            let decryptedMessage = decryptMessage(encryptedMessage);
+            io.to(classCode).emit('chat message', classCode, userID, decryptedMessage, timeSent);
           }          
         } catch (e) {
           console.log('Message failed to be recived', e);
@@ -217,7 +215,8 @@ socket.on('direct message', async (toUserID, fromUserID, msg, timeSent) => {
         (err, results) => {
           console.log("Join Room Sent to index:", err ? err : results.rows);
           results.rows.forEach(row => {
-            socket.emit('chat message', row.classcode, row.userid, row.msg, row.timesent);
+            let decryptedMessage = decryptMessage(row.msg);
+            socket.emit('chat message', row.classcode, row.userid, decryptedMessage, row.timesent);
           })
           
         });
@@ -945,7 +944,28 @@ function generateKeyPair() {
   });
 }
 // Attempt at encrypting messages for recipients
-function encryptMessage(message, recipientName, recipientPublicKey) {
+// Source: https://dev.to/halan/4-ways-of-symmetric-cryptography-and-javascript-how-to-aes-with-javascript-3o1b
+function encryptMessage(message) {
+  salt = crypto.randomBytes(16);
+  iv = crypto.randomBytes(16);
+  key = crypto.pbkdf2Sync('my password', salt, 100000, 256/8, 'sha256');
+  
+  cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
+  
+  cipher.write(message);
+  cipher.end()
+  
+  encrypted = cipher.read();
+  console.log({
+    iv: iv.toString('base64'),
+    salt: salt.toString('base64'),
+    encrypted: encrypted.toString('base64'),
+    concatenned: Buffer.concat([salt, iv, encrypted]).toString('base64')
+  });
+  
+  return Buffer.concat([salt, iv, encrypted]).toString('base64');
+  /*
+ 
   // Generate a random symmetric key and initalization vector
   // 256 bit key and 128 bit iv
   const symmetricKey = crypto.randomBytes(32);
@@ -971,17 +991,35 @@ function encryptMessage(message, recipientName, recipientPublicKey) {
    // });
   // Return the encrypted message and encrypted symmetric key and initialization vector
   return {encryptedMessage,encryptedKeys,iv };
-
+*/
 }
 
 // attempt to decrypt messages using private ket via function
-function decryptMessage(encryptedMessage,encryptedKeys,iv, privateKey) {
+function decryptMessage(encryptedMessage) {
+  encrypted = Buffer.from(encryptedMessage, 'base64');
+  const salt_len = iv_len = 16;
+  
+  salt = encrypted.slice(0, salt_len);
+  iv = encrypted.slice(0+salt_len, salt_len+iv_len);
+  key = crypto.pbkdf2Sync('my password', salt, 100000, 256/8, 'sha256');
+  
+  decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
+  
+  decipher.write(encrypted.slice(salt_len+iv_len));
+  decipher.end();
+  
+  decrypted = decipher.read();
+  return decrypted.toString();
+  /*
   try {
+    let decryptedMessage = null;
+    let decryptedSymmetricKey = null;
+    try {
 
-  let decryptedMessage = null;
+  
   // goes through each encrypted key and decrypts the symmetric key
     //encryptedKeys.forEach(keyInfo => {
-      const  decryptedSymmetricKey = crypto.privateDecrypt(
+      decryptedSymmetricKey = crypto.privateDecrypt(
         {
           key: privateKey,
           padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
@@ -991,7 +1029,9 @@ function decryptMessage(encryptedMessage,encryptedKeys,iv, privateKey) {
       );
 
       console.log("decryptedSymmetricKey", decryptedSymmetricKey.toString('hex'));
-
+    } catch (error) {
+      console.log("error getting key: ", error)
+    }
   // will work if decryption of symmetric key is successful
 if( decryptedSymmetricKey) {
   // Decrypt the message using the symmetric key and initialization vector
@@ -1005,7 +1045,7 @@ return decryptedMessage;
   } catch(error) {
     console.error("error decrypting message", error);
     return null;
-  }
+  }*/
 }
 module.exports = { generateKeyPair, encryptMessage, decryptMessage };
 
