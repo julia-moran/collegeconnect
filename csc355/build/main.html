@@ -5,7 +5,16 @@
   <script src="main.js"></script>
 </head>
 <body>
-    <iframe id="mainFrame" src="/home" style="width:100%; height:100vh;"></iframe>
+  <style>
+    body {
+        display: flex;
+        flex-direction: column-reverse;
+        height: 100vh;
+        margin: 0;
+    }
+</style>
+
+<iframe id="mainFrame" src="/home" style="width:100%; height:100vh;"></iframe>
   <nav>
     <button onclick="navigateTo('/home')">Home</button>
     <button onclick="navigateTo('/login')">Login</button>
