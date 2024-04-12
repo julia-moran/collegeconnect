@@ -22,11 +22,9 @@ $(document).ready(function() {
             data: JSON.stringify({ email, password }),
             success: function(data) {
                 if (data.message === 'Login successful!') {
-// save userID and print (testing purposes only, will be removed later)
                     sessionStorage.setItem("currentID", data.id);
-                    //alert('Login successful! You will be redirected to your profile. User ID: ' + sessionStorage.getItem("currentID"));
-        
-                    window.location.replace("../chatRoom");
+                    sessionStorage.setItem("clearance", data.clearance);
+                    window.location.replace("../main");
                 }
             },
             error: function(jqXHR) {
