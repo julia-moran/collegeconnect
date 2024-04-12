@@ -72,7 +72,7 @@ $(document).ready(function() {
     }
 
     socket.on('direct message', (toUserID, fromUserID, msg, timeSent) => {
-        $("#test").text("HIT");
+        //$("#test").text("HIT");
         $.post('/displayUserInfo', { id: fromUserID },
         function(result, status) {
             console.log(msg);

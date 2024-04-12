@@ -906,7 +906,7 @@ app.post('/getUsersWithChatHistory', async (req, res) => {
   try {
     const client = await pool.connect();
     try {  
-      client.query("SELECT DISTINCT userInfo.id, firstName, lastName FROM userInfo INNER JOIN directMessage ON toUserID = userInfo.id OR fromUserID = userInfo.id WHERE userInfo.id <> $1 AND toUserID = $1 OR fromUserID = $1",
+      client.query("SELECT DISTINCT userInfo.id, firstName, lastName FROM userInfo INNER JOIN directMessage ON toUserID = userInfo.id OR fromUserID = userInfo.id WHERE userInfo.id <> $1 AND (toUserID = $1 OR fromUserID = $1)",
       [userID], 
       (err, results) => {
         console.log("Sent to index:", err ? err : results.rows);
