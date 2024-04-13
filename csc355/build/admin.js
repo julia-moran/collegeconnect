@@ -7,6 +7,14 @@
 /* Purpose: */
 /************************************************************/
 
+window.onload = function() {
+  var clearance = sessionStorage.getItem("clearance");
+  if (clearance !== "true") {
+      document.getElementById("adminForm").style.display = "none";
+      document.getElementById("notAdminMessage").style.display = "block";
+  }
+};
+
 $(document).ready(function() {
     $('#adminForm').on('submit', function(e) {
       e.preventDefault();
