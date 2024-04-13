@@ -14,7 +14,13 @@ $(document).ready(function() {
     const form = document.getElementById('form');
     const input = document.getElementById('input');
     const messages = document.getElementById('messages');
+    const threadName = document.getElementById('threadName');
+    const threadNameInput = document.getElementById('inputThreadName');
+    const threadNames = document.getElementById('threadNames');
     let chatRoom = "";
+    let existingThreadNames = [];
+
+    $("#threads").hide();
 
     $.post('/displayClasses', { id: sessionStorage.getItem("currentID") },
     function(classResults, status) {
@@ -27,15 +33,33 @@ $(document).ready(function() {
             userClass.addEventListener("click", () => {
                 chatRoom = userClass.id;
                 joinRoom(chatRoom);
+                $("#threads").show();
+                existingThreadNames = [];
+                $("#errorMessage").text("");
+                while(threadNames.firstChild) {
+                    threadNames.removeChild(threadNames.firstChild);
+                }        
+                $.post('/getThreads', { classCode: userClass.id },
+                function(results, status) {
+                    $(results).each(function(i, result) {
+                        //console.log(result);
+                        const threadName = document.createElement("li");
+                        threadName.textContent = result.threadid;
+                        threadName.id = result.threadid;
+                        $("#threadNames").append(threadName);
+                        existingThreadNames.push(result.threadid);               
+                    });
+                });
             });
             $(".classCodes").show(); // Show the classes
         });
     });
 
-    $.get('/testChatLog');
+    //$.get('/testChatLog');
 
     $("#classes").click(function() {
         $(".classCodes").toggle();
+
     });
     
     function joinRoom(classCode) {
@@ -80,6 +104,35 @@ $(document).ready(function() {
             messages.appendChild(item);
             window.scrollTo(0, document.body.scrollHeight);
         });
+    });
+
+    threadName.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (threadNameInput.value && !(existingThreadNames.includes(threadNameInput.value))) {
+            $("#errorMessage").text("");
+            let timeSent = new Date().toISOString();
+            timeSent = timeSent.replace('T', ' ');
+            timeSent = timeSent.substring(0, timeSent.length - 5)
+            console.log(timeSent);
+            socket.emit('thread message', chatRoom, sessionStorage.getItem("currentID"), "Created a thread.", timeSent, threadNameInput.value);
+            threadNameInput.value = '';
+            while(threadNames.firstChild) {
+                threadNames.removeChild(threadNames.firstChild);
+            }
+            $.post('/getThreads', { classCode: chatRoom },
+            function(results, status) {
+                $(results).each(function(i, result) {
+                    console.log(result);
+                    const threadName = document.createElement("li");
+                    threadName.textContent = result.threadid;
+                    threadName.id = result.threadid;
+                    $("#threadNames").append(threadName);
+                    existingThreadNames.push(result.threadid);
+                });
+            });
+        } else {
+            $("#errorMessage").text("Thread Name already exists");
+        }
     });
 
 })

@@ -32,7 +32,17 @@
       <ul id="userClasses"></ul>
       <p id="test"></p>
     </nav>
+    <div id="threads" style="width:20%; position:absolute; right:0">
+    <p>Threads</p>
+    <p id="errorMessage"></p>
+    <form id="threadName" action="" style="position:absolute; bottom:-50px; right: 100px">
+      <input id="inputThreadName" autocomplete="off" /><button>New Thread Name</button>
+      <ul id="threadNames" style="position:absolute; bottom:-120px; right: 50px"></ul>
+      
+    </form> 
+    </div>
   </div>
+
     <script>
       // Navigation
       {
@@ -55,6 +65,7 @@
       <input id="input" autocomplete="off" /><button>Send</button>
      </form> 
     </div>
+
     <script src="/socket.io/socket.io.js"></script>
     <script type= "text/javascript" src="./chatRoom.js"></script>
 </body>

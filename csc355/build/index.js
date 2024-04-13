@@ -162,6 +162,41 @@ io.on('connection', async (socket) => {
     }
 });
 
+socket.on('thread message', async (classCode, userID, msg, timeSent, threadID) => {
+  console.log("Message: ", classCode, userID, msg, timeSent, threadID);
+  
+  let encryptedMessage = encryptMessage(msg);
+  try {
+    const client = await pool.connect();
+    try {  
+      client.query("INSERT INTO chatLog (classCode, userID, msg, timeSent, threadID) VALUES ($1, $2, $3, $4, $5)",
+      [classCode, userID, encryptedMessage, timeSent, threadID], 
+      (err, results) => {
+        console.log("Chat Message. Sent to index:", err ? err : msg);
+      });
+      try {
+        if(threadID !== '') {
+          let decryptedMessage = decryptMessage(encryptedMessage);
+          io.to(classCode).emit('thread message', classCode, userID, decryptedMessage, timeSent, threadID);
+        }          
+      } catch (e) {
+        console.log('Message failed to be recived', e);
+      }
+
+    
+    } catch (e) {
+      console.error('Message failed to send');
+      return;
+    } finally {
+      client.release();
+    }
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
+});
+
 socket.on('direct message', async (toUserID, fromUserID, msg, timeSent) => {
   console.log("Message: ", toUserID, fromUserID, msg, timeSent);
 
@@ -235,6 +270,45 @@ socket.on('direct message', async (toUserID, fromUserID, msg, timeSent) => {
   });
 
     // Private chat
+    socket.on('joinPrivateChat', async (toUserID, fromUserID) => {
+      /*Citation Source: the socket.join() function was retrieved from
+      https://socket.io/docs/v4/tutorial/introduction on October 11, 2023*/
+      let chatRoomID = "";
+      
+      if(toUserID > fromUserID) {
+        chatRoomID = toUserID + "+" + fromUserID;
+      } else {
+        chatRoomID = fromUserID + "+" + toUserID;
+      }
+      
+      console.log("joined room: " + chatRoomID);
+      socket.join(chatRoomID);
+  
+      try {
+        const client = await pool.connect();
+        try {  
+          client.query("SELECT * FROM directMessage WHERE chatRoomID = $1 AND threadID is NULL", [chatRoomID],
+          (err, results) => {
+            console.log("Private Message Sent to index:", err ? err : results.rows);
+            results.rows.forEach(row => {
+              socket.emit('direct message', row.touserid, row.fromuserid, row.msg, row.timesent);
+            })
+            
+          });
+        } catch (e) {
+          console.error('Message failed to send');
+          return;
+        } finally {
+          client.release();
+        }
+        
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Could not connect to the database' });
+      }
+    });
+
+       // Private chat
     socket.on('joinPrivateChat', async (toUserID, fromUserID) => {
       /*Citation Source: the socket.join() function was retrieved from
       https://socket.io/docs/v4/tutorial/introduction on October 11, 2023*/
@@ -909,6 +983,30 @@ app.post('/getUsersWithChatHistory', async (req, res) => {
     try {  
       client.query("SELECT DISTINCT userInfo.id, firstName, lastName FROM userInfo INNER JOIN directMessage ON toUserID = userInfo.id OR fromUserID = userInfo.id WHERE userInfo.id <> $1 AND (toUserID = $1 OR fromUserID = $1)",
       [userID], 
+      (err, results) => {
+        console.log("Sent to index:", err ? err : results.rows);
+        res.json(results.rows);
+      });
+    } finally {
+      client.release();
+    }
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
+
+});
+
+app.post('/getThreads', async (req, res) => {
+  //let userID = req.body.id;
+  let classCode = req.body.classCode;
+
+  try {
+    const client = await pool.connect();
+    try {  
+      client.query("SELECT * FROM chatLog WHERE classCode = $1 AND threadID IS NOT NULL",
+      [classCode], 
       (err, results) => {
         console.log("Sent to index:", err ? err : results.rows);
         res.json(results.rows);
