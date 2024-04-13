@@ -349,8 +349,9 @@ app.post('/login', async (req, res) => {
       }
 
       const userId = user.id; //  get user id
+      const clearance = user.clearance; // get user clearance
 
-      res.status(200).json({ message: 'Login successful!', id: userId }); //  send success message and user id
+      res.status(200).json({ message: 'Login successful!', id: userId, clearance: clearance }); //  send success message, user id and clearance
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: 'An error occurred' }); //  if error occurs, send error message

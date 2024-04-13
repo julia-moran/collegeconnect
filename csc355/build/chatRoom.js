@@ -20,7 +20,7 @@ $(document).ready(function() {
     function(classResults, status) {
         $(classResults).each(function(i, classResult) {
             const userClass = document.createElement('li');
-            userClass.className = "classCodes";
+            userClass.className = "classCodes class-button"; // Add the class-button class
             userClass.textContent = classResult.classcode;
             userClass.id = classResult.classcode;
             $("#userClasses").append(userClass);
@@ -28,7 +28,7 @@ $(document).ready(function() {
                 chatRoom = userClass.id;
                 joinRoom(chatRoom);
             });
-            $(".classCodes").hide();
+            $(".classCodes").show(); // Show the classes
         });
     });
 
