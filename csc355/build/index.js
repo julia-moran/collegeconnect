@@ -925,7 +925,7 @@ app.post('/searchInterests', async (req, res) => {
         client.query("SELECT id, firstName, lastName, major, minor, interest FROM userInfo INNER JOIN userData on id = userID WHERE id <> $1 AND interest = $2",
         [userID, interests[i]], 
         (err, results) => {
-          //console.log("Sent to index:", err ? err : results.rows);
+          console.log("Sent to index:", err ? err : results.rows);
           resultsToSend = resultsToSend.concat(results.rows);
           //console.log("Between Search Interests Sent to index: ", resultsToSend);
         });
@@ -935,7 +935,7 @@ app.post('/searchInterests', async (req, res) => {
         console.log("Search Interests Sent to index: ", resultsToSend);
         res.json(resultsToSend);            
       //}
-      }, 10);
+      }, 20);
     } finally {
       client.release();
     }

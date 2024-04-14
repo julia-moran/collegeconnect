@@ -46,12 +46,13 @@ $(document).ready(function() {
         });
 
         const form = document.getElementById('searchForm');
-        const table = document.querySelector('table');
+        const table = document.getElementById('results');
         const filterForm = document.getElementById('filterForm');
         let searchResults = [];
 
         function populateResults (userInfoResults, interestResults, classResults) {
-            console.log(interestResults);
+            setTimeout(function(){
+            
             searchResults = [];
             while(table.firstChild) {
                 table.removeChild(table.firstChild);
@@ -83,7 +84,7 @@ $(document).ready(function() {
                 }
             } else {
                 console.log("Empty");
-            }
+            }}, 20);
             
         }
 
@@ -121,6 +122,13 @@ $(document).ready(function() {
                     profileLink.textContent = "Profile";
                     profileLink.setAttribute('href', '/viewProfile/' + result.id);
                     linkTD.appendChild(profileLink);
+                    const dmTd = document.createElement('td')
+                    tableRow.appendChild(dmTd);
+                    const dmLink = document.createElement('a')
+                    dmLink.textContent = "Message";
+                    dmLink.setAttribute('href', '/directMessage/' + result.id);
+                    dmTd.appendChild(dmLink);
+                    //$("#directMessageLink").attr("href", "/directMessage/" + userID);
                     searchResults.push({
                         id: result.id,
                         fname: result.firstname,
@@ -188,18 +196,21 @@ $(document).ready(function() {
         function showInterests(userID) {
             let tableRow = document.getElementById(userID);
             let userInterests = [];
-                const resultInterests = document.createElement('td')
-                resultInterests.textContent = "Likes";
-                $.post('/displayInterests', { id: userID },
-                function(interestResults, status) {
+            $.post('/displayInterests', { id: userID },
+            function(interestResults, status) {
+                if($(interestResults)) {
+                    const resultInterests = document.createElement('td')
+                    resultInterests.textContent = "Likes";
                     $(interestResults).each(function(i, interestResult) {
                         resultInterests.textContent = resultInterests.textContent + " " + interestResult.interest;
                         tableRow.appendChild(resultInterests);
                         userInterests.push(interestResult.interest);
-                    });
-                });
-                //console.log("userinterests", userInterests);
-                return userInterests;                
+                    });                    
+                }
+
+            });
+            //console.log("userinterests", userInterests);
+            return userInterests;                
         }
 
         form.addEventListener('submit', function(event) {
