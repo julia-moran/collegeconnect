@@ -347,6 +347,33 @@ socket.on('direct message', async (toUserID, fromUserID, msg, timeSent) => {
       }
     });
 
+    // Thread chat
+    socket.on('joinThreadChat', async (classCode, threadID) => {
+    try {
+      const client = await pool.connect();
+      try {  
+        client.query("SELECT * FROM chatLog WHERE classCode = $1 AND threadID = $2", [classCode, threadID],
+        (err, results) => {
+          console.log("Thread Message Sent to index:", err ? err : results.rows);
+          results.rows.forEach(row => {
+            let decryptedMessage = decryptMessage(row.msg);
+            socket.emit('thread message', row.classcode, row.userid, decryptedMessage, row.timesent, row.threadid);
+          })
+          
+        });
+      } catch (e) {
+        console.error('Message failed to send');
+        return;
+      } finally {
+        client.release();
+      }
+      
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Could not connect to the database' });
+    }
+  });
+
   app.get('/testChatLog', async (req, res) => {
     //let userID = req.body.id;
   
