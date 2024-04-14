@@ -25,6 +25,7 @@ $(document).ready(function() {
     let existingThreadNames = [];
 
     $("#threads").hide();
+    $("#messagesDiv").hide();
 
     $.post('/displayClasses', { id: sessionStorage.getItem("currentID") },
     function(classResults, status) {
@@ -35,6 +36,10 @@ $(document).ready(function() {
             userClass.id = classResult.classcode;
             $("#userClasses").append(userClass);
             userClass.addEventListener("click", () => {
+                $("#messagesDiv").show();
+                while(threadMessages.firstChild) {
+                    threadMessages.removeChild(threadMessages.firstChild);
+                }
                 chatRoom = userClass.id;
                 joinRoom(chatRoom);
                 showThreadNames(chatRoom);

@@ -1032,7 +1032,7 @@ app.post('/getThreads', async (req, res) => {
   try {
     const client = await pool.connect();
     try {  
-      client.query("SELECT * FROM chatLog WHERE classCode = $1 AND threadID IS NOT NULL",
+      client.query("SELECT DISTINCT threadID FROM chatLog WHERE classCode = $1 AND threadID IS NOT NULL",
       [classCode], 
       (err, results) => {
         console.log("Sent to index:", err ? err : results.rows);
