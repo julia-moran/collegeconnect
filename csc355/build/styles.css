@@ -181,8 +181,8 @@ form {
     display: inline-block;
     padding: 10px 20px;
     margin: 10px;
-    background-color: #9d9d9d; /* Change this to your preferred button color */
-    color: rgb(0, 0, 0); /* Change this to your preferred text color */
+    background-color: #9d9d9d;
+    color: rgb(0, 0, 0);
     text-align: center;
     text-decoration: none;
     font-size: 16px;
@@ -193,5 +193,5 @@ form {
   }
   
   .class-button:hover {
-    background-color: #5e3635; /* Change this to your preferred hover color */
+    background-color: #5e3635;
   }
