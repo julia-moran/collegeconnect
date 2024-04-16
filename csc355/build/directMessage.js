@@ -12,6 +12,8 @@ $(document).ready(function() {
         const input = document.getElementById('input');
         const messages = document.getElementById('messages');
 
+        $("#form").hide();
+
         if(userID) {
             $.post('/displayUserInfo', { id: userID },
             function(result, status) {
@@ -20,6 +22,7 @@ $(document).ready(function() {
                 userName.id = result.id;
                 $("#usersWithChatHistory").append(userName);
                 userName.addEventListener("click", () => {
+                    $("#form").show();
                     toUserID = userName.id;
                     console.log(toUserID);
                     joinPrivateMessage(toUserID);
@@ -31,20 +34,27 @@ $(document).ready(function() {
 
         $.post('/getUsersWithChatHistory', { id: sessionStorage.getItem("currentID") },
         function(results, status) {
-            $(results).each(function(i, result) {
-                if(result.id != userID) {
-                    const userName = document.createElement("li");
-                    userName.textContent = result.firstname + " " + result.lastname;
-                    userName.id = result.id;
-                    $("#usersWithChatHistory").append(userName);
-                    userName.addEventListener("click", () => {
-                        toUserID = userName.id;
-                        console.log(toUserID);
-                        joinPrivateMessage(toUserID);
-                        //$.get('/testChatLog');
-                    });                    
-                }
-            });
+            if (results.length === 0) {
+                $("#usersTitle").text("Search for a student to chat with them");
+            } else {
+                $("#usersTitle").text("Messages");
+                $(results).each(function(i, result) {
+                    if(result.id != userID) {
+                        const userName = document.createElement("li");
+                        userName.textContent = result.firstname + " " + result.lastname;
+                        userName.id = result.id;
+                        $("#usersWithChatHistory").append(userName);
+                        userName.addEventListener("click", () => {
+                            $("#form").show();
+                            toUserID = userName.id;
+                            console.log(toUserID);
+                            joinPrivateMessage(toUserID);
+                            //$.get('/testChatLog');
+                        });                    
+                    }
+                });                
+            }
+
         });
 
         //$.get('/testChatLog');
