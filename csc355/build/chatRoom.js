@@ -135,7 +135,24 @@ $(document).ready(function() {
         function(result, status) {
             const messageInfo = document.createElement('li');
             messageInfo.className = classCode;
-            messageInfo.textContent = result.firstname + " " + result.lastname + ": (" + timeSent + ")" ;
+            if(result.id == sessionStorage.getItem("currentID")) {
+                const username = document.createElement('p')
+                username.textContent = result.firstname + " " + result.lastname;
+                username.style.display = "inline-block";
+                messageInfo.appendChild(username);
+            } else {
+                const profileLink = document.createElement('a')
+                profileLink.textContent = result.firstname + " " + result.lastname;
+                profileLink.setAttribute('href', '/viewProfile/' + result.id);
+                profileLink.style.display = "inline-block";
+                messageInfo.appendChild(profileLink);
+            }
+            const timestamp = document.createElement('p');
+            let reformattedTimestamp = timeSent.replace("T", " ");
+            reformattedTimestamp = reformattedTimestamp.split(".")[0];
+            timestamp.textContent = ": (" + reformattedTimestamp + ")";
+            timestamp.style.display = "inline-block";
+            messageInfo.appendChild(timestamp);
             messages.appendChild(messageInfo);
             messages.scrollTo(0, messages.scrollHeight)
             const item = document.createElement('li');
@@ -181,7 +198,24 @@ $(document).ready(function() {
         $.post('/displayUserInfo', { id: userID },
         function(result, status) {
             const messageInfo = document.createElement('li');
-            messageInfo.textContent = result.firstname + " " + result.lastname + ": (" + timeSent + ")" ;
+            if(result.id == sessionStorage.getItem("currentID")) {
+                const username = document.createElement('p')
+                username.textContent = result.firstname + " " + result.lastname;
+                username.style.display = "inline-block";
+                messageInfo.appendChild(username);
+            } else {
+                const profileLink = document.createElement('a')
+                profileLink.textContent = result.firstname + " " + result.lastname;
+                profileLink.setAttribute('href', '/viewProfile/' + result.id);
+                profileLink.style.display = "inline-block";
+                messageInfo.appendChild(profileLink);
+            }
+            const timestamp = document.createElement('p');
+            let reformattedTimestamp = timeSent.replace("T", " ");
+            reformattedTimestamp = reformattedTimestamp.split(".")[0];
+            timestamp.textContent = ": (" + reformattedTimestamp + ")";
+            timestamp.style.display = "inline-block";
+            messageInfo.appendChild(timestamp);
             messageInfo.id = threadID;
             threadMessages.appendChild(messageInfo);
             threadMessages.scrollTo(0, threadMessages.scrollHeight)
