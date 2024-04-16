@@ -69,14 +69,33 @@ $(document).ready(function() {
                 const threadName = document.createElement("li");
                 threadName.textContent = result.threadid;
                 threadName.id = result.threadid;
+
                 $("#threadNames").append(threadName);
                 existingThreadNames.push(result.threadid);   
-                threadName.addEventListener("click", () => {
-                    while(threadMessages.firstChild) {
-                        threadMessages.removeChild(threadMessages.firstChild);
+                threadName.addEventListener("click", (e) => {
+                    if(e.target === e.currentTarget) {
+                        while(threadMessages.firstChild) {
+                            threadMessages.removeChild(threadMessages.firstChild);
+                        }
+                        threadID = result.threadid;
+                        console.log("Join");
+                        socket.emit('joinThreadChat', chatRoom, result.threadid);
                     }
-                    threadID = result.threadid;
-                    socket.emit('joinThreadChat', chatRoom, result.threadid);
+                });
+                
+                const deleteButton = document.createElement("button");
+                deleteButton.textContent = "X";
+                deleteButton.setAttribute("type", "button");
+                deleteButton.id = "deleteButton";
+                threadName.appendChild(deleteButton);
+                deleteButton.addEventListener("click", () => {
+                    while(threadMessages.firstChild) {
+                            threadMessages.removeChild(threadMessages.firstChild);
+                    }
+                    $.post('/deleteThread', { classCode: chatRoom, threadID: result.threadid },
+                    function(result, status) {
+                        threadNames.removeChild(threadName);
+                    });
                 });            
             });
         });
@@ -137,6 +156,9 @@ $(document).ready(function() {
             //console.log(timeSent);
             socket.emit('thread message', chatRoom, sessionStorage.getItem("currentID"), "Created a thread.", timeSent, threadNameInput.value);
             threadNameInput.value = '';
+            while(threadMessages.firstChild) {
+                threadMessages.removeChild(threadMessages.firstChild);
+            }
             showThreadNames(chatRoom);
         } else {
             $("#errorMessage").text("Thread Name already exists");
