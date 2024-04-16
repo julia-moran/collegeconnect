@@ -8,7 +8,6 @@
 #/*                used in this application.                  */
 #/************************************************************/
 
-version: '3'
 services:
   postgres:
     build:
