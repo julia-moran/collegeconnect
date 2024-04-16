@@ -76,7 +76,7 @@ $(document).ready(function() {
                 success: function(data) {
                     
                     if(data.message === "Email found") {
-                        //errorMessage.innerHTML = data.id;
+                        errorMessage.innerHTML = "";
                         sessionStorage.setItem("currentID", data.id);
                         $("#userDetails").hide();
                         $("#profileDetails").show();

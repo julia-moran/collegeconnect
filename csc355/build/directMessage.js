@@ -67,7 +67,7 @@ $(document).ready(function() {
         while(messages.firstChild) {
             messages.removeChild(messages.firstChild);
         }
-
+        console.log("Join Private Chat");
         socket.emit('joinPrivateChat', toUserID, sessionStorage.getItem("currentID"));
     }
 
@@ -75,10 +75,13 @@ $(document).ready(function() {
         //$("#test").text("HIT");
         $.post('/displayUserInfo', { id: fromUserID },
         function(result, status) {
-            console.log(msg);
+            //console.log(result);
+            //console.log(msg);
+            let reformattedTimestamp = timeSent.replace("T", " ");
+            reformattedTimestamp = reformattedTimestamp.split(".")[0];
             const messageInfo = document.createElement('li');
             messageInfo.className = toUserID;
-            messageInfo.textContent = result.firstname + " " + result.lastname + ": (" + timeSent + ")" ;
+            messageInfo.textContent = result.firstname + " " + result.lastname + " (" + reformattedTimestamp + "): " ;
             messages.appendChild(messageInfo);
             messages.scrollTo(0, messages.scrollHeight)
             const item = document.createElement('li');

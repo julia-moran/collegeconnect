@@ -308,45 +308,6 @@ socket.on('direct message', async (toUserID, fromUserID, msg, timeSent) => {
       }
     });
 
-       // Private chat
-    socket.on('joinPrivateChat', async (toUserID, fromUserID) => {
-      /*Citation Source: the socket.join() function was retrieved from
-      https://socket.io/docs/v4/tutorial/introduction on October 11, 2023*/
-      let chatRoomID = "";
-      
-      if(toUserID > fromUserID) {
-        chatRoomID = toUserID + "+" + fromUserID;
-      } else {
-        chatRoomID = fromUserID + "+" + toUserID;
-      }
-      
-      console.log("joined room: " + chatRoomID);
-      socket.join(chatRoomID);
-  
-      try {
-        const client = await pool.connect();
-        try {  
-          client.query("SELECT * FROM directMessage WHERE chatRoomID = $1 AND threadID is NULL", [chatRoomID],
-          (err, results) => {
-            console.log("Private Message Sent to index:", err ? err : results.rows);
-            results.rows.forEach(row => {
-              socket.emit('direct message', row.touserid, row.fromuserid, row.msg, row.timesent);
-            })
-            
-          });
-        } catch (e) {
-          console.error('Message failed to send');
-          return;
-        } finally {
-          client.release();
-        }
-        
-      } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Could not connect to the database' });
-      }
-    });
-
     // Thread chat
     socket.on('joinThreadChat', async (classCode, threadID) => {
     try {
@@ -474,7 +435,7 @@ app.post('/compareEmail', async (req, res) => {
     const client = await pool.connect();
 
     try {
-      const result = await client.query('SELECT * FROM userInfo WHERE email = $1', [email]);
+      const result = await client.query('SELECT * FROM userInfo WHERE email = $1 AND password IS NULL', [email]);
       emailResult = result.rows[0];
       
       console.log("Search for email result:" + emailResult);
@@ -852,7 +813,7 @@ app.post('/searchUsers', async (req, res) => {
   try {
     const client = await pool.connect();
     try {  
-      client.query("SELECT * FROM userInfo WHERE id <> $5 AND (firstName = $1 OR lastName = $2 OR major = $3 OR minor = $4)",
+      client.query("SELECT * FROM userInfo WHERE id <> $5 AND (firstName = $1 OR lastName = $2 OR major = $3 OR minor = $4) AND password IS NOT NULL",
       [firstName, lastName, major, minor, userID], 
       (err, results) => {
         console.log("Sent to index:", err ? err : results.rows);
@@ -922,7 +883,7 @@ app.post('/searchInterests', async (req, res) => {
     try {  
       
       for(i in interests) {
-        client.query("SELECT id, firstName, lastName, major, minor, interest FROM userInfo INNER JOIN userData on id = userID WHERE id <> $1 AND interest = $2",
+        client.query("SELECT id, firstName, lastName, major, minor, interest, password FROM userInfo INNER JOIN userData on id = userID WHERE id <> $1 AND interest = $2 AND password IS NOT NULL",
         [userID, interests[i]], 
         (err, results) => {
           console.log("Sent to index:", err ? err : results.rows);
@@ -957,7 +918,7 @@ app.post('/searchClasses', async (req, res) => {
     try {  
       
       for(i in classCodes) {
-        client.query("SELECT userInfo.id, firstName, lastName, major, minor, classCode FROM userInfo INNER JOIN classList on userInfo.id = userID WHERE userInfo.id <> $1 AND classCode = $2",
+        client.query("SELECT userInfo.id, firstName, lastName, major, minor, classCode, password FROM userInfo INNER JOIN classList on userInfo.id = userID WHERE userInfo.id <> $1 AND classCode = $2 AND password IS NOT NULL",
         [userID, classCodes[i]], 
         (err, results) => {
           resultsToSend = resultsToSend.concat(results.rows);
