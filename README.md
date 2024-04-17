@@ -1,11 +1,8 @@
-# collegeconnect
-# Prototype chat designed by: Julia Moran, Jerome Serrao, Jack Hamilton, and Thomas Kasper
-# Source code from tutorials from socket.io, node.js and Docker has been utilized throughout the course of this prototype.
+# College Connect
+# Designed by: Julia Moran, Jerome Serrao, Jack Hamilton, and Thomas Kasper
 
 # About
-College Connect is a messaging platoform that allows students to connect with their peers easily.  Students who sign up will be put into chat groups 
-based on their majors, as well as chats for their specified classes.  Students will also be able to private message with their fellow classmates. 
-Collect Connect hopes to beign students together easily in hopes that it helps makes their college experience better.
+- 
 
 # Getting Started
 
