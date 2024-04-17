@@ -16,6 +16,7 @@ window.onload = function() {
   
     var buttons = document.querySelectorAll("nav button");
 
+//FIX THIS NOW
     var lastPage = sessionStorage.getItem("lastPage");
     if (lastPage) {
         navigateTo(lastPage);
