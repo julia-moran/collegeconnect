@@ -14,6 +14,7 @@ var bodyParser = require('body-parser');
 const { createServer } = require('node:http');
 const { Server } = require('socket.io');
 const crypto = require('crypto');
+const bcrypt = require('bcryptjs');
 const app = express();
 const server = createServer(app);
 const io = new Server(server);
@@ -405,10 +406,20 @@ app.post('/login', async (req, res) => {
       const result = await client.query('SELECT * FROM userInfo WHERE email = $1', [email]);  //  query database for user with email
       const user = result.rows[0];  //  get user from result
 
-      if (!user || user.password !== password) {  //  if user does not exist or password is incorrect
-        res.status(401).json({ message: 'Invalid credentials' });
+      if (!user) {  //  if user does not exist or password is incorrect
+        res.status(400).json({ message: 'User not found' });
         return;
       }
+      //compare hashed password with user provided  password
+      const isMatch = await bcrypt.compare(password, user.password);
+
+      console.log('Password match:', isMatch);
+      
+      if(!isMatch) {
+        res.status(400).send('Invalid Password');
+        return;
+      }
+
 
       const userId = user.id; //  get user id
       const clearance = user.clearance; // get user clearance
@@ -559,15 +570,19 @@ app.post('/addAccount', async (req, res) => {
 
     const client = await pool.connect();
 
+    //hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+    res.send('User created');
+
     try {  
       client.query('UPDATE userInfo SET password = $1, major = $2, minor = $3 WHERE email = $4',
-      [password, major, minor, email], 
+      [hashedPassword, major, minor, email], 
       (err, results) => {
         console.log("Add account:", err ? err : "Success");
-      })
+      });
     } finally {
       client.release();
-    }
+    } 
     
   } catch (err) {
     console.error(err);
