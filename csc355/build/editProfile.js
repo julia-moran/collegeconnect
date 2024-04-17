@@ -71,10 +71,9 @@ $(document).ready(function() {
                 //$("#showID").text(result.minor);
                 $("#name").text(result.firstname + " " + result.lastname + "'s Profile");
                 $("#email").text(result.email);
-                $("#selectMajor option[value='" + result.major + "']").attr("selected","selected");
+                $("#selectMajor").val(result.major).trigger('change');
                 //if(result.minor != NULL) {
-                $("#selectMinor option[value='" + result.minor + "']").attr("selected","selected");
-                //} else {
+                $("#selectMinor").val(result.minor).trigger('change');                //} else {
                 //    $("#selectMinor option[text='None']").attr("selected","selected");$
                 //}
             });

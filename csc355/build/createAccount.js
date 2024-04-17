@@ -103,12 +103,17 @@ $(document).ready(function() {
 
         e.preventDefault();
         let classes = $("#selectClasses").val();
+        if($("#selectMinor option:selected").text() == "") {
+            selectedMinor = "None";
+        } else {
+            selectedMinor = $("#selectMinor option:selected").text();
+        }
 
         $.post('/addAccount', {
             email: $("#email").val(),
             password: $("#password").val(),
             major: $("#selectMajor option:selected").text(),
-            minor: $("#selectMinor option:selected").text()
+            minor: selectedMinor
         });
 
         $.post('/addClasses', {

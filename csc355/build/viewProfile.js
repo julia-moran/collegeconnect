@@ -10,8 +10,6 @@ $(document).ready(function() {
         const profileDiv = document.getElementById('profileInfo');
         const sharedClass = document.createElement('td');
         const interests = document.createElement('td');
-        sharedClass.textContent = "Shares ";
-        interests.textContent = "Likes ";
 
         $("#directMessageLink").attr("href", "/directMessage/" + userID);
 
@@ -20,6 +18,7 @@ $(document).ready(function() {
             //$("#showID").text(result.minor);
             $("#name").text(result.firstname + " " + result.lastname + "'s Profile");
             $("#email").text(result.email);
+            $("#email").attr("href", "mailto:" + result.email);
             $("#major").text("Major: " + result.major);
             $("#minor").text("Minor: " + result.minor);
 
@@ -28,19 +27,28 @@ $(document).ready(function() {
         $.post('/displayInterests', { id: userID },
         function(interestResults, status) {
             $(interestResults).each(function(i, interestResult) {
-                interests.textContent = interests.textContent + interestResult.interest + " ";
-                profileDiv.appendChild(interests);
+                if(interestResult.interest != "") {
+                    interests.textContent = interests.textContent + interestResult.interest + " ";
+                    profileDiv.appendChild(interests);
+                }
             });
+            if(interests.textContent !== "") {
+                interests.textContent = "Likes " + interests.textContent;
+            } else {
+                interests.textContent = "No interests";
+            }
         });
 
         $.post('/searchForSharedClasses', { id: sessionStorage.getItem("currentID"), searchedUserID: userID },
         function(classResults, status) {
-            profileDiv.appendChild(document.createElement('br'));
-            $(classResults).each(function(i, classResult) {
-                sharedClass.textContent = sharedClass.textContent + classResult.classcode + " ";
-                profileDiv.appendChild(sharedClass);
-             });
-    
+            if(classResults.length !== 0) {
+                sharedClass.textContent = "Shares ";
+                profileDiv.appendChild(document.createElement('br'));
+                $(classResults).each(function(i, classResult) {
+                    sharedClass.textContent = sharedClass.textContent + classResult.classcode + " ";
+                    profileDiv.appendChild(sharedClass);
+                });
+            }
         });
     }
 

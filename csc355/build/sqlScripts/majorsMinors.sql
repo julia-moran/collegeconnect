@@ -9,6 +9,7 @@
 
 INSERT INTO majors(major)
 VALUES
+('Undeclared'),
 ('Computer Science'),
 ('Computer Engineering'),
 ('Software Engineering'),
@@ -54,6 +55,7 @@ VALUES
 
 INSERT INTO minors(minor)
 VALUES
+('None'),
 ('Computer Science'),
 ('Computer Engineering'),
 ('Software Engineering'),
