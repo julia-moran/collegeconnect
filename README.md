@@ -22,8 +22,8 @@
 # Dependency Installations for Local Development:
 
 **Accessing GitHub via Browser**
-    1. Navigate to the GitHub.com website and either create an account or login with an existing one.
-    2. Confirm account and configure GitHub settings where applicable.
+    1. Navigate to the GitHub.com website and either create an account or login with an existing one. 
+    2. Confirm account and configure GitHub settings where applicable. 
 
 **Installing Node.js**
     1. The Node.js runtime installer can be downloaded from their website via browser: https://nodejs.org/en/download
