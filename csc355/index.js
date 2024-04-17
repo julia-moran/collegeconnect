@@ -29,7 +29,8 @@ function registerUser(username, password) {
       console.error(err);
       return;
     }
-
+    console.log('Hashed password', hashedPassword);
+    
     client.query('INSERT INTO users (username, password) VALUES ($1, $2)', [username, hashedPassword], (err, results) => {
       if (err) {
         console.error(err);
@@ -55,6 +56,33 @@ app.get('/create-account', (req, res) => {
   });
 
 app.get('/login', (req, res) => {  
+  const {email, password} = req.body;
+
+  app.post('/login', async (req, res) => {
+    try {
+      const client = await Pool.connect();
+      const result = await client.query('SELECT * FROM users WHERE email = $1 AND password = $2', [email]);
+      const user = result.rows[0];
+
+      if (!user) {
+        res.status(401).send('Invalid credentials');
+        return;
+      }
+
+      const match = await bcrypt.compare(password, user.password);
+      if (!match) {
+        res.status(401).send('Invalid credentials');
+        return;
+      }
+      const userId = user.id;
+      const clearance = user.clearance;
+
+      res.status(200).json({ message: 'Login successful!', id: userId, clearance });
+
+    } catch (err) {
+      console.error(err);
+    }
+  });
 
     res.sendFile(path.join(__dirname, 'public', 'login.html'));
   });
