@@ -18,6 +18,7 @@ RUN npm install
 RUN npm install pg
 RUN npm install express
 RUN npm install socket.io
+RUN npm install bcryptjs
 
 EXPOSE 3000
 

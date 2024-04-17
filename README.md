@@ -71,7 +71,7 @@
 
 **Start a Docker Multi-Container Instance via CLI**
     1. Start the Docker Desktop application to begin running the Docker Engine for WSL containerization.
-    2. Open Terminal, PowerShell, or another Windows CLI editor and navigate to the 
+    2. Open Terminal, PowerShell, or another Windows CLI editor and navigate to the 'build' folder in the 'collegeconnect' repository.
 
 **Start a Local cloudflared Tunnel via CLI**
 
