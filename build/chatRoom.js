@@ -24,8 +24,9 @@ $(document).ready(function() {
     let threadID = "";
     let existingThreadNames = [];
 
-    $("#threads").hide();
+    $("#threadTitle").hide();
     $("#messagesDiv").hide();
+    $("#threadsInside").hide();
 
     $.post('/displayClasses', { id: sessionStorage.getItem("currentID") },
     function(classResults, status) {
@@ -55,8 +56,12 @@ $(document).ready(function() {
 
     });
 
+    $("#threadTitle").click(function() {
+        $("#threadsInside").toggle();
+    });
+
     function showThreadNames(chatRoom) {
-        $("#threads").show();
+        $("#threadTitle").show();
         existingThreadNames = [];
         $("#errorMessage").text("");
         while(threadNames.firstChild) {
@@ -199,30 +204,41 @@ $(document).ready(function() {
         function(result, status) {
             const messageInfo = document.createElement('li');
             if(result.id == sessionStorage.getItem("currentID")) {
+                messageInfo.className = "myThreadMessage";
                 const username = document.createElement('p')
                 username.textContent = result.firstname + " " + result.lastname;
-                username.style.display = "inline-block";
+                username.style.margin = "-2px";
+                username.style.marginTop = "2px";
+                username.style.marginLeft = "2px";
                 messageInfo.appendChild(username);
             } else {
                 const profileLink = document.createElement('a')
+                messageInfo.className = "otherThreadMessage";
                 profileLink.textContent = result.firstname + " " + result.lastname;
                 profileLink.setAttribute('href', '/viewProfile/' + result.id);
-                profileLink.style.display = "inline-block";
+                profileLink.style.margin = "-2px";
+                profileLink.style.marginTop = "2px";
+                profileLink.style.marginLeft = "2px";
                 messageInfo.appendChild(profileLink);
             }
             const timestamp = document.createElement('p');
             let reformattedTimestamp = timeSent.replace("T", " ");
             reformattedTimestamp = reformattedTimestamp.split(".")[0];
             timestamp.textContent = ": (" + reformattedTimestamp + ")";
-            timestamp.style.display = "inline-block";
+            timestamp.style.paddingTop = "0px";
+            timestamp.style.fontSize = "12px";
+            timestamp.style.margin = "2px";
             messageInfo.appendChild(timestamp);
             messageInfo.id = threadID;
+            
             threadMessages.appendChild(messageInfo);
             threadMessages.scrollTo(0, threadMessages.scrollHeight)
             const item = document.createElement('li');
             item.textContent = msg;
-            threadMessages.appendChild(item);
-            //window.scrollTo(0, document.body.scrollHeight);
+            item.style.margin = "3px";
+            messageInfo.appendChild(item);
+            threadMessages.appendChild(messageInfo);
+            threadMessages.scrollTo(0, threadMessages.scrollHeight);
         });
     });
 

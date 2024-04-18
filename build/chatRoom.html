@@ -21,6 +21,51 @@
 </head>
 
 <body>
+  <style>
+    .threads {
+      position: absolute;
+      list-style-type: none;
+    }
+    #threadMessages {
+      margin: -75px;
+      bottom:-300px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      height: 270px;
+      width: 225px;
+    }
+    .myThreadMessage {
+      background-color: #ffe2af;
+      border: 1px solid #dfd087;
+      border-radius: 10px;
+      margin-bottom: 5px;
+    }
+    .otherThreadMessage {
+      background-color: #fffda2;
+      border: 1px solid #dfd087;
+      border-radius: 10px;
+      margin-bottom: 5px;
+    }
+    #threads {
+      width:20%;
+      position:absolute;
+      right:0;
+    }
+    #threadTitle {
+      background-color: #fffda2;
+      width:80%;
+      margin-left: -30px;
+      text-align: center;
+    }
+    #threadTitle:hover {
+      background-color: #ffe2af;
+    }
+    #threadNames {
+      display: flex;
+      margin-top: 50px;
+      margin-left: -60px;
+    }
+  </style>
   <div class="page-container">
     <nav class="nav">
       <div class="navborder"></div>
@@ -32,18 +77,19 @@
       <ul id="userClasses"></ul>
       <p id="test"></p>
     </nav>
-    <div id="threads" style="width:20%; position:absolute; right:0">
-    <p>Threads</p>
-    <p id="errorMessage"></p>
-    <form id="threadName" action="" style="position:absolute; bottom:-50px; right: 100px">
-      <input id="inputThreadName" autocomplete="off" /><button>New Thread Name</button>
-    </form>
-    <ul id="threadNames" style="position:absolute;"></ul>
-    <ul id="threadMessages" style="position:absolute; bottom:-300px;"></ul>
-    <form id="threadMessage" action="" style="position:absolute; bottom:-200px; right: 100px">
-      <input id="inputThreadMessage" autocomplete="off" /><button>Send</button>
-    </form>
-     
+    <div id="threads" class="threadsOutside">
+      <p id="threadTitle">Threads</p>
+      <div id="threadsInside">
+        <p id="errorMessage"></p>
+        <form id="threadName" action="" class="threads" style="bottom:-50px; right: 100px">
+          <input id="inputThreadName" autocomplete="off" /><button>New Thread Name</button>
+        </form>
+        <ul id="threadNames" class="threads"></ul>
+        <ul id="threadMessages" class="threads"></ul>
+        <form id="threadMessage" action="" class="threads" style="bottom:-410px; right: 100px;  ">
+          <input id="inputThreadMessage" autocomplete="off" /><button>Send</button>
+        </form>
+     </div>
     </div>
   </div>
 
