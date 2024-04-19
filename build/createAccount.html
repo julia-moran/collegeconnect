@@ -47,6 +47,32 @@
       </tr>
     </form>
   </table>
+  <table id="confirmEmail">
+    <form id="confirmEmailForm">
+    <tr>
+      <td>
+        <p>A OTP (One Time Password) code has been sent to your email. Please enter it here to confirm your email.</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p id="otpError"></p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input id="otp" type="text" required>
+        <input type="submit" value="Submit" id="submitOtp">        
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>Need another code?</p>
+        <button id="sendNewOtp">Send another OTP</button>
+      </td>
+    </tr>
+    </form>
+  </table>
   <table id="profileDetails">  
     <form action="" id="addProfileDetails" class="profileDetails">
       <tr>

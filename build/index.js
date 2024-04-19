@@ -18,7 +18,7 @@ const bcrypt = require('bcryptjs');
 const app = express();
 const server = createServer(app);
 const io = new Server(server);
-
+const nodemailer = require('nodemailer');
 
 
 
@@ -32,6 +32,14 @@ const pool = new Pool({
   database: 'collegeconnect',
   password: '0285',
   port: 5432
+});
+
+const transporter = nodemailer.createTransport({
+  service: 'Gmail',
+  auth: {
+      user: 'whywasjuliahere@gmail.com',
+      pass: 'eoxt lahx adgo ukmn',
+  },
 });
 
 // connect to pg database with above credentials
@@ -90,6 +98,10 @@ app.get('/viewProfile', (req, res) => {
 
 app.get('/directMessage', (req, res) => {
   res.sendFile(path.join(__dirname, 'directMessage.html'));
+});
+
+app.get('/forgotPassword', (req, res) => {
+  res.sendFile(path.join(__dirname, 'forgotPassword.html'));
 });
 
 app.get('/viewProfile/:id', (req, res) => {
@@ -188,8 +200,7 @@ socket.on('thread message', async (classCode, userID, msg, timeSent, threadID) =
     } catch (e) {
       console.error('Message failed to send');
       return;
-    } finally {
-      client.release();
+    } finally {     client.release();
     }
     
   } catch (err) {
@@ -437,6 +448,133 @@ app.post('/login', async (req, res) => {
   }
 });
 
+// Send an email to verify a user's email
+app.post('/sendVerificationEmail', async (req, res) => {
+  const email = req.body.email;
+  console.log("Email to find: " + email);
+
+  try {
+    const client = await pool.connect();
+
+    try {
+      const result = await client.query('SELECT * FROM userInfo WHERE email = $1', [email]);
+      emailResult = result.rows[0].email;
+      
+      console.log("Search for email result:" + emailResult);
+      if(emailResult == null) {
+        console.log("Not found");
+        res.status(401).json({ message: 'Email not found' });
+        return;
+      } else {
+        console.log("Found");
+        
+        const otp = Math.floor(1000 + Math.random() * 9000);
+
+        const otpExpier = new Date();
+        otpExpier.setMinutes(otpExpier.getMinutes() + 1);
+
+
+        const mailOptions = {
+            from: 'whywasjuliahere@gmail.com',
+            to: req.body.email,
+            subject: 'College Connect Verify Email OTP',
+            text: `Your OTP (It expires after 1 min) : ${otp}`,
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log("Sending error: ", error);
+            } else {
+                console.log("Email sent");
+                res.json({
+                    data: otp
+                })
+            }
+        });
+    
+        
+      }
+
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'An error occurred' }); //  if error occurs, send error message
+    } finally {
+      client.release(); //  release client from database
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' }); //  if error occurs, send error message
+  }
+
+  
+});
+
+// Send an email if the user forgets their password
+// Source: https://medium.com/@akmuthumala/forgot-and-reset-password-using-nodejs-with-email-otp-57c11514317e
+app.post('/sendForgetPasswordEmail', async (req, res) => {
+  const email = req.body.email;
+  console.log("Email to find: " + email);
+
+  try {
+    const client = await pool.connect();
+
+    try {
+      const result = await client.query('SELECT * FROM userInfo WHERE email = $1 AND password IS NOT NULL', [email]);
+      emailResult = result.rows[0];
+      
+      console.log("Search for email result:" + emailResult);
+      if(emailResult == null) {
+        console.log("Not found");
+        res.json({
+          data: "Email not found"
+        })
+        return;
+      } else {
+        console.log("Found");
+        
+        const otp = Math.floor(1000 + Math.random() * 9000);
+
+        const otpExpier = new Date();
+        otpExpier.setMinutes(otpExpier.getMinutes() + 1);
+
+
+        const mailOptions = {
+            from: 'whywasjuliahere@gmail.com',
+            to: req.body.email,
+            subject: 'College Connect Password reset OTP',
+            text: `Your OTP (It expires after 1 min) : ${otp}`,
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log("Sending error: ", error);
+            } else {
+                console.log("Email sent");
+                res.json({
+                    data: otp
+                })
+            }
+        });
+    
+        
+      }
+
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'An error occurred' }); //  if error occurs, send error message
+    } finally {
+      client.release(); //  release client from database
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' }); //  if error occurs, send error message
+  }
+
+  
+});
+
 // Get existing emails to see if a user is a Kutztown student
 app.post('/compareEmail', async (req, res) => {
   const email = req.body.email;
@@ -590,6 +728,36 @@ app.post('/addAccount', async (req, res) => {
   }
 
 });
+
+app.post('/updatePassword', async (req, res) => {
+  let password = req.body.password;
+  let email = req.body.email;
+
+  try {
+
+    const client = await pool.connect();
+
+    //hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+    res.send('User created');
+
+    try {  
+      client.query('UPDATE userInfo SET password = $1 WHERE email = $2',
+      [hashedPassword, email], 
+      (err, results) => {
+        console.log("Add account:", err ? err : "Success");
+      });
+    } finally {
+      client.release();
+    } 
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
+
+});
+
 
 app.post('/addClasses', async (req, res) => {
   let email = req.body.email;

@@ -17,12 +17,14 @@ $(document).ready(function() {
     const errorMessage = document.getElementById('errorMessage');
     const logInLink = document.getElementById("logInLink");
     const addProfileDetails = document.getElementById("addProfileDetails");
-   
-
+    const confirmEmailForm = document.getElementById("confirmEmailForm");
+    let otpCode = "";
+    let email = "";
     
     $("#profileDetails").hide();
     $("optgroup.profileDetails").children().hide();
     $("optgroup.profileDetails").hide();
+    $("#confirmEmail").hide();
 
     $.get("/getClasses", function(classResults, status) {
         $(classResults).each(function(i, classResult) {
@@ -76,12 +78,16 @@ $(document).ready(function() {
                 success: function(data) {
                     
                     if(data.message === "Email found") {
+                        email = $('#email').val();
                         errorMessage.innerHTML = "";
                         sessionStorage.setItem("currentID", data.id);
+                        $.post('/sendVerificationEmail', { email: $('#email').val() },
+                        function(result, status) {
+                            //console.log(result.data, status);
+                            otpCode = result.data;
+                        });
                         $("#userDetails").hide();
-                        $("#profileDetails").show();
-                        $("optgroup.profileDetails").children().show();
-                        $("optgroup.profileDetails").show();
+                        $("#confirmEmail").show();
                     } else {
                         errorMessage.innerHTML = "Invalid email";
                     }
@@ -97,6 +103,28 @@ $(document).ready(function() {
             })
         }
 
+    });
+
+    confirmEmailForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        if($("#otp").val() == otpCode) {
+            $("#confirmEmail").hide();
+            $("#profileDetails").show();
+            $("optgroup.profileDetails").children().show();
+            $("optgroup.profileDetails").show();            
+        } else {
+            $("#otpError").text("Incorrect OTP. Please try again.");
+        }
+
+    });
+
+    $("#sendNewOtp").click(function() {
+        $.post('/sendVerificationEmail', { email: $('#email').val() },
+        function(result, status) {
+            //console.log(result.data, status);
+            otpCode = result.data;
+        });
     });
 
     addProfileDetails.addEventListener('submit', (e) => {

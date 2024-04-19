@@ -8,6 +8,13 @@
 /************************************************************/
 
 $(document).ready(function() {
+    $("#forgotPasswordButton").click(function() {
+        $.post('/sendForgetPasswordEmail', { email: $('#email').val() },
+        function(result, status) {
+            console.log(result, status)
+        });
+
+    });    
 
     $('#login-form').on('submit', function(event) {
         event.preventDefault();
