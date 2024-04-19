@@ -58,12 +58,24 @@
       text-align: center;
     }
     #threadTitle:hover {
-      background-color: #ffe2af;
+      background-color: #a59373;
     }
     #threadNames {
       display: flex;
       margin-top: 50px;
-      margin-left: -60px;
+      margin-left: -30px;
+      width: 65%;
+      overflow-y: hidden;
+      overflow-x: auto;
+      
+    }
+    #threadNames > li {
+      margin: 1px;
+      padding: 2px; 
+      background-color: #fffda2;
+    }
+    #threadNames > li:hover {
+      background-color: #a59373;
     }
   </style>
   <div class="page-container">
@@ -77,6 +89,16 @@
       <ul id="userClasses"></ul>
       <p id="test"></p>
     </nav>
+    <div id="classChat">
+      <h3 id="chatroomTitle" style="margin-left: 20px"></h3>
+      <div class="messages" id="messagesDiv">
+        <ul id="messages"></ul>
+        <form id="form" action="">
+        <input id="input" autocomplete="off" /><button>Send</button>
+      </form> 
+      </div>
+    </div>
+
     <div id="threads" class="threadsOutside">
       <p id="threadTitle">Threads</p>
       <div id="threadsInside">
@@ -109,12 +131,6 @@
         });
       }
     </script>
-    <div class="messages" id="messagesDiv">
-      <ul id="messages"></ul>
-      <form id="form" action="">
-      <input id="input" autocomplete="off" /><button>Send</button>
-     </form> 
-    </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script type= "text/javascript" src="./chatRoom.js"></script>

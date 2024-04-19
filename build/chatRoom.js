@@ -55,9 +55,11 @@ $(document).ready(function() {
         $(".classCodes").toggle();
 
     });
+    $("#threadMessage").hide();
 
     $("#threadTitle").click(function() {
         $("#threadsInside").toggle();
+
     });
 
     function showThreadNames(chatRoom) {
@@ -84,6 +86,7 @@ $(document).ready(function() {
                         }
                         threadID = result.threadid;
                         console.log("Join");
+                        $("#threadMessage").show();
                         socket.emit('joinThreadChat', chatRoom, result.threadid);
                     }
                 });
@@ -111,7 +114,7 @@ $(document).ready(function() {
         while(messages.firstChild) {
             messages.removeChild(messages.firstChild);
         }
-
+        $("#chatroomTitle").text(classCode);
         socket.emit('join-room', classCode);
 
         $(".classCodes").each(function() {
@@ -144,6 +147,7 @@ $(document).ready(function() {
                 const username = document.createElement('p')
                 username.textContent = result.firstname + " " + result.lastname;
                 username.style.display = "inline-block";
+                username.style.margin = "-5px";
                 messageInfo.appendChild(username);
             } else {
                 const profileLink = document.createElement('a')

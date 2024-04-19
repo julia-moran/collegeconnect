@@ -42,7 +42,7 @@ body {
 }
 
 .nav {
-  width: 355px;
+  width: 250px;
   height: inherit;
   position: relative;
   background-color: #9C9B65;
@@ -150,8 +150,7 @@ form {
   /*Citation Source: The overflow property was retrieved from 
       https://developer.mozilla.org/en-US/docs/Web/CSS/overflow on
       October 14, 2023*/
-  overflow-x: hidden;
-  overflow-y: auto;
+
   list-style-type: none;
   margin: 10;
   padding: 0;
