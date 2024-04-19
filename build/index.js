@@ -15,12 +15,11 @@ const { createServer } = require('node:http');
 const { Server } = require('socket.io');
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
+const saltRounds = 10;
 const app = express();
 const server = createServer(app);
 const io = new Server(server);
 const nodemailer = require('nodemailer');
-
-
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -54,6 +53,33 @@ const connectWithRetry = async () => {
   }
 };
 connectWithRetry();
+
+//test users with hashing
+async function testUsers() {
+  const users = [
+    { email: 'test1@live.kutztown.edu', password: '1111' },
+    { email: 'test2@live.kutztown.edu', password: '2222' },
+    { email: 'test3@live.kutztown.edu', password: '3333' },
+    { email: 'test4@live.kutztown.edu', password: '4444' },
+    { email: 'jhami311@live.kutztown.edu', password: '0285' },
+  ];
+
+  const client = await pool.connect();
+
+  try {
+    for (let user of users) {
+      const hashedPassword = await bcrypt.hash(user.password, saltRounds);
+      await client.query('UPDATE userInfo SET password = $1 WHERE email = $2', [hashedPassword, user.email]);
+    }
+  } catch (err) {
+    console.error(err);
+  } finally {
+    client.release();
+  }
+}
+
+// Call the function to hash and update the passwords
+testUsers();
 
 app.use(express.static(path.join(__dirname)));
 

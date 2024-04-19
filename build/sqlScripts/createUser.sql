@@ -96,13 +96,3 @@ INSERT INTO userInfo (email, clearance, firstName, lastName) VALUES
 ('npost969@live.kutztown.edu', '0', 'Nathan', 'Post'),
 ('tkasp445@live.kutztown.edu', '1', 'Thomas', 'Kasper'),
 ('jserr892@live.kutztown.edu', '1', 'Jerome', 'Serrao');
-
-UPDATE userInfo
-SET password = '0285'
-WHERE email = 'jhami311@live.kutztown.edu';
-
-INSERT INTO userInfo (email, clearance, firstName, lastName, password) VALUES
-('test1@live.kutztown.edu', '0', 'taqueer', 'hussain', '1111'),
-('test2@live.kutztown.edu', '0', 'jay', 'wang', '2222'),
-('test3@live.kutztown.edu', '0', 'dylan', 'schwesinger', '3333'),
-('test4@live.kutztown.edu', '0', 'charlie', 'shim', '4444');
