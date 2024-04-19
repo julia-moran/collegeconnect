@@ -78,14 +78,12 @@ async function testUsers() {
   }
 }
 
-// Call the function to hash and update the passwords
 testUsers();
 
 app.use(express.static(path.join(__dirname)));
 
 //  serve html files
 
-// launch app at homepage
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'home.html'));
 });

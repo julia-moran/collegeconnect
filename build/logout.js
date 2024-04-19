@@ -7,7 +7,5 @@
 /* Purpose: */
 /************************************************************/
 
-sessionStorage.removeItem("currentID");
-sessionStorage.removeItem("lastPage");
-sessionStorage.removeItem("clearance");
+sessionStorage.clear();
 window.top.location.href = "/";
