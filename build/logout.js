@@ -8,4 +8,6 @@
 /************************************************************/
 
 sessionStorage.removeItem("currentID");
+sessionStorage.removeItem("lastPage");
+sessionStorage.removeItem("clearance");
 window.top.location.href = "/";
