@@ -128,7 +128,6 @@
     7. View traffic, DNS settings, tunnel settings, etc. via the Cloudflare dashboard in browser: https://dash.cloudflare.com  
   
 **Navigate to Live Application via Browser**  
-  
     1. Open browser and navigate to www.kucollegeconnect.com.  
     2. The application will be mirrored on the host machine's localhost:3000 port via the Cloudflare tunnel and online!  
     3. Monitor application status via Docker Desktop logs for each container and log errors.  
