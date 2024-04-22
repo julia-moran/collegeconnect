@@ -136,33 +136,35 @@ $(document).ready(function() {
         } else {
             selectedMinor = $("#selectMinor option:selected").text();
         }
-
+    
         $.post('/addAccount', {
             email: $("#email").val(),
             password: $("#password").val(),
             major: $("#selectMajor option:selected").text(),
             minor: selectedMinor
         });
-
+    
         $.post('/addClasses', {
             email: $("#email").val(),
             classCodes: classes,
             id: sessionStorage.getItem("currentID")
         });
-
+    
         $.post('/addInterests', {
             id: sessionStorage.getItem("currentID"),
             interest1: $("#interest1 option:selected").text(),
             interest2: $("#interest2 option:selected").text(),
             interest3: $("#interest3 option:selected").text()
         });
-
-       // $("#test").text(classes);
+    
         logInLink.style.display = "block";
         $("#profileDetails").hide();
         $("optgroup.profileDetails").children().hide();
         $("optgroup.profileDetails").hide();
         $("#successfulAccountCreation").show();
+    
+        // Redirect to /login route
+        window.location.href = "/login";
     });
 
 });
