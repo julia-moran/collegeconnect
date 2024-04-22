@@ -20,10 +20,7 @@ CREATE TABLE userInfo(
     lastName TEXT,
     major TEXT,
     minor TEXT,
-    password TEXT,
-    interest1 INTEGER REFERENCES userInterests(id),
-    interest2 INTEGER REFERENCES userInterests(id),
-    interest3 INTEGER REFERENCES userInterests(id)
+    password TEXT
 );
 
 CREATE TABLE majors (

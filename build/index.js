@@ -973,43 +973,6 @@ app.post('/updateClasses', async (req, res) => {
 
 });
 
-app.post('/updateInterests', async (req, res) => {
-  let userID = req.body.id;
-  let interest1 = req.body.interest1;
-  let interest2 = req.body.interest2;
-  let interest3 = req.body.interest3;
-
-  try {
-    const client = await pool.connect();
-    try {  
-      client.query("UPDATE userData SET interest = $2 WHERE userid = $1 AND prompt = '1'",
-      [userID, interest1], 
-      (err, results) => {
-        console.log("Sent to index:", err ? err : "Sucess");
-      });
-    
-      client.query("UPDATE userData SET interest = $2 WHERE userid = $1 AND prompt = '2'",
-      [userID, interest2], 
-      (err, results) => {
-        console.log("Sent to index:", err ? err : "Sucess");
-      });
-    
-      client.query("UPDATE userData SET interest = $2 WHERE userid = $1 AND prompt = '3'",
-      [userID, interest3], 
-      (err, results) => {
-        console.log("Sent to index:", err ? err : "Sucess");
-      });
-    } finally {
-      client.release();
-    }
-    
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Could not connect to the database' });
-  }
-
-});
-
 app.post('/searchUsers', async (req, res) => {
   let userID = req.body.id;
   let firstName = req.body.fname;
