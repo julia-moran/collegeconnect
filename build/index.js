@@ -442,6 +442,7 @@ app.post('/login', async (req, res) => {
       const user = result.rows[0];  //  get user from result
 
       if (!user) {  //  if user does not exist or password is incorrect
+        console.log(`Login failed for user: ${email}`); // Log failed login attempt
         res.status(400).json({ message: 'User not found' });
         return;
       }
@@ -451,10 +452,10 @@ app.post('/login', async (req, res) => {
       console.log('Password match:', isMatch);
       
       if(!isMatch) {
+        console.log(`Invalid password attempt for user: ${email}`); // Log failed password attempt
         res.status(400).send('Invalid Password');
         return;
       }
-
 
       const userId = user.id; //  get user id
       const clearance = user.clearance; // get user clearance

@@ -95,4 +95,8 @@ INSERT INTO userInfo (email, clearance, firstName, lastName) VALUES
 ('Mbert361@live.kutztown.edu', '0', 'Merik', 'Bertram '),
 ('npost969@live.kutztown.edu', '0', 'Nathan', 'Post'),
 ('tkasp445@live.kutztown.edu', '1', 'Thomas', 'Kasper'),
-('jserr892@live.kutztown.edu', '1', 'Jerome', 'Serrao');
+('jserr892@live.kutztown.edu', '1', 'Jerome', 'Serrao'),
+('test1@live.kutztown.edu', '0', 'Test', 'User 1'),
+('test2@live.kutztown.edu', '0', 'Test', 'User 2'),
+('test3@live.kutztown.edu', '0', 'Test', 'User 3'),
+('test4@live.kutztown.edu', '0', 'Test', 'User 4');
