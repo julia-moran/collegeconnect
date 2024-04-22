@@ -7,6 +7,11 @@
 /* Purpose: This file contains the scripting to create the College Connect database. */
 /************************************************************/
 
+CREATE TABLE userInterests (
+    id SERIAL PRIMARY KEY,
+    interest TEXT
+);
+
 CREATE TABLE userInfo(
     id SERIAL PRIMARY KEY,
     email VARCHAR(30),
@@ -15,7 +20,10 @@ CREATE TABLE userInfo(
     lastName TEXT,
     major TEXT,
     minor TEXT,
-    password TEXT
+    password TEXT,
+    interest1 INTEGER REFERENCES userInterests(id),
+    interest2 INTEGER REFERENCES userInterests(id),
+    interest3 INTEGER REFERENCES userInterests(id)
 );
 
 CREATE TABLE majors (
@@ -26,11 +34,6 @@ CREATE TABLE majors (
 CREATE TABLE minors (
     id SERIAL PRIMARY KEY,
     minor TEXT
-);
-
-CREATE TABLE userInterests (
-    id SERIAL PRIMARY KEY,
-    interest TEXT
 );
 
 CREATE TABLE userData (

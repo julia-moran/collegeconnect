@@ -72,10 +72,18 @@ $(document).ready(function() {
             $("#email").text(result.email);
             $("#selectMajor").val(result.major).trigger('change');
             $("#selectMinor").val(result.minor).trigger('change');
+        
+            // Set the selected option for each interest dropdown
+            for (let i = 1; i <= 3; i++) {
+                let interest = result['interest' + i];
+                if (interest != "") {
+                    $("#interest" + i + " option[value= '" + interest + "']").attr("selected", "selected");
+                } else {
+                    $("#interest" + i + " option[value= '']").attr("selected", "selected");
+                }
+            }
         });
         
-            
-
         const form = document.querySelector('form');
 
         form.addEventListener('submit', function(event) {

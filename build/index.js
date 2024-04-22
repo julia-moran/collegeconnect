@@ -813,7 +813,7 @@ app.post('/addClasses', async (req, res) => {
 
 });
 
-app.post('/addInterests', async (req, res) => {
+app.post('/updateInterests', async (req, res) => {
   let userID = req.body.id;
   let interest1 = req.body.interest1;
   let interest2 = req.body.interest2;
