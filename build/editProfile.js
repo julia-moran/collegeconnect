@@ -81,28 +81,28 @@ $(document).ready(function() {
         form.addEventListener('submit', function(event) {
             event.preventDefault();
             let classes = $("#selectClasses").val();
-        
+    
             $.post('/updateUserInfo', {
                 id: sessionStorage.getItem("currentID"),
                 major: $("#selectMajor option:selected").text(),
                 minor: $("#selectMinor option:selected").text()
             });
-
+    
             $.post('/updateInterests', {
                 id: sessionStorage.getItem("currentID"),
                 interest1: $("#interest1 option:selected").text(),
                 interest2: $("#interest2 option:selected").text(),
                 interest3: $("#interest3 option:selected").text()
             });
-
+    
             $.post('/updateClasses', {
                 id: sessionStorage.getItem("currentID"),
                 email: $("#email").text(),
                 classCodes: classes
             });
-
+    
+            // Redirect to chatRoom page after form submission
+            window.location.replace("/chatRoom");
         });
    }
-
-
 })
