@@ -61,7 +61,6 @@ async function testUsers() {
     { email: 'test2@live.kutztown.edu', password: '2222' },
     { email: 'test3@live.kutztown.edu', password: '3333' },
     { email: 'test4@live.kutztown.edu', password: '4444' },
-    { email: 'jhami311@live.kutztown.edu', password: '0285' },
   ];
 
   const client = await pool.connect();
