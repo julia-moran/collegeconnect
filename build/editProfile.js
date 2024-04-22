@@ -67,16 +67,12 @@ $(document).ready(function() {
         });
 
         $.post('/displayUserInfo', { id: sessionStorage.getItem("currentID") },
-            function(result, status) {
-                //$("#showID").text(result.minor);
-                $("#name").text(result.firstname + " " + result.lastname + "'s Profile");
-                $("#email").text(result.email);
-                $("#selectMajor").val(result.major).trigger('change');
-                //if(result.minor != NULL) {
-                $("#selectMinor").val(result.minor).trigger('change');                //} else {
-                //    $("#selectMinor option[text='None']").attr("selected","selected");$
-                //}
-            });
+        function(result, status) {
+            $("#name").text(result.firstname + " " + result.lastname + "'s Profile");
+            $("#email").text(result.email);
+            $("#selectMajor").val(result.major).trigger('change');
+            $("#selectMinor").val(result.minor).trigger('change');
+        });
         
             
 
