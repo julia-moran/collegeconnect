@@ -12,25 +12,25 @@ CREATE TABLE userInterests (
     interest TEXT UNIQUE
 );
 
+CREATE TABLE majors (
+    id SERIAL PRIMARY KEY,
+    major TEXT UNIQUE
+);
+
+CREATE TABLE minors (
+    id SERIAL PRIMARY KEY,
+    minor TEXT UNIQUE
+);
+
 CREATE TABLE userInfo(
     id SERIAL PRIMARY KEY,
     email VARCHAR(30),
     clearance BOOLEAN CHECK (clearance::integer = 0 OR clearance::integer = 1),
     firstName TEXT,
     lastName TEXT,
-    major TEXT,
-    minor TEXT,
+    major TEXT REFERENCES majors(major),
+    minor TEXT REFERENCES minors(minor),
     password TEXT
-);
-
-CREATE TABLE majors (
-    id SERIAL PRIMARY KEY,
-    major TEXT
-);
-
-CREATE TABLE minors (
-    id SERIAL PRIMARY KEY,
-    minor TEXT
 );
 
 CREATE TABLE userData (
