@@ -9,7 +9,7 @@
 
 CREATE TABLE userInterests (
     id SERIAL PRIMARY KEY,
-    interest TEXT
+    interest TEXT UNIQUE
 );
 
 CREATE TABLE userInfo(
@@ -36,7 +36,7 @@ CREATE TABLE minors (
 CREATE TABLE userData (
     userID INTEGER REFERENCES userInfo(id),
     prompt TEXT,
-    interest TEXT
+    interest TEXT REFERENCES userInterests(interest)
 );
 
 CREATE TABLE classList (
