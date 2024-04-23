@@ -49,9 +49,7 @@ CREATE TABLE classList (
 CREATE TABLE chatRoom (
     id SERIAL PRIMARY KEY,
     classCode TEXT,
-    className TEXT,
-    classRoom TEXT,
-    classProf TEXT
+    className TEXT
 );
 
 CREATE TABLE chatLog (
