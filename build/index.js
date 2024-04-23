@@ -830,10 +830,11 @@ app.post('/updateInterests', async (req, res) => {
   }
 
   try {
-
     const client = await pool.connect();
 
     try {  
+      await client.query("DELETE FROM userData WHERE userid = $1", [userID]);
+
       client.query("INSERT INTO userData (userid, prompt, interest) VALUES ($1, '1', $2), ($1, '2', $3), ($1, '3', $4)",
         [userID, interest1, interest2, interest3],
         (err, results) => {
