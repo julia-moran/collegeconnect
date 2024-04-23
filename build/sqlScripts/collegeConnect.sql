@@ -58,7 +58,7 @@ CREATE TABLE chatLog (
     id SERIAL PRIMARY KEY,
     classCode TEXT,
     threadID TEXT,
-    userID INTEGER,
+    userID INTEGER REFERENCES userInfo(id),
     msg TEXT,
     timeSent TIMESTAMP
 );
