@@ -44,9 +44,11 @@ services:
       - ./configs/nginx.conf:/etc/nginx/nginx.conf
       - ./configs/config.yml:/etc/.cloudflared/config.yml
       - ./configs/5282b77c-d87f-47b4-95e8-499fc92ef5fd.json:/etc/.cloudflared/5282b77c-d87f-47b4-95e8-499fc92ef5fd.json
-      - ./configs/cert.pem:/etc/.cloudflared/cert.pem
+      - ./configs/cert.pem:/etc/nginx/ssl/server.crt
+      - ./configs/cert.pem:/etc/nginx/ssl/server.key
     ports:
       - 80:80
+      - 443:443
     depends_on:
       - node
     mem_limit: 50m
