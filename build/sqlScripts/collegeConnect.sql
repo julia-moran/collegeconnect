@@ -55,7 +55,7 @@ CREATE TABLE chatRoom (
 CREATE TABLE chatLog (
     id SERIAL PRIMARY KEY,
     classCode TEXT,
-    threadID TEXT UNIQUE,
+    threadID TEXT,
     userID INTEGER REFERENCES userInfo(id),
     msg TEXT,
     timeSent TIMESTAMP
@@ -66,7 +66,7 @@ CREATE TABLE directMessage (
     chatRoomID TEXT,
     toUserID INTEGER REFERENCES userInfo(id),
     fromUserID INTEGER REFERENCES userInfo(id),
-    threadID TEXT REFERENCES chatLog(threadID),
+    threadID TEXT,
     msg TEXT,
     timeSent TIMESTAMP
 );
