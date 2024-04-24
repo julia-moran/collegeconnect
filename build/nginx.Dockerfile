@@ -11,7 +11,9 @@
 FROM nginx:latest
 
 COPY ./configs/nginx.conf /etc/nginx/nginx.conf
+COPY ./configs/cert.pem /etc/nginx/ssl/server.crt
+COPY ./configs/cert.pem /etc/nginx/ssl/server.key
 
-EXPOSE 80
+EXPOSE 80 443
 
 CMD ["nginx", "-g", "daemon off;"]
