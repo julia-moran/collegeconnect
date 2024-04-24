@@ -36,8 +36,8 @@ const pool = new Pool({
 const transporter = nodemailer.createTransport({
   service: 'Gmail',
   auth: {
-      user: 'whywasjuliahere@gmail.com',
-      pass: 'eoxt lahx adgo ukmn',
+      user: 'kucollegeconnect@gmail.com',
+      pass: 'czhg jtio psfz bujc',
   },
 });
 
@@ -499,7 +499,7 @@ app.post('/sendVerificationEmail', async (req, res) => {
 
 
         const mailOptions = {
-            from: 'whywasjuliahere@gmail.com',
+            from: 'kucollegeconnect@gmail.com',
             to: req.body.email,
             subject: 'College Connect Verify Email OTP',
             text: `Your OTP (It expires after 1 min) : ${otp}`,
@@ -564,7 +564,7 @@ app.post('/sendForgetPasswordEmail', async (req, res) => {
 
 
         const mailOptions = {
-            from: 'whywasjuliahere@gmail.com',
+            from: 'kucollegeconnect@gmail.com',
             to: req.body.email,
             subject: 'College Connect Password reset OTP',
             text: `Your OTP (It expires after 1 min) : ${otp}`,
