@@ -21,8 +21,8 @@ services:
       - ./sqlScripts/majorsMinors.sql:/docker-entrypoint-initdb.d/05-majorsMinors.sql
       - data:/var/lib/postgresql/data
     ports:
-      - 54324:5432  #unique port num for postgres
-    mem_limit: 250m  #limit memory to 500mb
+      - 54324:5432
+    mem_limit: 250m
 
   node:
     build: 
@@ -31,10 +31,10 @@ services:
     volumes:
       - ./:/app
     ports:
-      - 3000:3000 #unique port num for node
+      - 3000:3000
     depends_on:
       - postgres
-    mem_limit: 250m  #limit memory to 250mb
+    mem_limit: 250m
 
   nginx:
     build: 
@@ -46,10 +46,10 @@ services:
       - ./configs/5282b77c-d87f-47b4-95e8-499fc92ef5fd.json:/etc/.cloudflared/5282b77c-d87f-47b4-95e8-499fc92ef5fd.json
       - ./configs/cert.pem:/etc/.cloudflared/cert.pem
     ports:
-      - 80:80 #unique port num for nginx
+      - 80:80
     depends_on:
       - node
-    mem_limit: 50m  #limit memory to 50mb
+    mem_limit: 50m
 
 volumes:
   data:
