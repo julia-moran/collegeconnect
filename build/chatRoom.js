@@ -142,7 +142,9 @@ $(document).ready(function() {
         $.post('/displayUserInfo', { id: userID },
         function(result, status) {
             const messageInfo = document.createElement('li');
+            messageInfo.style.listStyleType = "none";
             messageInfo.className = classCode;
+
             if(result.id == sessionStorage.getItem("currentID")) {
                 const username = document.createElement('p')
                 username.textContent = result.firstname + " " + result.lastname;
@@ -165,6 +167,7 @@ $(document).ready(function() {
             messages.appendChild(messageInfo);
             messages.scrollTo(0, messages.scrollHeight)
             const item = document.createElement('li');
+            item.style.listStyleType = "none";
             item.textContent = msg;
             messages.appendChild(item);
             window.scrollTo(0, document.body.scrollHeight);
