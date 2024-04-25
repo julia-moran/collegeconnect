@@ -1359,7 +1359,7 @@ app.post('/admin', async (req, res) => {
           console.log(`User with email ${userEmail} deleted.`);
           break;
         case 'alter':
-          await client.query('UPDATE userInfo SET firstName = $1, lastName = $2, clearance = $3 WHERE email = $4', [userFirstName, userLastName, userClearance, userEmail]);
+          await client.query('UPDATE userInfo SET firstName = $1, lastName = $2, clearance = $3, major = $4, minor = $5 WHERE email = $6', [userFirstName, userLastName, userClearance, userMajor, userMinor, userEmail]);
           console.log(`User with email ${userEmail} updated.`);
           break;
         case 'create':

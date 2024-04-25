@@ -32,6 +32,8 @@ $(document).ready(function() {
       var userClearance = $('#userClearance').val();
       var userFirstName = $('#userFirstName').val();
       var userLastName = $('#userLastName').val();
+      var userMajor = $('#userMajor').val();
+      var userMinor= $('#userMinor').val();
   
       $.ajax({
         url: '/admin',
@@ -43,7 +45,9 @@ $(document).ready(function() {
           userEmail: userEmail,
           userClearance: userClearance,
           userFirstName: userFirstName,
-          userLastName: userLastName
+          userLastName: userLastName,
+          userMajor: userMajor,
+          userMinor: userMinor
         },
         success: function(data) {
           alert(data.message);
