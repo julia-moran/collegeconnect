@@ -20,26 +20,41 @@
 </head>
 
 <body>
-    <figure><img src="images/logo.jpg" alt="College Connect Logo"></figure>
+    <figure><img src="images/logo.jpg" alt="College Connect Logo" class="center-logo"></figure>
+    <div class="container text-center">
+            <h3>Sign In</h3>
+    </div>
     <main>
         <p id="message"></p>
+    <div class="form-container">
         <form action="" id="login-form" method="POST">
             <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="text" id="email" name="email" required autocomplete="email">
+                <input type="text" id="email" name="email" required autocomplete="email" placeholder="Your email address">
             </div>
         
             <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required autocomplete="current-password">
+                <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="Password">
             </div>
-        
-            <button type="submit">Login</button>
-            <hr>
+        </div>
+        <br>
+        <div class="form-container">
+            <a href="/forgotPassword" id="forgotPasswordLink">Forgot Password</a> 
+        </div>
         </form>
         <br>
+        <div class="form-container">
+            <button type="submit"  class="btn btn-primary btn-position-relative">Login</button>
+        </div>
+
+        <br>
+
+        <div class="form-container">
+            <p> or </p>
+        </div>
+
+        <div class="form-container">
         <a href="/createAccount">Sign Up</a>
-        <a href="/forgotPassword" id="forgotPasswordLink">Forgot Password</a>  
+        </div>
     </main>
     <script src="login.js"></script>
 </body>
