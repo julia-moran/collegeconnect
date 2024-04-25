@@ -80,7 +80,7 @@
   --bs-body-line-height: 1.5;
   --bs-body-color: #212529;
   --bs-body-color-rgb: 33, 37, 41;
-  --bs-body-bg: #fff;
+  --bs-body-bg: #ffffff;
   --bs-body-bg-rgb: 255, 255, 255;
   --bs-emphasis-color: #000;
   --bs-emphasis-color-rgb: 0, 0, 0;
@@ -206,6 +206,62 @@ body {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
+.threads {
+  position: absolute;
+  list-style-type: none;
+}
+#threadMessages {
+  margin: -75px;
+  bottom:-300px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 270px;
+  width: 225px;
+}
+.myThreadMessage {
+  background-color: #ffe2af;
+  border: 1px solid #dfd087;
+  border-radius: 10px;
+  margin-bottom: 5px;
+}
+.otherThreadMessage {
+  background-color: #fffda2;
+  border: 1px solid #dfd087;
+  border-radius: 10px;
+  margin-bottom: 5px;
+}
+#threads {
+  width:20%;
+  position:absolute;
+  right:0;
+}
+#threadTitle {
+  background-color: #fffda2;
+  width:80%;
+  margin-left: -30px;
+  text-align: center;
+}
+#threadTitle:hover {
+  background-color: #a59373;
+}
+#threadNames {
+  display: flex;
+  margin-top: 50px;
+  margin-left: -30px;
+  width: 65%;
+  overflow-y: hidden;
+  overflow-x: auto;
+  
+}
+#threadNames > li {
+  margin: 1px;
+  padding: 2px; 
+  background-color: #fffda2;
+}
+#threadNames > li:hover {
+  background-color: #a59373;
+}
+
 hr {
   margin: 1rem 0;
   color: inherit;
@@ -286,6 +342,7 @@ address {
 ol,
 ul {
   padding-left: 2rem;
+  list-style: none;
 }
 
 ol,
