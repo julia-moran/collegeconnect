@@ -10,8 +10,14 @@
 window.onload = function() {
   var clearance = sessionStorage.getItem("clearance");
   if (clearance !== "true") {
-      document.getElementById("adminForm").style.display = "none";
       document.getElementById("notAdminMessage").style.display = "block";
+      document.getElementById("adminForm").style.display = "none";
+      document.getElementById("adminMessage").style.display = "none";
+  }
+  else {
+      document.getElementById("adminForm").style.display = "block";
+      document.getElementById("adminMessage").style.display = "block";
+      document.getElementById("notAdminMessage").style.display = "none";
   }
 };
 
