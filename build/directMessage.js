@@ -62,10 +62,8 @@ $(document).ready(function() {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             if (input.value && toUserID) {
-                let timeSent = new Date().toISOString();
-                timeSent = timeSent.replace('T', ' ');
-                timeSent = timeSent.substring(0, timeSent.length - 5)
-                console.log(timeSent);
+                let timeSent = new Date().toLocaleString("en-US", { timeZone: "America/New_York"});
+                //console.log(timeSent);
                 socket.emit('direct message', toUserID, sessionStorage.getItem("currentID"), input.value, timeSent);
                 input.value = '';
             }

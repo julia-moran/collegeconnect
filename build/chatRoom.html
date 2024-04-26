@@ -28,6 +28,10 @@
       position: absolute;
       list-style-type: none;
     }
+    #messages {
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
     #threadMessages {
       margin: -75px;
       bottom:-300px;
@@ -36,13 +40,13 @@
       height: 270px;
       width: 225px;
     }
-    .myThreadMessage {
+    .myMessage {
       background-color: #ffe2af;
       border: 1px solid #dfd087;
       border-radius: 10px;
       margin-bottom: 5px;
     }
-    .otherThreadMessage {
+    .otherMessage {
       background-color: #fffda2;
       border: 1px solid #dfd087;
       border-radius: 10px;
@@ -91,7 +95,7 @@
       </div>
       <div class="col">    
         <div id="classChat">
-          <h3 id="chatroomTitle" style="margin-left: 20px"></h3>
+          <h3 id="chatroomTitle" style="margin-left: 20px">Select a class on the left to chat with</h3>
           <div class="messages" id="messagesDiv">
             <ul id="messages"></ul>
             <form id="form" action="">

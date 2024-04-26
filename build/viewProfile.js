@@ -63,9 +63,7 @@ $(document).ready(function() {
         reportUserForm.addEventListener('submit', (e) => {
             e.preventDefault();
             if (reportInput.value) {
-                let timeSent = new Date().toISOString();
-                timeSent = timeSent.replace('T', ' ');
-                timeSent = timeSent.substring(0, timeSent.length - 5)
+                let timeSent = new Date().toLocaleString("en-US", { timeZone: "America/New_York"});
                 let reportedMessage = "Report Message about user" + userID + " (" + name + "): " + reportInput.value;
                 $.get("/getAdmins", function(adminResults, status) {
                     $(adminResults).each(function(i, adminResult) {

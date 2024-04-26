@@ -141,10 +141,7 @@ $(document).ready(function() {
     form.addEventListener('submit', (e) => {
         e.preventDefault();
         if (input.value && chatRoom) {
-            let timeSent = new Date().toISOString();
-            timeSent = timeSent.replace('T', ' ');
-            timeSent = timeSent.substring(0, timeSent.length - 5)
-            //console.log(timeSent);
+            let timeSent = new Date().toLocaleString("en-US", { timeZone: "America/New_York"});
             socket.emit('chat message', chatRoom, sessionStorage.getItem("currentID"), input.value, timeSent);
             input.value = '';
         }
@@ -158,14 +155,16 @@ $(document).ready(function() {
             messageInfo.className = classCode;
 
             if(result.id == sessionStorage.getItem("currentID")) {
+                messageInfo.className = "myMessage";
                 const username = document.createElement('p')
                 username.textContent = result.firstname + " " + result.lastname;
                 username.style.display = "inline-block";
                 username.style.margin = "-5px";
                 messageInfo.appendChild(username);
             } else {
+                messageInfo.className = "otherMessage";
                 const profileLink = document.createElement('a')
-                profileLink.textContent = result.firstname + " " + result.lastname;
+                profileLink.textContent = result.firstname + " " + result.lastname + ": ";
                 profileLink.setAttribute('href', '/viewProfile/' + result.id);
                 profileLink.style.display = "inline-block";
                 messageInfo.appendChild(profileLink);
@@ -173,15 +172,20 @@ $(document).ready(function() {
             const timestamp = document.createElement('p');
             let reformattedTimestamp = timeSent.replace("T", " ");
             reformattedTimestamp = reformattedTimestamp.split(".")[0];
-            timestamp.textContent = ": (" + reformattedTimestamp + ")";
+            timestamp.textContent = "  (" + reformattedTimestamp + ")";
             timestamp.style.display = "inline-block";
+            timestamp.style.fontSize = "12px";
+            timestamp.style.margin = "10px";
             messageInfo.appendChild(timestamp);
+
             messages.appendChild(messageInfo);
             messages.scrollTo(0, messages.scrollHeight)
             const item = document.createElement('li');
             item.style.listStyleType = "none";
             item.textContent = msg;
-            messages.appendChild(item);
+            item.style.margin = "3px";
+            messageInfo.appendChild(item);
+            messages.appendChild(messageInfo);
             window.scrollTo(0, document.body.scrollHeight);
         });
     });
@@ -209,10 +213,8 @@ $(document).ready(function() {
     threadForm.addEventListener('submit', (e) => {
         e.preventDefault();console.log(threadNameInput.value);
         if (threadInput.value && threadID) {
-            let timeSent = new Date().toISOString();
-            timeSent = timeSent.replace('T', ' ');
-            timeSent = timeSent.substring(0, timeSent.length - 5)
-            console.log(timeSent);
+            let timeSent = new Date().toLocaleString("en-US", { timeZone: "America/New_York"});
+            //console.log(timeSent);
             socket.emit('thread message', chatRoom, sessionStorage.getItem("currentID"), threadInput.value, timeSent, threadID);
             threadInput.value = '';
         }
@@ -223,7 +225,7 @@ $(document).ready(function() {
         function(result, status) {
             const messageInfo = document.createElement('li');
             if(result.id == sessionStorage.getItem("currentID")) {
-                messageInfo.className = "myThreadMessage";
+                messageInfo.className = "myMessage";
                 const username = document.createElement('p')
                 username.textContent = result.firstname + " " + result.lastname;
                 username.style.margin = "-2px";
@@ -232,7 +234,7 @@ $(document).ready(function() {
                 messageInfo.appendChild(username);
             } else {
                 const profileLink = document.createElement('a')
-                messageInfo.className = "otherThreadMessage";
+                messageInfo.className = "otherMessage";
                 profileLink.textContent = result.firstname + " " + result.lastname;
                 profileLink.setAttribute('href', '/viewProfile/' + result.id);
                 profileLink.style.margin = "-2px";
