@@ -114,7 +114,10 @@ $(document).ready(function() {
             });
     
             // Redirect to chatRoom page after form submission
-            window.location.replace("/chatRoom");
+            setTimeout(() => {
+                window.location.replace("/chatRoom");
+            }, 10);
+            
         });
    }
 })

@@ -46,16 +46,13 @@ $(document).ready(function() {
                 joinRoom(chatRoom);
                 showThreadNames(chatRoom);
             });
-            $(".classCodes").show(); // Show the classes
+            $("#userClasses").show(); // Show the classes
         });
     });
 
     //$.get('/testChatLog');
 
-    $("#classes").click(function() {
-        $(".classCodes").toggle();
 
-    });
     $("#threadMessage").hide();
 
     $("#threadTitle").click(function() {
