@@ -22,6 +22,12 @@ CREATE TABLE minors (
     minor TEXT UNIQUE
 );
 
+CREATE TABLE chatRoom (
+    id SERIAL PRIMARY KEY,
+    classCode TEXT,
+    className TEXT
+);
+
 CREATE TABLE userInfo(
     id SERIAL PRIMARY KEY,
     email VARCHAR(30),
@@ -44,12 +50,6 @@ CREATE TABLE classList (
     classCode TEXT,
     userID INTEGER REFERENCES userInfo(id),
     email VARCHAR(30)
-);
-
-CREATE TABLE chatRoom (
-    id SERIAL PRIMARY KEY,
-    classCode TEXT,
-    className TEXT
 );
 
 CREATE TABLE chatLog (

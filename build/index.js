@@ -57,10 +57,10 @@ connectWithRetry();
 //test users with hashing
 async function testUsers() {
   const users = [
-    { email: 'test1@live.kutztown.edu', password: '1111' },
-    { email: 'test2@live.kutztown.edu', password: '2222' },
-    { email: 'test3@live.kutztown.edu', password: '3333' },
-    { email: 'test4@live.kutztown.edu', password: '4444' },
+    { email: 'admin1@live.kutztown.edu', password: 'password' },
+    { email: 'admin2@live.kutztown.edu', password: 'password' },
+    { email: 'test1@live.kutztown.edu', password: 'password' },
+    { email: 'test2@live.kutztown.edu', password: 'password' },
   ];
 
   const client = await pool.connect();

@@ -17,9 +17,9 @@ ENV POSTGRES_PASSWORD 0285
 ENV POSTGRES_DB collegeconnect
 
 COPY sqlScripts/collegeConnect.sql /docker-entrypoint-initdb.d/01-collegeConnect.sql
-COPY sqlScripts/createUser.sql /docker-entrypoint-initdb.d/02-createUser.sql
-COPY sqlScripts/courses.sql /docker-entrypoint-initdb.d/03-courses.sql
-COPY sqlScripts/interests.sql /docker-entrypoint-initdb.d/04-interests.sql
-COPY sqlScripts/majorsMinors.sql /docker-entrypoint-initdb.d/05-majorsMinors.sql
+COPY sqlScripts/majorsMinors.sql /docker-entrypoint-initdb.d/02-majorsMinors.sql
+COPY sqlScripts/interests.sql /docker-entrypoint-initdb.d/03-interests.sql
+COPY sqlScripts/courses.sql /docker-entrypoint-initdb.d/04-courses.sql
+COPY sqlScripts/createUser.sql /docker-entrypoint-initdb.d/05-createUser.sql
 
 EXPOSE 54324

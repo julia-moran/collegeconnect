@@ -96,8 +96,10 @@ INSERT INTO userInfo (email, clearance, firstName, lastName) VALUES
 ('npost969@live.kutztown.edu', '0', 'Nathan', 'Post'),
 ('tkasp445@live.kutztown.edu', '1', 'Thomas', 'Kasper'),
 ('jserr892@live.kutztown.edu', '1', 'Jerome', 'Serrao'),
-('dpric271@live.kutztown.edu', '0', 'David', 'Price'),
-('test1@live.kutztown.edu', '0', 'Test', 'User 1'),
-('test2@live.kutztown.edu', '0', 'Test', 'User 2'),
-('test3@live.kutztown.edu', '0', 'Test', 'User 3'),
-('test4@live.kutztown.edu', '0', 'Test', 'User 4');
+('dpric271@live.kutztown.edu', '0', 'David', 'Price');
+
+INSERT INTO userInfo (email, clearance, firstName, lastName, major, minor) VALUES
+('admin1@live.kutztown.edu', '1', 'Admin', '1', 'Computer Science', 'None'),
+('admin2@live.kutztown.edu', '1', 'Admin', '2', 'Information Technology', 'Geology'),
+('test1@live.kutztown.edu', '0', 'Test', '1', 'Sociology', 'Economics'),
+('test2@live.kutztown.edu', '0', 'Test', '2', 'Music', 'History');
