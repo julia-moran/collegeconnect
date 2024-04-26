@@ -8,6 +8,7 @@ $(document).ready(function() {
         const socket = io();
         userID = parseInt(queryString.substring(34));
         console.log(userID);
+        let name = "";
         const profileDiv = document.getElementById('profileInfo');
         const sharedClass = document.createElement('td');
         const interests = document.createElement('td');
@@ -23,6 +24,7 @@ $(document).ready(function() {
         $.post('/displayUserInfo', { id: userID },
         function(result, status) {
             //$("#showID").text(result.minor);
+            name = result.firstname + " " + result.lastname;
             $("#name").text(result.firstname + " " + result.lastname + "'s Profile");
             $("#email").text(result.email);
             $("#email").attr("href", "mailto:" + result.email);
@@ -64,7 +66,7 @@ $(document).ready(function() {
                 let timeSent = new Date().toISOString();
                 timeSent = timeSent.replace('T', ' ');
                 timeSent = timeSent.substring(0, timeSent.length - 5)
-                let reportedMessage = "Report Message: " + reportInput.value;
+                let reportedMessage = "Report Message about user" + userID + " (" + name + "): " + reportInput.value;
                 $.get("/getAdmins", function(adminResults, status) {
                     $(adminResults).each(function(i, adminResult) {
                         socket.emit('direct message', adminResult.id, sessionStorage.getItem("currentID"), reportedMessage, timeSent);
