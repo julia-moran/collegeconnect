@@ -136,7 +136,7 @@ $(document).ready(function() {
     $("#sendNewOtp").click(function() {
         $.post('/sendVerificationEmail', { email: $('#email').val() },
         function(result, status) {
-            //console.log(result.data, status);
+            console.log(result.data, status);
             otpCode = result.data;
         });
     });
@@ -149,6 +149,24 @@ $(document).ready(function() {
             selectedMinor = "None";
         } else {
             selectedMinor = $("#selectMinor option:selected").text();
+        }
+
+        if($("#interest1 option:selected").text() == "") {
+            interest1 = "None";
+        } else {
+            interest1 = $("#interest1 option:selected").text();
+        }
+
+        if($("#interest2 option:selected").text() == "") {
+            interest2 = "None";
+        } else {
+            interest2 = $("#interest2 option:selected").text();
+        }
+
+        if($("#interest3 option:selected").text() == "") {
+            interest3 = "None";
+        } else {
+            interest3 = $("#interest3 option:selected").text();
         }
     
         $.post('/addAccount', {
@@ -166,9 +184,9 @@ $(document).ready(function() {
     
         $.post('/addInterests', {
             id: sessionStorage.getItem("currentID"),
-            interest1: $("#interest1 option:selected").text(),
-            interest2: $("#interest2 option:selected").text(),
-            interest3: $("#interest3 option:selected").text()
+            interest1: interest1,
+            interest2: interest2,
+            interest3: interest3
         });
     
         logInLink.style.display = "block";
@@ -178,7 +196,9 @@ $(document).ready(function() {
         $("#successfulAccountCreation").show();
     
         // Redirect to /login route
-        window.location.href = "/login";
+        setTimeout(() => {
+            window.location.replace("/login");
+        }, 20);
     });
 
 });

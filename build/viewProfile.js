@@ -5,13 +5,20 @@ $(document).ready(function() {
          window.location.replace("../");
     } else {
         const queryString = window.location.href;
+        const socket = io();
         userID = parseInt(queryString.substring(34));
         console.log(userID);
         const profileDiv = document.getElementById('profileInfo');
         const sharedClass = document.createElement('td');
         const interests = document.createElement('td');
+        const reportUserForm = document.getElementById('reportUserForm');
+        const reportInput = document.getElementById('reportReason');
 
         $("#directMessageLink").attr("href", "/directMessage/" + userID);
+        $("#reportUserForm").hide();
+        $("#reportUserButton").click(function() {
+            $("#reportUserForm").toggle();
+        });
 
         $.post('/displayUserInfo', { id: userID },
         function(result, status) {
@@ -48,6 +55,24 @@ $(document).ready(function() {
                     sharedClass.textContent = sharedClass.textContent + classResult.classcode + " ";
                     profileDiv.appendChild(sharedClass);
                 });
+            }
+        });
+
+        reportUserForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (reportInput.value) {
+                let timeSent = new Date().toISOString();
+                timeSent = timeSent.replace('T', ' ');
+                timeSent = timeSent.substring(0, timeSent.length - 5)
+                let reportedMessage = "Report Message: " + reportInput.value;
+                $.get("/getAdmins", function(adminResults, status) {
+                    $(adminResults).each(function(i, adminResult) {
+                        socket.emit('direct message', adminResult.id, sessionStorage.getItem("currentID"), reportedMessage, timeSent);
+                    })
+                });
+                
+                reportInput.value = '';
+                $("#reportUserForm").hide();
             }
         });
     }

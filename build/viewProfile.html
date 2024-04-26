@@ -30,8 +30,18 @@
             <p id="major"></p>
             <p id="minor"></p>
         </div>
-        <a id="directMessageLink">Direct Message</a>  
+        <a id="directMessageLink">Direct Message</a>
+        <br>
+        <button id="reportUserButton">Report User</button>  
+        <form id="reportUserForm">
+            <p>Why are you reporting this user?</p>
+           <textarea id="reportReason" required></textarea>
+           <br>
+           <input type="submit" value="Submit Concern"> 
+        </form>
+        
     </main>
+    <script src="/socket.io/socket.io.js"></script>
     <script type= "text/javascript" src="/viewProfile.js"></script>
 </body>
 

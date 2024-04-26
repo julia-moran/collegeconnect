@@ -1240,6 +1240,26 @@ app.post('/deleteThread', async (req, res) => {
 
 });
 
+app.get('/getAdmins', async (req, res) => {
+  try {
+    const client = await pool.connect();
+    try {  
+      client.query("SELECT * FROM userInfo WHERE clearance = true",
+      (err, results) => {
+        //console.log("Admins: ", err ? err : results.rows);
+        res.json(results.rows);
+      });
+    } finally {
+      client.release();
+    }
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
+
+});
+
 // Jerome's attempt at encryption and decryption
 // Function to generate RSA key pairs
 // source:https://stackoverflow.com/questions/8520973/how-to-create-a-pair-private-public-keys-using-node-js-crypto

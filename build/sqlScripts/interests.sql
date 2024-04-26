@@ -9,6 +9,7 @@
 
 INSERT INTO userInterests(interest)
 VALUES
+('None'),
 ('Music'),
 ('Sports'),
 ('Movies'),
