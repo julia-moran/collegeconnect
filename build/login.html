@@ -38,7 +38,9 @@
             
                 <br>
                 <div class="form-container">
-                    <a href="/forgotPassword" id="forgotPasswordLink">Forgot Password</a> 
+                    <a href="/forgotPassword" id="forgotPasswordLink">Forgot Password</a>
+                    <p> or </p>
+                    <a href="/createAccount">Sign Up</a>
                 </div>
                 <br>
                 <div class="form-container">
@@ -46,13 +48,12 @@
                 </div>
             </form>
             <br>
-            <div class="form-container">
-                <p> or </p>
-            </div>
-    
-            <div class="form-container">
-            <a href="/createAccount">Sign Up</a>
-            </div>
+
+
+            <div class="popup" id="popupConfirmation">
+                <p>Invalid login</p>
+                <button id="closePopup">Close</button>
+              </div>
         </div>
     </main>
     <script src="login.js"></script>

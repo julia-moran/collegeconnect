@@ -16,6 +16,12 @@ $(document).ready(function() {
 
     });    
 
+    $("#popupConfirmation").hide();
+
+    $("#closePopup").click(function() {
+        $("#popupConfirmation").hide();
+    });
+
     $('#login-form').on('submit', function(event) {
         event.preventDefault();
 
@@ -35,12 +41,12 @@ $(document).ready(function() {
                 }
             },
             error: function(jqXHR) {
-                if (jqXHR.status === 401) {
-                    alert('Invalid credentials. Please check your email and password and try again.');
+                if (jqXHR.status === 400) {
+                    $("#popupConfirmation").show();
                 } else {
                     alert('An error occurred. Please try again later.');
+                    location.reload();
                 }
-                location.reload();
             }
         });
     });

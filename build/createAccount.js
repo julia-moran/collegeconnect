@@ -25,7 +25,7 @@ $(document).ready(function() {
     $("#signUp").show();
     $("#confirmEmailForm").hide();
     $("#addProfileDetails").hide();
-
+/*
     // When the sign up form is submitted, hide it and show the confirm email form
     $("#signUp").on('submit', function(e) {
         e.preventDefault();
@@ -38,7 +38,7 @@ $(document).ready(function() {
         e.preventDefault();
         $(this).hide();
         $("#addProfileDetails").show();
-    });
+    });*/
 
     $.get("/getClasses", function(classResults, status) {
         $(classResults).each(function(i, classResult) {
@@ -100,6 +100,7 @@ $(document).ready(function() {
                             //console.log(result.data, status);
                             otpCode = result.data;
                         });
+                        $("#signUp").hide();
                         $("#userDetails").hide();
                         $("#confirmEmail").show();
                     } else {

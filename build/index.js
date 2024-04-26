@@ -471,7 +471,7 @@ app.post('/login', async (req, res) => {
     const client = await pool.connect();  //  connect client to database
 
     try {
-      const result = await client.query('SELECT * FROM userInfo WHERE email = $1', [email]);  //  query database for user with email
+      const result = await client.query('SELECT * FROM userInfo WHERE email ILIKE $1', [email]);  //  query database for user with email
       const user = result.rows[0];  //  get user from result
 
       if (!user) {  //  if user does not exist or password is incorrect
@@ -515,7 +515,7 @@ app.post('/sendVerificationEmail', async (req, res) => {
     const client = await pool.connect();
 
     try {
-      const result = await client.query('SELECT * FROM userInfo WHERE email = $1', [email]);
+      const result = await client.query('SELECT * FROM userInfo WHERE email ILIKE $1', [email]);
       emailResult = result.rows[0].email;
       
       console.log("Search for email result:" + emailResult);
@@ -578,7 +578,7 @@ app.post('/sendForgetPasswordEmail', async (req, res) => {
     const client = await pool.connect();
 
     try {
-      const result = await client.query('SELECT * FROM userInfo WHERE email = $1 AND password IS NOT NULL', [email]);
+      const result = await client.query('SELECT * FROM userInfo WHERE email ILIKE $1 AND password IS NOT NULL', [email]);
       emailResult = result.rows[0];
       
       console.log("Search for email result:" + emailResult);
@@ -593,15 +593,11 @@ app.post('/sendForgetPasswordEmail', async (req, res) => {
         
         const otp = Math.floor(1000 + Math.random() * 9000);
 
-        const otpExpier = new Date();
-        otpExpier.setMinutes(otpExpier.getMinutes() + 1);
-
-
         const mailOptions = {
             from: 'kucollegeconnect@gmail.com',
             to: req.body.email,
             subject: 'College Connect Password reset OTP',
-            text: `Your OTP (It expires after 1 min) : ${otp}`,
+            text: `Your OTP : ${otp}`,
         };
 
         transporter.sendMail(mailOptions, (error, info) => {
@@ -642,7 +638,7 @@ app.post('/compareEmail', async (req, res) => {
     const client = await pool.connect();
 
     try {
-      const result = await client.query('SELECT * FROM userInfo WHERE email = $1 AND password IS NULL', [email]);
+      const result = await client.query('SELECT * FROM userInfo WHERE email ILIKE $1 AND password IS NULL', [email]);
       emailResult = result.rows[0];
       
       console.log("Search for email result:" + emailResult);
@@ -771,7 +767,7 @@ app.post('/addAccount', async (req, res) => {
     res.send('User created');
 
     try {  
-      client.query('UPDATE userInfo SET password = $1, major = $2, minor = $3 WHERE email = $4',
+      client.query('UPDATE userInfo SET password = $1, major = $2, minor = $3 WHERE email ILIKE $4',
       [hashedPassword, major, minor, email], 
       (err, results) => {
         console.log("Add account:", err ? err : "Success");
@@ -800,7 +796,7 @@ app.post('/updatePassword', async (req, res) => {
     res.send('User created');
 
     try {  
-      client.query('UPDATE userInfo SET password = $1 WHERE email = $2',
+      client.query('UPDATE userInfo SET password = $1 WHERE email ILIKE $2',
       [hashedPassword, email], 
       (err, results) => {
         console.log("Add account:", err ? err : "Success");
@@ -1409,11 +1405,11 @@ app.post('/admin', async (req, res) => {
 
       switch (operation) {
         case 'delete':
-          await client.query('DELETE FROM userInfo WHERE email = $1', [userEmail]);
+          await client.query('DELETE FROM userInfo WHERE email ILIKE $1', [userEmail]);
           console.log(`User with email ${userEmail} deleted.`);
           break;
         case 'alter':
-          await client.query('UPDATE userInfo SET firstName = $1, lastName = $2, clearance = $3, major = $4, minor = $5 WHERE email = $6', [userFirstName, userLastName, userClearance, userMajor, userMinor, userEmail]);
+          await client.query('UPDATE userInfo SET firstName = $1, lastName = $2, clearance = $3, major = $4, minor = $5 WHERE email ILIKE $6', [userFirstName, userLastName, userClearance, userMajor, userMinor, userEmail]);
           console.log(`User with email ${userEmail} updated.`);
           break;
         case 'create':
