@@ -21,10 +21,24 @@ $(document).ready(function() {
     let otpCode = "";
     let email = "";
     
-    $("#profileDetails").hide();
-    $("optgroup.profileDetails").children().hide();
-    $("optgroup.profileDetails").hide();
-    $("#confirmEmail").hide();
+    // Initially hide all forms except the first one
+    $("#signUp").show();
+    $("#confirmEmailForm").hide();
+    $("#addProfileDetails").hide();
+
+    // When the sign up form is submitted, hide it and show the confirm email form
+    $("#signUp").on('submit', function(e) {
+        e.preventDefault();
+        $(this).hide();
+        $("#confirmEmailForm").show();
+    });
+
+    // When the confirm email form is submitted, hide it and show the add profile details form
+    $("#confirmEmailForm").on('submit', function(e) {
+        e.preventDefault();
+        $(this).hide();
+        $("#addProfileDetails").show();
+    });
 
     $.get("/getClasses", function(classResults, status) {
         $(classResults).each(function(i, classResult) {

@@ -68,10 +68,14 @@ $(document).ready(function() {
 
         $.post('/displayUserInfo', { id: sessionStorage.getItem("currentID") },
         function(result, status) {
+            console.log(result); // Add this line
+
             $("#name").text(result.firstname + " " + result.lastname + "'s Profile");
             $("#email").text(result.email);
-            $("#selectMajor").val(result.major).trigger('change');
-            $("#selectMinor").val(result.minor).trigger('change');
+            
+            // Create and append option elements for major and minor
+            $("#selectMajor").empty().append(new Option(result.major, result.major));
+            $("#selectMinor").empty().append(new Option(result.minor, result.minor));
         
             // Set the selected option for each interest dropdown
             for (let i = 1; i <= 3; i++) {

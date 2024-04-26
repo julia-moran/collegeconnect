@@ -10,8 +10,14 @@
 window.onload = function() {
   var clearance = sessionStorage.getItem("clearance");
   if (clearance !== "true") {
-      document.getElementById("adminForm").style.display = "none";
       document.getElementById("notAdminMessage").style.display = "block";
+      document.getElementById("adminForm").style.display = "none";
+      document.getElementById("adminMessage").style.display = "none";
+  }
+  else {
+      document.getElementById("adminForm").style.display = "block";
+      document.getElementById("adminMessage").style.display = "block";
+      document.getElementById("notAdminMessage").style.display = "none";
   }
 };
 
@@ -26,6 +32,8 @@ $(document).ready(function() {
       var userClearance = $('#userClearance').val();
       var userFirstName = $('#userFirstName').val();
       var userLastName = $('#userLastName').val();
+      var userMajor = $('#userMajor').val();
+      var userMinor= $('#userMinor').val();
   
       $.ajax({
         url: '/admin',
@@ -37,7 +45,9 @@ $(document).ready(function() {
           userEmail: userEmail,
           userClearance: userClearance,
           userFirstName: userFirstName,
-          userLastName: userLastName
+          userLastName: userLastName,
+          userMajor: userMajor,
+          userMinor: userMinor
         },
         success: function(data) {
           alert(data.message);
