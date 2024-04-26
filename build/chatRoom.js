@@ -27,6 +27,7 @@ $(document).ready(function() {
     $("#threadTitle").hide();
     $("#messagesDiv").hide();
     $("#threadsInside").hide();
+    $("#popupConfirmation").hide();
 
     $.post('/displayClasses', { id: sessionStorage.getItem("currentID") },
     function(classResults, status) {
@@ -62,6 +63,10 @@ $(document).ready(function() {
 
     });
 
+    $("#cancelDeletion").click(function() {
+        $("#popupConfirmation").hide();
+    });
+
     function showThreadNames(chatRoom) {
         $("#threadTitle").show();
         existingThreadNames = [];
@@ -77,7 +82,8 @@ $(document).ready(function() {
                 threadName.textContent = result.threadid;
                 threadName.id = result.threadid;
 
-                $("#threadNames").append(threadName);
+                threadNames.appendChild(threadName);
+
                 existingThreadNames.push(result.threadid);   
                 threadName.addEventListener("click", (e) => {
                     if(e.target === e.currentTarget) {
@@ -94,21 +100,30 @@ $(document).ready(function() {
                 const deleteButton = document.createElement("button");
                 deleteButton.textContent = "X";
                 deleteButton.setAttribute("type", "button");
-                deleteButton.id = "deleteButton";
+                //deleteButton.id = "deleteButton";
                 threadName.appendChild(deleteButton);
                 deleteButton.addEventListener("click", () => {
-                    while(threadMessages.firstChild) {
-                            threadMessages.removeChild(threadMessages.firstChild);
-                    }
-                    $.post('/deleteThread', { classCode: chatRoom, threadID: result.threadid },
-                    function(result, status) {
-                        threadNames.removeChild(threadName);
-                    });
+                    $("#popupConfirmation").show();
+                    console.log(result.threadid);
+                    $("#deleteThreadName").text("Thread name: " + result.threadid);
+                    $("#confirmDeletion").click(function () {
+                       
+                        
+                        existingThreadNames.splice(existingThreadNames.indexOf(result.threadid), 1);
+                        while(threadMessages.firstChild) {
+                                threadMessages.removeChild(threadMessages.firstChild);
+                        }
+                        $.post('/deleteThread', { classCode: chatRoom, threadID: result.threadid },
+                        function(result, status) {
+                            threadNames.removeChild(threadName);
+                        });
+                        $("#popupConfirmation").hide();
+                    })
                 });            
             });
         });
     }
-    
+
     function joinRoom(classCode) {
         // Remove all messages from view
         while(messages.firstChild) {
@@ -183,7 +198,7 @@ $(document).ready(function() {
             timeSent = timeSent.replace('T', ' ');
             timeSent = timeSent.substring(0, timeSent.length - 5)
             //console.log(timeSent);
-            socket.emit('thread message', chatRoom, sessionStorage.getItem("currentID"), "Created a thread.", timeSent, threadNameInput.value);
+            socket.emit('create thread', chatRoom, sessionStorage.getItem("currentID"), "Created a thread.", timeSent, threadNameInput.value);
             threadNameInput.value = '';
             while(threadMessages.firstChild) {
                 threadMessages.removeChild(threadMessages.firstChild);

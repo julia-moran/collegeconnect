@@ -77,6 +77,43 @@
     #threadNames > li:hover {
       background-color: #a59373;
     }
+
+    .popup {
+      position: fixed;
+      padding: 10px;
+      width: 280px;
+      left: 50%;
+      margin-left: -150px;
+      height: 180px;
+      top: 50%;
+      margin-top: -100px;
+      background: #FFF;
+      z-index: 20;
+    }
+    
+    
+    #popupConfirmation:after {
+      position: fixed;
+      content: "";
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: -2;
+    }
+    
+    #popupConfirmation:before {
+      position: absolute;
+      content: "";
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background: #FFF;
+      z-index: -1;
+    }
+    
   </style>
   <div class="page-container">
     <nav class="nav">
@@ -112,6 +149,13 @@
           <input id="inputThreadMessage" autocomplete="off" /><button>Send</button>
         </form>
      </div>
+    </div>
+
+    <div class="popup" id="popupConfirmation">
+      <p>Delete this thread?</p>
+      <p id="deleteThreadName">Thread Name: </p>
+      <button id="confirmDeletion">Delete</button>
+      <button id="cancelDeletion">Cancel</button>
     </div>
   </div>
 

@@ -232,6 +232,40 @@ socket.on('thread message', async (classCode, userID, msg, timeSent, threadID) =
   }
 });
 
+socket.on('create thread', async (classCode, userID, msg, timeSent, threadID) => {
+  console.log("Message: ", classCode, userID, msg, timeSent, threadID);
+  
+  let encryptedMessage = encryptMessage(msg);
+  try {
+    const client = await pool.connect();
+    try {  
+      client.query("INSERT INTO chatLog (classCode, userID, msg, timeSent, threadID) VALUES ($1, $2, $3, $4, $5)",
+      [classCode, userID, encryptedMessage, timeSent, threadID], 
+      (err, results) => {
+        console.log("Chat Message. Sent to index:", err ? err : msg);
+      });
+      try {
+        if(threadID !== '') {
+          let decryptedMessage = decryptMessage(encryptedMessage);
+          io.to(classCode).emit('create thread', classCode, userID, decryptedMessage, timeSent, threadID);
+        }          
+      } catch (e) {
+        console.log('Message failed to be recived', e);
+      }
+
+    
+    } catch (e) {
+      console.error('Message failed to send');
+      return;
+    } finally {     client.release();
+    }
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
+});
+
 socket.on('direct message', async (toUserID, fromUserID, msg, timeSent) => {
   console.log("Message: ", toUserID, fromUserID, msg, timeSent);
 
