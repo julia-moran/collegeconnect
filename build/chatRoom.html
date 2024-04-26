@@ -22,6 +22,7 @@
 </head>
 
 <body>
+  <figure><img src="images/logo.jpg" alt="College Connect Logo" class="center-logo"></figure>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
  <style>
     .threads {
@@ -84,7 +85,25 @@
       background-color: #a59373;
     }
 
-   
+    #userClasses {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  #userClasses > li {
+    display: inline-block;
+    margin: 5px;
+    padding: 10px 20px;
+    background-color: #fffda2;
+    border: 1px solid #dfd087;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  #userClasses > li:hover {
+    background-color: #a59373;
+  }
     
   </style>
   <div class="container text-center">
@@ -95,7 +114,7 @@
       </div>
       <div class="col">    
         <div id="classChat">
-          <h3 id="chatroomTitle" style="margin-left: 20px">Select a class on the left to chat with</h3>
+          <h3 id="chatroomTitle" style="margin-left: 20px">Welcome to College Connect!<br><br>Select a class on the left to chat with.</h3>
           <div class="messages" id="messagesDiv">
             <ul id="messages"></ul>
             <form id="form" action="">
