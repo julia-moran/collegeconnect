@@ -25,13 +25,31 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-      <button class="btn btn-primary" onclick="navigateTo('/chatRoom')">Classes</button>
-      <button class="btn btn-primary" onclick="navigateTo('/directMessage')">Direct Message</button>
-      <button class="btn btn-primary" onclick="navigateTo('/searchUser')">Search User</button>
-      <button class="btn btn-primary" onclick="navigateTo('/editProfile')">Edit Profile</button>
-      <button class="btn btn-primary" id="btnSwitch">Toggle Mode</button>
-      <button class="btn btn-primary" onclick="navigateTo('/admin')">Admin</button>
-      <button class="btn btn-primary" onclick="navigateTo('/logout')">Logout</button>
+    <div class="collapse navbar-collapse" id="navbarToggleExternalContent">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item ml-3">
+          <button class="btn btn-primary" onclick="navigateTo('/chatRoom')">Classes</button>
+        </li>
+        <li class="nav-item">
+          <button class="btn btn-primary" onclick="navigateTo('/directMessage')">Direct Message</button>
+        </li>
+        <li class="nav-item">
+          <button class="btn btn-primary" onclick="navigateTo('/searchUser')">Search User</button>
+        </li>
+        <li class="nav-item">
+          <button class="btn btn-primary" onclick="navigateTo('/editProfile')">Edit Profile</button>
+        </li>
+        <li class="nav-item">
+          <button class="btn btn-primary" id="btnSwitch">Toggle Mode</button>
+        </li>
+        <li class="nav-item">
+          <button class="btn btn-primary" onclick="navigateTo('/admin')">Admin</button>
+        </li>
+        <li class="nav-item">
+          <button class="btn btn-primary" onclick="navigateTo('/logout')">Logout</button>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>
   <script src="index.js"></script>
