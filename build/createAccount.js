@@ -72,6 +72,9 @@ $(document).ready(function() {
 
     signUp.addEventListener('submit', (e) => {
 
+        $("#signUp").hide();
+        $("#confirmEmailForm").show();
+
         e.preventDefault();
         if(password.value != confirmPassword.value) {
             errorMessage.innerHTML = "Passwords don't match";
@@ -102,7 +105,7 @@ $(document).ready(function() {
                         });
                         $("#signUp").hide();
                         $("#userDetails").hide();
-                        $("#confirmEmail").show();
+                        $("#confirmEmailForm").show();
                     } else {
                         errorMessage.innerHTML = "Invalid email";
                     }
@@ -123,9 +126,12 @@ $(document).ready(function() {
     confirmEmailForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
+        $("#confirmEmailForm").hide();
+        $("#addProfileDetails").show();
+
         if($("#otp").val() == otpCode) {
-            $("#confirmEmail").hide();
-            $("#profileDetails").show();
+            $("#confirmEmailForm").hide();
+            $("#addProfileDetails").show();
             $("optgroup.profileDetails").children().show();
             $("optgroup.profileDetails").show();            
         } else {
