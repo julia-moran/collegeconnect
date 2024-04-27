@@ -28,6 +28,14 @@
     height: 100px;
     border: 2px solid gold;
   }
+  .navbar-brand {
+  color: black;
+  font-size: 34px;
+  text-align: center;
+}
+.center-logo.navbar-logo:hover {
+  opacity: 1;
+}
   </style>
 </head>
 <body>
@@ -39,8 +47,12 @@
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <figure class="ms-auto"><img src="images/logo.jpg" alt="College Connect Logo" class="center-logo navbar-logo"></figure>  </div>
-      <div class="collapse navbar-collapse" id="navbarToggleExternalContent">
+      <figure class="ms-auto" onclick="document.getElementById('mainFrame').src='/chatRoom'">
+        <figcaption class="navbar-brand">College Connect</figcaption>
+        <img src="images/logo.jpg" alt="College Connect Logo" class="center-logo navbar-logo">
+      </figure>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarToggleExternalContent">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item ml-3">
           <button class="btn btn-primary" onclick="navigateTo('/chatRoom')">Classes</button>
