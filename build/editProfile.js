@@ -15,6 +15,7 @@ $(document).ready(function() {
         window.location.replace("../");
    } else {
         $('.select-multiple').select2();
+        $('.profile-select').select2();
 
         $.get("/getClasses", function(classResults, status) {
             $(classResults).each(function(i, classResult) {
