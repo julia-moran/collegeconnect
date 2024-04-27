@@ -43,6 +43,7 @@ $(document).ready(function() {
                         const userName = document.createElement("li");
                         userName.textContent = result.firstname + " " + result.lastname;
                         userName.id = result.id;
+                        userName.className = "class-button";
                         $("#usersWithChatHistory").append(userName);
                         userName.addEventListener("click", () => {
                             $("#form").show();
@@ -88,14 +89,43 @@ $(document).ready(function() {
             let reformattedTimestamp = timeSent.replace("T", " ");
             reformattedTimestamp = reformattedTimestamp.split(".")[0];
             const messageInfo = document.createElement('li');
-            messageInfo.className = toUserID;
-            messageInfo.textContent = result.firstname + " " + result.lastname + " (" + reformattedTimestamp + "): " ;
+            if(result.fromuserid == sessionStorage.getItem("currentID")) {
+                messageInfo.className = "myMessage";
+                const username = document.createElement('p')
+                username.textContent = result.firstname + " " + result.lastname;
+                username.style.margin = "-2px";
+                username.style.marginTop = "2px";
+                username.style.marginLeft = "2px";
+                messageInfo.appendChild(username);
+            } else {
+                const profileLink = document.createElement('a')
+                messageInfo.className = "otherMessage";
+                profileLink.textContent = result.firstname + " " + result.lastname;
+                profileLink.setAttribute('href', '/viewProfile/' + result.id);
+                profileLink.style.margin = "-2px";
+                profileLink.style.marginTop = "2px";
+                profileLink.style.marginLeft = "2px";
+                messageInfo.appendChild(profileLink);
+            }
+            //messageInfo.textContent = result.firstname + " " + result.lastname + " (" + reformattedTimestamp + "): " ;
+            //messages.appendChild(messageInfo);
+            //messages.scrollTo(0, messages.scrollHeight)
+            const timestamp = document.createElement('p');
+            timestamp.textContent = ": (" + reformattedTimestamp + ")";
+            timestamp.style.paddingTop = "0px";
+            timestamp.style.fontSize = "12px";
+            timestamp.style.margin = "2px";
+            messageInfo.appendChild(timestamp);
+            messageInfo.id = result.chatroomid;
+            
             messages.appendChild(messageInfo);
             messages.scrollTo(0, messages.scrollHeight)
             const item = document.createElement('li');
             item.textContent = msg;
-            messages.appendChild(item);
-            window.scrollTo(0, document.body.scrollHeight);
+            item.style.margin = "3px";
+            messageInfo.appendChild(item);
+            messages.appendChild(messageInfo);
+            messages.scrollTo(0, messages.scrollHeight);
         });
     });
     }

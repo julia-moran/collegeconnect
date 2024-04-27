@@ -39,9 +39,6 @@ $(document).ready(function() {
             $("#userClasses").append(userClass);
             userClass.addEventListener("click", () => {
                 $("#messagesDiv").show();
-                while(threadMessages.firstChild) {
-                    threadMessages.removeChild(threadMessages.firstChild);
-                }
                 chatRoom = userClass.id;
                 joinRoom(chatRoom);
                 showThreadNames(chatRoom);
@@ -78,7 +75,7 @@ $(document).ready(function() {
                 const threadName = document.createElement("li");
                 threadName.textContent = result.threadid;
                 threadName.id = result.threadid;
-
+                threadName.className = "threadIDs";
                 threadNames.appendChild(threadName);
 
                 existingThreadNames.push(result.threadid);   
@@ -87,6 +84,8 @@ $(document).ready(function() {
                         while(threadMessages.firstChild) {
                             threadMessages.removeChild(threadMessages.firstChild);
                         }
+                        $(".threadIDs").css("font-weight", "normal");
+                        threadName.style.fontWeight = "bold";
                         threadID = result.threadid;
                         console.log("Join");
                         $("#threadMessage").show();
@@ -128,14 +127,14 @@ $(document).ready(function() {
         }
         $("#chatroomTitle").text(classCode);
         socket.emit('join-room', classCode);
-
+/*
         $(".classCodes").each(function() {
             if(classCode !== $(this).attr("id")) {
                 //console.log($(this).attr("id"))
                 socket.emit('leave-room', $(this).attr("id")) 
             }
             
-        });
+        });*/
     }
 
     form.addEventListener('submit', (e) => {

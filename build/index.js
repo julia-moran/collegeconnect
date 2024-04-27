@@ -270,6 +270,7 @@ socket.on('direct message', async (toUserID, fromUserID, msg, timeSent) => {
   console.log("Message: ", toUserID, fromUserID, msg, timeSent);
 
   let chatRoomID = "";
+  let encryptedMessage = encryptMessage(msg);
       
   if(toUserID > fromUserID) {
     chatRoomID = toUserID + "+" + fromUserID;
@@ -281,14 +282,14 @@ socket.on('direct message', async (toUserID, fromUserID, msg, timeSent) => {
     const client = await pool.connect();
     try {  
       client.query("INSERT INTO directMessage (chatRoomID, toUserID, fromUserID, msg, timeSent) VALUES ($1, $2, $3, $4, $5)",
-      [chatRoomID, toUserID, fromUserID, msg, timeSent], 
+      [chatRoomID, toUserID, fromUserID, encryptedMessage, timeSent], 
       (err, results) => {
         console.log("Direct Message. Sent to index:", err ? err : msg);
       });
 
       if(chatRoomID !== '') {
-        console.log("Emit hit");
-        io.to(chatRoomID).emit('direct message', toUserID, fromUserID, msg, timeSent);
+        let decryptedMessage = decryptMessage(encryptedMessage);
+        io.to(chatRoomID).emit('direct message', toUserID, fromUserID, decryptedMessage, timeSent);
       }
     
     } catch (e) {
@@ -360,7 +361,8 @@ socket.on('direct message', async (toUserID, fromUserID, msg, timeSent) => {
           (err, results) => {
             console.log("Private Message Sent to index:", err ? err : results.rows);
             results.rows.forEach(row => {
-              socket.emit('direct message', row.touserid, row.fromuserid, row.msg, row.timesent);
+              let decryptedMessage = decryptMessage(row.msg);
+              socket.emit('direct message', row.touserid, row.fromuserid, decryptedMessage, row.timesent);
             })
             
           });

@@ -248,13 +248,26 @@ body {
   z-index: -1;
 }
 
+.myMessage {
+  background-color: #ffe2af;
+  border: 1px solid #dfd087;
+  border-radius: 10px;
+  margin-bottom: 5px;
+}
+.otherMessage {
+  background-color: #fffda2;
+  border: 1px solid #dfd087;
+  border-radius: 10px;
+  margin-bottom: 5px;
+}
+
 .threads {
   position: absolute;
   list-style-type: none;
 }
 #threadMessages {
-  margin: -75px;
-  bottom:-300px;
+  margin: -25px;
+  bottom:-400px;
   overflow-x: hidden;
   overflow-y: auto;
   height: 270px;
@@ -280,7 +293,6 @@ body {
 #threadTitle {
   background-color: #fffda2;
   width:80%;
-  margin-left: -30px;
   text-align: center;
 }
 #threadTitle:hover {
@@ -288,9 +300,7 @@ body {
 }
 #threadNames {
   display: flex;
-  margin-top: 50px;
-  margin-left: -30px;
-  width: 65%;
+  margin-top: 70px;
   overflow-y: hidden;
   overflow-x: auto;
   
