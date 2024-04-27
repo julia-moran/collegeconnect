@@ -41,15 +41,29 @@
       .select2-container .select2-selection--multiple:hover {
         background-color: #a59373;
       }
+
+      .profile-header {
+        background-color: #a59373;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+      }
+
+      .profile-header h1, .profile-header h2 {
+        margin: 0;
+        text-align: center;
+      }
     </style>
 </head>
 
 <body>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <main>
-        <p id="showID"></p>
+
+      <div class="profile-header">
         <h1 id="name"></h1>
         <h2 id="email"></h2>
+      </div>
 
         <br>
         <form action="" method="POST">
@@ -61,11 +75,11 @@
           <select class="profile-select classes-select" id="selectClasses" name="selectClasses" multiple="multiple">
             <optgroup label="CSC Courses" class="profileDetails" id="CSCCourses"></optgroup>
           </select><br><br>
-          <label for="interest1"> Interest 1: </label>
+          <label for="interest1"> Your First Interest: </label>
           <select class="profile-select" id="interest1"></select><br><br>
-          <label for="interest2"> Interest 2: </label>
+          <label for="interest2"> Your Second Interest: </label>
           <select class="profile-select" id="interest2"></select><br><br>
-          <label for="interest3"> Interest 3: </label>
+          <label for="interest3"> Your Third Interest: </label>
           <select class="profile-select" id="interest3"></select><br><br>
           <button type="submit">Update Profile</button>
             <hr>
