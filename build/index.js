@@ -696,7 +696,7 @@ app.get('/getMajors', async (req, res) => {
     const client = await pool.connect();
 
     try {
-      client.query('SELECT major FROM majors', (err, results) => {
+      client.query('SELECT major FROM majors ORDER BY major', (err, results) => {
         //console.log("Sent to index:", err ? err : results.rows);
         res.json(results.rows);
       });
@@ -716,7 +716,7 @@ app.get('/getMinors', async (req, res) => {
     const client = await pool.connect();
 
     try {
-      client.query('SELECT minor FROM minors', (err, results) => {
+      client.query('SELECT minor FROM minors ORDER BY minor', (err, results) => {
         //console.log("Sent to index:", err ? err : results.rows);
         res.json(results.rows);
       });
@@ -736,7 +736,7 @@ app.get('/getInterests', async (req, res) => {
     const client = await pool.connect();
 
     try {
-      client.query('SELECT interest FROM userInterests', (err, results) => {
+      client.query('SELECT interest FROM userInterests ORDER BY interest', (err, results) => {
         //console.log("Sent to index:", err ? err : results.rows);
         res.json(results.rows);
       });
@@ -1256,6 +1256,104 @@ app.get('/getAdmins', async (req, res) => {
     res.status(500).json({ message: 'Could not connect to the database' });
   }
 
+});
+
+app.post('/getStudentsInClass', async (req, res) => {
+  let classCode = req.body.classCode;
+
+  try {
+    const client = await pool.connect();
+    try {  
+      client.query("SELECT userInfo.id, firstName, lastName FROM userInfo INNER JOIN classList ON userInfo.id = classList.userID WHERE classCode = $1 ORDER BY lastName",
+      [classCode],
+      (err, results) => {
+        //console.log("Students: ", err ? err : results.rows);
+        res.json(results.rows);
+      });
+    } finally {
+      client.release();
+    }
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
+
+});
+
+app.post('/getStudentsNotInClass', async (req, res) => {
+  let classCode = req.body.classCode;
+
+  try {
+    const client = await pool.connect();
+    try {  
+      client.query("SELECT userInfo.id, firstName, lastName FROM userInfo LEFT JOIN classList ON userInfo.id = classList.userID WHERE classCode <> $1 OR classCode IS NULL ORDER BY lastName",
+      [classCode],
+      (err, results) => {
+        //console.log("Students: ", err ? err : results.rows);
+        res.json(results.rows);
+      });
+    } finally {
+      client.release();
+    }
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
+
+});
+
+app.post('/removeStudentFromClass', async (req, res) => {
+  let classCode = req.body.classCode;
+  let userID = req.body.userID;
+
+  try {
+    const client = await pool.connect();
+    try {  
+      client.query("DELETE FROM classList WHERE classCode = $1 AND userID = $2",
+      [classCode, userID],
+      (err, results) => {
+        console.log(err ? err : "User with ID " + userID + " removed from class " + classCode);
+        res.json({ message: 'Operation successful.' });
+      });
+    } finally {
+      client.release();
+    }
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
+
+});
+
+app.post('/addStudentToClass', async (req, res) => {
+  let classCode = req.body.classCode;
+  let userID = req.body.userID;
+
+  try {
+    const client = await pool.connect();
+    const result = await client.query('SELECT * FROM userInfo WHERE id = $1', [userID]);
+    try {  
+      if (result.rows.length > 0) {
+        const email = result.rows[0].email;
+          client.query("INSERT INTO classlist (classcode, userID, email) VALUES ($1, $2, $3)",
+          [classCode, userID, email],(err, results) => {
+            console.log("User with ID " + userID + " added to class " + classCode);
+            res.json({ message: 'Operation successful.' });
+          })            
+      } else {
+        res.status(404).json({ message: 'User not found.' });
+      }
+    } finally {
+      client.release();
+    }
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not connect to the database' });
+  }
 });
 
 // Jerome's attempt at encryption and decryption

@@ -22,6 +22,9 @@
 <body>
   <br>
     <main>
+      <div id="adminMessage">
+        <p>Please Enter the User's Information and the Operation you Want to Complete (delete, alter, create).</p>
+      </div>
         <form id="adminForm">
             <input type="text" id="operation" placeholder="Operation">
             <input type="text" id="userEmail" placeholder="User Email">
@@ -33,9 +36,29 @@
             <button type="submit">Submit</button>
           </form>
     <br>
-    <div id="adminMessage">
-      <p>Please Enter the User's Information and the Operation you Want to Complete (delete, alter, create).</p>
-    </div>
+
+    <form action="" id="editClasslist">
+      <p>Edit Classlist</p>
+      <label for="selectClass">Select a class:</label>
+      <select id="selectClass">
+        <option value="" disabled selected></option>
+      </select>
+      <div id="selectStudentDiv">
+        <label for="selectStudent">Students in this classlist:</label>
+        <select id="selectStudent">
+          <option value="" disabled selected></option>
+        </select>
+        <button id="deleteStudent">Delete this Student from Classlist</button>
+        <br>
+        <label for="selectOtherStudent">Students NOT in this classlist:</label>
+        <select id="selectOtherStudent">
+          <option value="" disabled selected></option>
+        </select>
+        <button id="addStudent">Add this Student to Classlist</button>        
+      </div>
+
+      <input type="submit" value="Save Changes" id="saveClasslist" class="btn btn-primary btn-position-relative"/>
+    </form>
     <div id="notAdminMessage">
       <p>You are not currently logged in as an admin.</p>
     </div>

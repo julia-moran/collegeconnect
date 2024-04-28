@@ -294,6 +294,11 @@ body {
   background-color: #fffda2;
   width:80%;
   text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background-color: #fffda2;
+  border: 1px solid #dfd087;
+  border-radius: 10px;
 }
 #threadTitle:hover {
   background-color: #a59373;
@@ -309,8 +314,30 @@ body {
   margin: 1px;
   padding: 2px; 
   background-color: #fffda2;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 #threadNames > li:hover {
+  background-color: #a59373;
+}
+
+.chatOptions {
+  list-style-type: none;
+  padding: 0;
+}
+
+.chatOptions > li {
+  display: inline-block;
+  margin: 5px;
+  padding: 10px 20px;
+  background-color: #fffda2;
+  border: 1px solid #dfd087;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.chatOptions > li:hover {
   background-color: #a59373;
 }
 
