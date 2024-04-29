@@ -48,14 +48,24 @@
           width: 50%;
           margin: 0 auto;
       }
+      .profile-header {
+    background-color: #a59373;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+
+  .profile-header h2 {
+    margin: 0;
+    text-align: center;
+  }
   </style>
 </head>
 
 <body>
-  <br>
-    <main>
-      <div id="adminMessage">
-        <p>&nbsp; Please Enter the User's Information and the Operation you Want to Complete (delete, alter, create).<br></p>
+     <main>
+      <div id="adminMessage" class="profile-header">
+        <h2>Please Enter the User's Information and the Operation you Want to Complete (delete, alter, create).<h2>
       </div>
         <form id="adminForm" class="form-container">
             <input type="text" id="operation" placeholder="Operation">
@@ -68,7 +78,6 @@
             <br><br>
             <button type="submit" class="btn">Submit</button>
           </form>
-    <br>
 
     <form action="" id="editClasslist" class="form-container">
       <p>Edit Classlist</p>
@@ -92,8 +101,8 @@
       </div>&nbsp;
       <input type="submit" value="Save Changes" id="saveClasslist" class="btn btn-primary btn-position-relative"/>
     </form>
-    <div id="notAdminMessage">
-      <p>You are not currently logged in as an admin.</p>
+    <div id="notAdminMessage" class="profile-header">
+      <h2>You are not currently logged in as an admin.</h2>
     </div>
     </main>
     <script src="admin.js"></script>
