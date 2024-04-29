@@ -17,15 +17,47 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <style>
+      .navbar-logo {
+          width: 150px;
+          height: 150px;
+          border: 2px solid gold;
+      }
+      .btn {
+          background-color: gold;
+          color: black;
+          transition: background-color 0.3s ease;
+      }
+      .btn:hover {
+          background-color: grey;
+      }
+      .btn-reverse {
+          background-color: grey;
+          color: black;
+          transition: background-color 0.3s ease;
+      }
+      .btn-reverse:hover {
+          background-color: gold;
+      }
+      input {
+          background-color: #fffda2;
+          width: 100%;
+          box-sizing: border-box;
+      }
+      .form-container {
+          width: 50%;
+          margin: 0 auto;
+      }
+  </style>
 </head>
 
 <body>
   <br>
     <main>
       <div id="adminMessage">
-        <p>Please Enter the User's Information and the Operation you Want to Complete (delete, alter, create).</p>
+        <p>&nbsp; Please Enter the User's Information and the Operation you Want to Complete (delete, alter, create).<br></p>
       </div>
-        <form id="adminForm">
+        <form id="adminForm" class="form-container">
             <input type="text" id="operation" placeholder="Operation">
             <input type="text" id="userEmail" placeholder="User Email">
             <input type="text" id="userClearance" placeholder="User Clearance">
@@ -33,11 +65,12 @@
             <input type="text" id="userLastName" placeholder="User Last Name">
             <input type="text" id="userMajor" placeholder="User Major">
             <input type="text" id="userMinor" placeholder="User Minor">
-            <button type="submit">Submit</button>
+            <br><br>
+            <button type="submit" class="btn">Submit</button>
           </form>
     <br>
 
-    <form action="" id="editClasslist">
+    <form action="" id="editClasslist" class="form-container">
       <p>Edit Classlist</p>
       <label for="selectClass">Select a class:</label>
       <select id="selectClass">
@@ -48,15 +81,15 @@
         <select id="selectStudent">
           <option value="" disabled selected></option>
         </select>
-        <button id="deleteStudent">Delete this Student from Classlist</button>
+        <button id="deleteStudent" class="btn">Delete this Student from Classlist</button>
       </div>
       <div id="addStudentDiv">
         <label for="selectOtherStudent">Students NOT in this classlist:</label>
         <select id="selectOtherStudent">
           <option value="" disabled selected></option>
         </select>
-        <button id="addStudent">Add this Student to Classlist</button>        
-      </div>
+        <button id="addStudent" class="btn">Add this Student to Classlist</button>        
+      </div>&nbsp;
       <input type="submit" value="Save Changes" id="saveClasslist" class="btn btn-primary btn-position-relative"/>
     </form>
     <div id="notAdminMessage">
@@ -64,4 +97,5 @@
     </div>
     </main>
     <script src="admin.js"></script>
-    </body>
+</body>
+</html>
