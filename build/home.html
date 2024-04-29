@@ -21,6 +21,14 @@
     height: 150px;
     border: 2px solid gold;
   }
+  .btn {
+    background-color: gold;
+    color: black;
+    transition: background-color 0.3s ease;
+}
+.btn:hover {
+    background-color: grey;
+}
     </style>
   </head>
   <body>
@@ -29,15 +37,15 @@
 
     <div class="container text-center">
       <h3>Welcome to College Connect</h3>
-      <p>A place to connect with your classmates outside the classroom</p>
+      <p>A place to connect with your classmates, outside the classroom.</p>
     </div>
 
     <br>
 
     <div class="form-container">
     <nav>
-    <a href="./createAccount"><button type="button" class="btn btn-primary btn-position-relative" role="button">Create Account</button></a>
-    <a href="./login"><button type="button" class="btn btn-primary btn-position-relative" role="button">Log In</button></a>
+    <a href="./createAccount"><button type="button" class="btn" role="button">Create Account</button></a>
+    <a href="./login"><button type="button" class="btn" role="button">Log In</button></a>
     </nav>
     </div>
 

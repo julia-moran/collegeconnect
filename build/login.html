@@ -18,14 +18,38 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     <style>
-            .navbar-logo {
-    width: 150px;
-    height: 150px;
-    border: 2px solid gold;
-    }
+        .navbar-logo {
+            width: 150px;
+            height: 150px;
+            border: 2px solid gold;
+        }
+        .btn {
+            background-color: gold;
+            color: black;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: grey;
+        }
+        .btn-reverse {
+            background-color: grey;
+            color: black;
+            transition: background-color 0.3s ease;
+        }
+        .btn-reverse:hover {
+            background-color: gold;
+        }
+        input {
+            background-color: #fffda2;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .form-container {
+            width: 50%;
+            margin: 0 auto;
+        }
     </style>
 </head>
-
 <body>
     <figure class="ms-auto"><img src="images/logo.jpg" alt="College Connect Logo" class="center-logo navbar-logo"></figure>  </div>
     <div class="container text-center">
@@ -36,7 +60,7 @@
         <div class="form-container">
             <form action="" id="login-form" method="POST">
                 <div class="form-group">
-                    <input type="text" id="email" name="email" required autocomplete="email" placeholder="Your email address">
+                    <input type="text" id="email" name="email" required autocomplete="email" placeholder="Email">
                 </div>
             
                 <div class="form-group">
@@ -44,14 +68,14 @@
                 </div>
             
                 <br>
-                <div class="form-container">
-                    <a href="/forgotPassword" id="forgotPasswordLink">Forgot Password</a>
-                    <p> or </p>
-                    <a href="/createAccount">Sign Up</a>
-                </div>
+<div class="form-container">
+    <button type="button" class="btn btn-reverse" onclick="location.href='/forgotPassword'" id="forgotPasswordLink">Forgot Password</button>
+    <p>&nbsp; &nbsp;</p>
+    <button type="button" class="btn btn-reverse" onclick="location.href='/createAccount'">Sign Up</button>
+</div>
                 <br>
                 <div class="form-container">
-                    <button type="submit"  class="btn btn-primary btn-position-relative">Login</button>
+                    <button type="submit"  class="btn">Login</button>
                 </div>
             </form>
             <br>
