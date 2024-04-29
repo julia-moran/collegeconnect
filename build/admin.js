@@ -13,13 +13,13 @@ window.onload = function() {
       document.getElementById("notAdminMessage").style.display = "block";
       document.getElementById("adminForm").style.display = "none";
       document.getElementById("adminMessage").style.display = "none";
+      document.getElementById("editClasslist").style.display = "none"; // corrected id
   }
   else {
       document.getElementById("adminForm").style.display = "block";
       document.getElementById("adminMessage").style.display = "block";
       document.getElementById("notAdminMessage").style.display = "none";
-      
-
+      document.getElementById("editClasslist").style.display = "block"; // corrected id
   }
 };
 
