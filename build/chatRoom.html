@@ -60,7 +60,7 @@
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      background-color: #FFDF50;
+      background-color: #d3d3d3;
       padding-right: 40px;
     }
     #threadTitle {
@@ -75,20 +75,21 @@
       margin-top: 30px;
       overflow-y: hidden;
       overflow-x: auto;
-      background-color: #FFDF50;
       margin-bottom: 50px;
     }
     #threadNames > li {
       margin: 1px;
       padding: 2px; 
       background-color: #fffda2;
+      border: black 1px solid;
     }
     #threadNames > li:hover {
       background-color: #a59373;
     }
     #classChat {
-      background-color: #d3d3d3;
-      padding-right: 30px;
+      background-color: #a59373;
+      padding-right: 15px;
+      padding-top: 10px;
       border: black 1px solid;
     }
     #threadMessage {
@@ -97,6 +98,12 @@
     #threadName {
       display: flex;
       justify-content: center;
+    }
+    #chatroomTitle {
+      margin-left: 20px;
+      border: black 2px solid;
+      display: inline-block;
+      padding: 10px;
     }
   </style>
   <div class="container text-center">
@@ -107,7 +114,7 @@
       </div>
       <div class="col-7">    
         <div id="classChat">
-          <h3 id="chatroomTitle" style="margin-left: 20px">Welcome to College Connect!<br><br>Select a class on the left to chat with.</h3>
+          <h3 id="chatroomTitle">Welcome to College Connect!<br><br>Select a class on the left to chat with.</h3>
           <div class="messages" id="messagesDiv">
             <ul id="messages"></ul>
             <form id="form" action="">
