@@ -1023,7 +1023,7 @@ app.post('/searchUsers', async (req, res) => {
   try {
     const client = await pool.connect();
     try {  
-      client.query("SELECT * FROM userInfo WHERE id <> $5 AND (firstName = $1 OR lastName = $2 OR major = $3 OR minor = $4) AND password IS NOT NULL",
+      client.query("SELECT * FROM userInfo WHERE id <> $5 AND (firstName ILIKE $1 OR lastName ILIKE $2 OR major = $3 OR minor = $4) AND password IS NOT NULL",
       [firstName, lastName, major, minor, userID], 
       (err, results) => {
         console.log("Sent to index:", err ? err : results.rows);

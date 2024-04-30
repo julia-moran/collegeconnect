@@ -154,17 +154,24 @@ $(document).ready(function() {
             let searchIDs = [];
             let filteredInterests = $("#filterInterests").val();
             let filteredClasses = $("#filterClasses").val();
+            let fnameFirstLetter = $("#filterfname").val().charAt(0).toUpperCase();
+            let firstNameLower = $("#filterfname").val().toLowerCase();
+            let filteredFName = firstNameLower.replace(firstNameLower.charAt(0), fnameFirstLetter);
+
+            let lnameFirstLetter = $("#filterlname").val().charAt(0).toUpperCase();
+            let lastNameLower = $("#filterlname").val().toLowerCase();
+            let filteredLName = lastNameLower.replace(lastNameLower.charAt(0), lnameFirstLetter);
 
             while(table.firstChild) {
                 table.removeChild(table.firstChild);
             }
 
             if($("#filterlname").val()) {
-                searchResults = searchResults.filter((result) => result.lname == $("#filterlname").val());
+                searchResults = searchResults.filter((result) => result.lname == filteredLName);
             }
 
             if($("#filterfname").val()) {
-                searchResults = searchResults.filter((result) => result.fname == $("#filterfname").val());
+                searchResults = searchResults.filter((result) => result.fname == filteredFName);
             }
             
             if($("#filterMajor option:selected").text() != "Major") {
