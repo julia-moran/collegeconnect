@@ -31,8 +31,8 @@
     #messages {
       overflow-x: hidden;
       overflow-y: auto;
-      width: 50%;
       margin: 0 auto;
+      width: 65%;
     }
     #threadMessages {
       margin: -25px;
@@ -101,6 +101,11 @@
       display: inline-block;
       padding: 10px;
     }
+    .accountInfo {
+    background-color: #fffda2;
+    width: 50%;
+    box-sizing: border-box;
+}
   </style>
   <div class="container text-center">
     <div class="row align-items-start">
@@ -114,7 +119,7 @@
           <div class="messages" id="messagesDiv">
             <ul id="messages"></ul>
             <form id="form" action="">
-              <input id="input" autocomplete="off" /><button>Send</button>
+              <input id="input" autocomplete="off" class="accountInfo"/><button>Send</button>
             </form> 
           </div>
         </div>
@@ -125,12 +130,12 @@
           <div id="threadsInside">
             <p id="errorMessage"></p>
             <form id="threadName" action="">
-              <input id="inputThreadName" autocomplete="off" /><button>New Thread Name</button>
+              <input id="inputThreadName" autocomplete="off" class="accountInfo"/><button>New Thread Name</button>
             </form>
             <ul id="threadNames"></ul>
             <ul id="threadMessages"></ul>
             <form id="threadMessage" action="">
-              <input id="inputThreadMessage" autocomplete="off" /><button>Send</button>
+              <input id="inputThreadMessage" autocomplete="off" class="accountInfo"/><button>Send</button>
             </form>
           </div>
       </div>

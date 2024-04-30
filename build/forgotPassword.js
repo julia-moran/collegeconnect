@@ -12,9 +12,9 @@ $(document).ready(function() {
     
     const password = document.getElementById('password');
     const confirmPassword = document.getElementById('confirmPassword');
-    const enterEmail = document.getElementById('enterEmail');
-    const enterOtp = document.getElementById('enterOtp');
-    const newPassword = document.getElementById("newPassword");
+    const enterEmail = document.getElementById('enterEmailForm');
+    const enterOtp = document.getElementById('enterOtpForm');
+    const newPassword = document.getElementById("newPasswordForm");
     const errorMessage = document.getElementById("errorMessage");
     let otpCode = "";
     
@@ -36,8 +36,8 @@ $(document).ready(function() {
             } else {
                 errorMessage.innerHTML = "";
                 otpCode = result.data;
-                $("#enterEmail").hide();
-                $("#enterOtp").show();
+                $("#enterEmailForm").hide();
+                $("#enterOtpForm").show();
             }
 
         });
@@ -49,8 +49,8 @@ $(document).ready(function() {
         e.preventDefault();
 
         if($("#otp").val() == otpCode) {
-            $("#enterOtp").hide();
-            $("#newPassword").show();           
+            $("#enterOtpForm").hide();
+            $("#newPasswordForm").show();        
         } else {
             $("#otpError").text("Incorrect OTP. Please try again.");
         }
@@ -82,7 +82,7 @@ $(document).ready(function() {
                 email: $("#email").val(),
                 password: $("#password").val()
             });
-            $("#newPassword").hide();
+            $("#newPasswordForm").hide();
             $("#successfulAccountCreation").show();
         }
 
