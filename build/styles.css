@@ -341,6 +341,17 @@ body {
   background-color: #a59373;
 }
 
+.resultRow:nth-child(odd) {
+  background-color: #d3d3d3;
+}
+
+.resultRow:nth-child(even) {
+  background-color: #f1f1f1;
+}
+
+td {
+  padding: 10px
+}
 hr {
   margin: 1rem 0;
   color: inherit;

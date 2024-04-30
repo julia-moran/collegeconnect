@@ -99,6 +99,7 @@ $(document).ready(function() {
                     $(results).each(function(i, result) {
                     const tableRow = document.createElement('tr');
                     tableRow.id = result.id;
+                    tableRow.className = "resultRow";
                     const name = document.createElement('td')
                     table.appendChild(tableRow);
                     name.textContent = result.firstname + " " + result.lastname;

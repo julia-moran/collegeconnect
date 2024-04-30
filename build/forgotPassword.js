@@ -17,10 +17,16 @@ $(document).ready(function() {
     const newPassword = document.getElementById("newPasswordForm");
     const errorMessage = document.getElementById("errorMessage");
     let otpCode = "";
+    let otpAttempts = 0;
     
     $("#newPassword").hide();
     $("#enterOtp").hide();
     $("#successfulAccountCreation").hide();
+    $("#popupConfirmation").hide();
+
+    $("#closePopup").click(function() {
+        $("#popupConfirmation").hide();
+    });
 
     enterEmail.addEventListener('submit', (e) => {
 
@@ -37,7 +43,7 @@ $(document).ready(function() {
                 errorMessage.innerHTML = "";
                 otpCode = result.data;
                 $("#enterEmailForm").hide();
-                $("#enterOtpForm").show();
+                $("#enterOtp").show();
             }
 
         });
@@ -47,12 +53,23 @@ $(document).ready(function() {
 
     enterOtp.addEventListener('submit', (e) => {
         e.preventDefault();
-
-        if($("#otp").val() == otpCode) {
-            $("#enterOtpForm").hide();
-            $("#newPasswordForm").show();        
-        } else {
+        otpAttempts++;
+        //console.log(otpAttempts);
+        if(($("#otp").val() == otpCode) && (otpAttempts < 3)) {
+            $("#enterOtp").hide();
+            $("#newPassword").show();        
+        } else if ($("#otp").val() != otpCode) {
             $("#otpError").text("Incorrect OTP. Please try again.");
+        }
+
+        if (otpAttempts >= 3) {
+            $("#popupConfirmation").show();
+            $.post('/sendForgetPasswordEmail', { email: $('#email').val() },
+            function(result, status) {
+                //console.log(result.data, status);
+                otpCode = result.data;
+                otpAttempts = 0;
+            });
         }
 
     });
@@ -82,7 +99,8 @@ $(document).ready(function() {
                 email: $("#email").val(),
                 password: $("#password").val()
             });
-            $("#newPasswordForm").hide();
+            errorMessage.innerHTML = "";
+            $("#newPassword").hide();
             $("#successfulAccountCreation").show();
         }
 

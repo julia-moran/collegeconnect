@@ -20,6 +20,7 @@ $(document).ready(function() {
     const confirmEmailForm = document.getElementById("confirmEmailForm");
     let otpCode = "";
     let email = "";
+    let otpAttempts = 0;
     
     // Initially hide all forms except the first one
     $("#signUp").show();
@@ -121,8 +122,8 @@ $(document).ready(function() {
 
     confirmEmailForm.addEventListener('submit', (e) => {
         e.preventDefault();
-
-        if($("#otp").val() == otpCode) {
+        otpAttempts++;
+        if(($("#otp").val() == otpCode) && (otpAttempts < 3)) {
             $("#confirmEmailForm").hide();
             $("#addProfileDetails").show();
             $("optgroup.profileDetails").children().show();
