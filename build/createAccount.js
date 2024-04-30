@@ -71,10 +71,6 @@ $(document).ready(function() {
 
 
     signUp.addEventListener('submit', (e) => {
-
-        $("#signUp").hide();
-        $("#confirmEmailForm").show();
-
         e.preventDefault();
         if(password.value != confirmPassword.value) {
             errorMessage.innerHTML = "Passwords don't match";
