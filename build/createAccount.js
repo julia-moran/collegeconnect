@@ -31,8 +31,8 @@ $(document).ready(function() {
     
     // Initially hide all forms except the first one
     $("#signUp").show();
-    $("#confirmEmailForm").show();
-    $("#addProfileDetails").show();
+    $("#confirmEmailForm").hide();
+    $("#addProfileDetails").hide();
 /*
     // When the sign up form is submitted, hide it and show the confirm email form
     $("#signUp").on('submit', function(e) {
