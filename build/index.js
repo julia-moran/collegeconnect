@@ -703,7 +703,7 @@ app.get('/getMajors', async (req, res) => {
     const client = await pool.connect();
 
     try {
-      client.query('SELECT major FROM majors ORDER BY major', (err, results) => {
+      client.query("SELECT major FROM majors ORDER BY CASE WHEN major = 'Undeclared' THEN 0 ELSE 1 END, major", (err, results) => {
         //console.log("Sent to index:", err ? err : results.rows);
         res.json(results.rows);
       });
@@ -723,7 +723,7 @@ app.get('/getMinors', async (req, res) => {
     const client = await pool.connect();
 
     try {
-      client.query('SELECT minor FROM minors ORDER BY minor', (err, results) => {
+      client.query("SELECT minor FROM minors ORDER BY CASE WHEN minor = 'None' THEN 0 ELSE 1 END, minor", (err, results) => {
         //console.log("Sent to index:", err ? err : results.rows);
         res.json(results.rows);
       });
@@ -743,7 +743,7 @@ app.get('/getInterests', async (req, res) => {
     const client = await pool.connect();
 
     try {
-      client.query('SELECT interest FROM userInterests ORDER BY interest', (err, results) => {
+      client.query("SELECT interest FROM userInterests ORDER BY CASE WHEN interest = 'None' THEN 0 ELSE 1 END, interest", (err, results) => {
         //console.log("Sent to index:", err ? err : results.rows);
         res.json(results.rows);
       });
