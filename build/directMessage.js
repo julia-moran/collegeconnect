@@ -20,7 +20,9 @@ $(document).ready(function() {
                 const userName = document.createElement("li");
                 userName.textContent = result.firstname + " " + result.lastname;
                 userName.id = result.id;
+                userName.className = "class-button";
                 $("#usersWithChatHistory").append(userName);
+                
                 userName.addEventListener("click", () => {
                     $("#form").show();
                     toUserID = userName.id;
@@ -34,7 +36,7 @@ $(document).ready(function() {
 
         $.post('/getUsersWithChatHistory', { id: sessionStorage.getItem("currentID") },
         function(results, status) {
-            if (results.length === 0) {
+            if (results.length === 0 && !(userID)) {
                 $("#usersTitle").text("Search for a student to chat with them");
             } else {
                 $("#usersTitle").text("Messages");
@@ -89,7 +91,8 @@ $(document).ready(function() {
             let reformattedTimestamp = timeSent.replace("T", " ");
             reformattedTimestamp = reformattedTimestamp.split(".")[0];
             const messageInfo = document.createElement('li');
-            if(result.fromuserid == sessionStorage.getItem("currentID")) {
+
+            if(fromUserID == sessionStorage.getItem("currentID")) {
                 messageInfo.className = "myMessage";
                 const username = document.createElement('p')
                 username.textContent = result.firstname + " " + result.lastname;
