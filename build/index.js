@@ -475,12 +475,14 @@ app.post('/login', async (req, res) => {
     try {
       const result = await client.query('SELECT * FROM userInfo WHERE email ILIKE $1', [email]);  //  query database for user with email
       const user = result.rows[0];  //  get user from result
-
+      console.log(user);
       if (!user) {  //  if user does not exist or password is incorrect
         console.log(`Login failed for user: ${email}`); // Log failed login attempt
         res.status(400).json({ message: 'User not found' });
         return;
       }
+      console.log(password);
+      console.log(user.password);
       //compare hashed password with user provided  password
       const isMatch = await bcrypt.compare(password, user.password);
 
