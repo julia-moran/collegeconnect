@@ -20,103 +20,132 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+      .navbar-logo {
+          width: 150px;
+          height: 150px;
+          border: 2px solid gold;
+      }
+      .btn {
+          background-color: gold;
+          color: black;
+          transition: background-color 0.3s ease;
+      }
+      .btn:hover {
+          background-color: grey;
+      }
+      .btn-reverse {
+          background-color: grey;
+          color: black;
+          transition: background-color 0.3s ease;
+      }
+      .btn-reverse:hover {
+          background-color: gold;
+      }
+      input {
+          background-color: #fffda2;
+          width: 100%;
+          box-sizing: border-box;
+      }
+      .form-container {
+          width: 50%;
+          margin: 0 auto;
+      }
+  </style>
   </head>
 </head>
 
 <body>
-    <main>
+  <main>
       <div class="container text-center">
-        <div class="row align-items-start">
-          <div class="col">
-            <h3>Search</h3>  
-            <table>
-              <form id="searchForm" action="" method="POST">
-                <tr>
-                  <td>
-                    <input id="fname" placeholder="First Name" type="text"/>
-                    <input id="lname" placeholder="Last Name" type="text"/><br>
-                    <select class="selectMajor" id="selectMajor">
-                      <option value="" selected>Major</option>
-                    </select> 
-                    <select class="selectMinor" id="selectMinor">
-                      <option value="" selected>Minor</option>
-                    </select>
-                  </td>
-                </tr>
-                <tr>
-                  <td> 
-                    <label for="selectClasses">Classes</label>
-                    <select class="select-multiple" id="selectClasses" name="selectClasses" multiple="multiple" class="searchDetails" style="width: 50%">
-                      <optgroup class="profileDetails" id="CSCCourses">
-                      </optgroup>
-                    </select>
-                  </td>
-                </tr>
-                <tr>
-                  <td> 
-                    <label for="selectInterests">Interests</label>
-                    <select class="select-multiple" id="selectInterests" name="selectInterests" multiple="multiple" class="searchDetails" style="width: 50%">
-                    </select>
-                  </td>
-                </tr> 
-                <tr>
-                  <td>
-                    <button type="submit">Search</button>
-                    <hr>
-                  </td>
-                </tr>
-              </form> 
-            </table>
-              <div id="filter">
-                <h3>Filter</h3> 
-                <table>
-                  <form id="filterForm">
-                    <tr>
-                      <td>
-                        <input id="filterfname" placeholder="First Name" type="text"/>
-                        <input id="filterlname" placeholder="Last Name" type="text"/><br>
-                        <select class="filterMajor" id="filterMajor">
-                          <option value="" selected>Major</option>
-                        </select>
-                        <select class="filterMinor" id="filterMinor">
-                          <option value="" selected>Minor</option>
-                        </select>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label for="filterClasses">Classes</label>
-                        <select class="select-multiple" id="filterClasses" name="filterClasses" multiple="multiple" style="width: 50%">
-                          <optgroup class="profileDetails" id="filterCSCCourses">
-                          </optgroup>
-                        </select> 
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label for="filterInterests">Interests</label>
-                        <select class="select-multiple" id="filterInterests" name="filterInterests" multiple="multiple" style="width: 50%">
-                        </select>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <button type="submit">Filter</button>
-                      </td>
-                    </tr>
-                  </form> 
-                </table>           
+          <div class="row align-items-start">
+              <div class="col">  
+                  <table>
+                      <form id="searchForm" action="" method="POST" class="form-container">
+                          <tr>
+                              <td>
+                                  <input id="fname" placeholder="First Name" type="text"/>
+                                  <input id="lname" placeholder="Last Name" type="text"/><br>
+                                  <select class="selectMajor" id="selectMajor">
+                                      <option value="" selected>Major</option>
+                                  </select> 
+                                  <select class="selectMinor" id="selectMinor">
+                                      <option value="" selected>Minor</option>
+                                  </select>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td> 
+                                  <label for="selectClasses">Classes</label>
+                                  <select class="select-multiple" id="selectClasses" name="selectClasses" multiple="multiple" class="searchDetails" style="width: 50%">
+                                      <optgroup label="Your Courses" class="profileDetails" id="CSCCourses">
+                                      </optgroup>
+                                  </select>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td> 
+                                  <label for="selectInterests">Interests</label>
+                                  <select class="select-multiple" label="Interests" id="selectInterests" name="selectInterests" multiple="multiple" class="searchDetails" style="width: 50%">
+                                  </select>
+                              </td>
+                          </tr> 
+                          <tr>
+                              <td>
+                                  <button type="submit" class="btn">Search</button>
+                                  <hr>
+                              </td>
+                          </tr>
+                      </form>
+                  </table>
+                  <div id="filter">
+                      <p>Filter</p>
+                      <table>
+                          <form id="filterForm" class="form-container">
+                              <tr>
+                                  <td>
+                                      <input id="filterfname" placeholder="First Name" type="text"/>
+                                      <input id="filterlname" placeholder="Last Name" type="text"/><br>
+                                      <select class="filterMajor" id="filterMajor">
+                                          <option value="" selected>Major</option>
+                                      </select>
+                                      <select class="filterMinor" id="filterMinor">
+                                          <option value="" selected>Minor</option>
+                                      </select>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>
+                                      <label for="filterClasses">Classes</label>
+                                      <select class="select-multiple" id="filterClasses" name="filterClasses" multiple="multiple" style="width: 50%">
+                                          <optgroup label="CSC Courses" class="profileDetails" id="filterCSCCourses">
+                                          </optgroup>
+                                      </select> 
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>
+                                      <label for="filterInterests">Interests</label>
+                                      <select class="select-multiple" id="filterInterests" name="filterInterests" multiple="multiple" style="width: 50%">
+                                      </select>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>
+                                      <button type="submit" class="btn">Filter</button>
+                                  </td>
+                              </tr>
+                          </form> 
+                      </table>           
+                  </div>
               </div>
-            </div>
-            <div class="col">  
-              <table id="results">
-              </table>
-            </div>
+              <div class="col">  
+                  <table id="results">
+                  </table>
+              </div>
           </div>
-        </div>
-
-    </main>
-    <script type= "text/javascript" src="/searchUser.js"></script>
+      </div>
+  </main>
+  <script type= "text/javascript" src="/searchUser.js"></script>
 </body>
-
 </html>

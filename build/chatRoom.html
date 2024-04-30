@@ -35,18 +35,25 @@
     #threadMessages {
       margin: -25px;
       bottom:-400px;
+      flex-grow: 1;
       overflow-x: hidden;
       overflow-y: auto;
       height: 270px;
       width: 225px;
+      margin-bottom: 20px;
+    }
+    #threadsInside {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
     }
     #threads {
       width:20%;
       position:absolute;
       right:0;
+      background-color: #FFD700;
     }
     #threadTitle {
-      background-color: #fffda2;
       width:80%;
       text-align: center;
     }
@@ -55,10 +62,11 @@
     }
     #threadNames {
       display: flex;
-      margin-top: 70px;
+      margin-top: 30px;
       overflow-y: hidden;
       overflow-x: auto;
-      
+      background-color: #FFD700;
+      margin-bottom: 50px;
     }
     #threadNames > li {
       margin: 1px;
@@ -68,8 +76,16 @@
     #threadNames > li:hover {
       background-color: #a59373;
     }
-
-    
+    #classChat {
+      background-color: #d3d3d3;
+      padding: auto;
+    }
+    #userClasses {
+      background-color: #800000;
+    }
+    #threadMessage {
+      margin-top: auto;
+    }
   </style>
   <br>
   <div class="container text-center">
@@ -94,15 +110,15 @@
           <p id="threadTitle">Threads</p>
           <div id="threadsInside">
             <p id="errorMessage"></p>
-            <form id="threadName" action="" class="threads">
+            <form id="threadName" action="">
               <input id="inputThreadName" autocomplete="off" /><button>New Thread Name</button>
             </form>
-            <ul id="threadNames" class="threads"></ul>
-            <ul id="threadMessages" class="threads"></ul>
-            <form id="threadMessage" action="" class="threads" style="bottom:-410px;">
+            <ul id="threadNames"></ul>
+            <ul id="threadMessages"></ul>
+            <form id="threadMessage" action="">
               <input id="inputThreadMessage" autocomplete="off" /><button>Send</button>
             </form>
-        </div>
+          </div>
       </div>
     </div>
   </div>

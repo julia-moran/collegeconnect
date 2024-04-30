@@ -69,24 +69,17 @@ $(document).ready(function() {
 
         $.post('/displayUserInfo', { id: sessionStorage.getItem("currentID") },
         function(result, status) {
-            console.log(result); // Add this line
+            console.log(result);
 
             $("#name").text(result.firstname + " " + result.lastname + "'s Profile");
             $("#email").text(result.email);
             
-            // Create and append option elements for major and minor
             $("#selectMajor").empty().append(new Option(result.major, result.major));
             $("#selectMinor").empty().append(new Option(result.minor, result.minor));
-        
-            // Set the selected option for each interest dropdown
-            for (let i = 1; i <= 3; i++) {
-                let interest = result['interest' + i];
-                if (interest != "") {
-                    $("#interest" + i + " option[value= '" + interest + "']").attr("selected", "selected");
-                } else {
-                    $("#interest" + i + " option[value= '']").attr("selected", "selected");
-                }
-            }
+            
+            $("#interest1").empty().append(new Option(result.interest1, result.interest1));
+            $("#interest2").empty().append(new Option(result.interest2, result.interest2));
+            $("#interest3").empty().append(new Option(result.interest3, result.interest3));
         });
         
         const form = document.querySelector('form');
