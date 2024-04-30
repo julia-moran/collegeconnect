@@ -229,7 +229,7 @@ $(document).ready(function() {
                 major: $("#selectMajor option:selected").text(),
                 minor: $("#selectMinor option:selected").text(),
             }, function(results, status) {
-                if(results) {
+                if(results.length !== 0) {
                     $("#filter").show();
                 }
                 $(results).each(function(i, result) {
@@ -250,7 +250,7 @@ $(document).ready(function() {
                 interests: selectedInterests
             }, function(results, status) {
                 //console.log(results);
-                if(results) {
+                if(results.length !== 0) {
                     $("#filter").show();
                 }
                 $(results).each(function(i, result) {
@@ -270,7 +270,7 @@ $(document).ready(function() {
                 classCodes: selectedClasses
             }, function(results, status) {
                 //console.log(results);
-                if(results) {
+                if(results.length !== 0) {
                     $("#filter").show();
                 }
                 $(results).each(function(i, result) {
