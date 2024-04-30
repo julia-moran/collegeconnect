@@ -121,9 +121,6 @@ $(document).ready(function() {
 
     confirmEmailForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        
-        $("#confirmEmailForm").hide();
-        $("#addProfileDetails").show();
 
         if($("#otp").val() == otpCode) {
             $("#confirmEmailForm").hide();

@@ -14,11 +14,14 @@ $(document).ready(function() {
          window.location.replace("../");
     } else {
         $("#filter").hide();
-         $('.select-multiple').select2();
+        $('.select-multiple').select2();
+        $("#noResultsError").hide();
 
         $.post('/displayClasses', { id: sessionStorage.getItem("currentID") },
             function(classResults, status) {
+                console.log(classResults);
                 $(classResults).each(function(i, classResult) {
+                    console.log(classResult);
                     $("#CSCCourses").append("<option value= '" + classResult.classcode + "'>" + classResult.classcode + ": " + classResult.classname + "</option>")
                     $("#filterCSCCourses").append("<option value= '" + classResult.classcode + "'>" + classResult.classcode + ": " + classResult.classname + "</option>")
                 })
@@ -83,13 +86,14 @@ $(document).ready(function() {
                     createRow(existingIDs[i]);
                 }
             } else {
-                console.log("Empty");
+                $("#noResultsError").show();
             }}, 20);
             
         }
 
         function createRow(searchedUserID) {
             let classes = [];
+            $("#noResultsError").hide();
             $.post('/displayUserInfo', { id: searchedUserID },
                 function(results, status) {
                     $(results).each(function(i, result) {
