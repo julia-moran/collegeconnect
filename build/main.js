@@ -16,7 +16,6 @@ window.onload = function() {
   
     var buttons = document.querySelectorAll("nav button");
 
-//FIX THIS NOW
     var lastPage = sessionStorage.getItem("lastPage");
     if (lastPage) {
         navigateTo(lastPage);
@@ -29,12 +28,3 @@ function navigateTo(page) {
 
     sessionStorage.setItem("lastPage", page);
 }
-
-document.getElementById('btnSwitch').addEventListener('click',()=>{
-    if (document.documentElement.getAttribute('data-bs-theme') == 'light') {
-        document.documentElement.setAttribute('data-bs-theme','dark')
-    }
-    else {
-        document.documentElement.setAttribute('data-bs-theme','light')
-    }
-})
