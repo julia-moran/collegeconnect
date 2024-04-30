@@ -18,6 +18,15 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     <style>
+        .content-box {
+            background-color: white;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(128, 128, 128, 0.567);
+            border: 1px solid black;
+            border-radius: 10px;
+            width: 80%;
+        }
         .navbar-logo {
             width: 150px;
             height: 150px;
@@ -51,9 +60,10 @@
     </style>
 </head>
 <body>
-    <figure class="ms-auto"><img src="images/logo.jpg" alt="College Connect Logo" class="center-logo navbar-logo"></figure>  </div>
+    <div class="content-box">
+        <figure class="ms-auto"><img src="images/logo.jpg" alt="College Connect Logo" class="center-logo navbar-logo"></figure>
     <div class="container text-center">
-            <h3>Sign In</h3>
+        <h3>Sign In</h3>
     </div>
     <main>
         <p id="message"></p>
@@ -68,11 +78,11 @@
                 </div>
             
                 <br>
-<div class="form-container">
-    <button type="button" class="btn" onclick="location.href='/forgotPassword'" id="forgotPasswordLink">Forgot Password</button>
-    <p>&nbsp; &nbsp;</p>
-    <button type="button" class="btn" onclick="location.href='/createAccount'">Sign Up</button>
-</div>
+                <div class="form-container">
+                    <button type="button" class="btn" onclick="location.href='/forgotPassword'" id="forgotPasswordLink">Forgot Password</button>
+                    <p>&nbsp; &nbsp;</p>
+                    <button type="button" class="btn" onclick="location.href='/createAccount'">Sign Up</button>
+                </div>
                 <br>
                 <div class="form-container">
                     <button type="submit"  class="btn">Login</button>
@@ -80,12 +90,12 @@
             </form>
             <br>
 
-
             <div class="popup" id="popupConfirmation">
                 <p>Invalid login</p>
                 <button id="closePopup">Close</button>
-              </div>
+            </div>
         </div>
+    </div>
     </main>
     <script src="login.js"></script>
 </body>

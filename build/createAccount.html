@@ -50,17 +50,29 @@
             margin: 0 auto;
         }
         .half-width {
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
+          width: 50%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
+        .content-box {
+          background-color: white;
+          margin: 20px auto;
+          padding: 20px;
+          border-radius: 10px;
+          width: 80%;
+        }
+        .visible-form{
+          border: 1px solid black;
+          background-color: rgba(128, 128, 128, 0.567);
+        }
     </style>
   </head>
 
   <body>
-    <figure class="ms-auto"><img src="images/logo.jpg" alt="College Connect Logo" class="center-logo navbar-logo"></figure>  </div>
+    <div class="content-box visible-form">
+    <figure class="ms-auto"><img src="images/logo.jpg" alt="College Connect Logo" class="center-logo navbar-logo"></figure>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <div class="container text-center">
       <h3>Create Account</h3>
@@ -77,6 +89,8 @@
           <input type="submit" value="Sign Up" id="signUpButton" class="btn half-width"/>
         </form>
       </div>
+    </div>
+    <div class="content-box">
       <div class="form-container">
           <form id="confirmEmailForm">
         <p>A OTP (One Time Password) code has been sent to your email. Please enter it here to confirm your email.</p>
@@ -86,8 +100,10 @@
         <p>Need another code?</p>
         <button id="sendNewOtp" class="btn">Send another OTP</button>
       </form>
+      </div>
     </div>
-    <div class="form-container">
+    <div class="content-box">
+      <div class="form-container">
         <form action="" id="addProfileDetails" class="profileDetails">
           <label for="selectMajor">Your Major:</label>  
           <select id="selectMajor" required>
@@ -118,6 +134,7 @@
           <input type="submit" value="Create Account" id="createAccountButton" class="btn btn-primary btn-position-relative"/>
         </form>
       </div>
+    </div>
 
     <div id="successfulAccountCreation" hidden>
       <p id="successMessage">Account successfully created! Please log in.</p>
