@@ -194,8 +194,7 @@ $(document).ready(function() {
         
         if (threadNameInput.value && !(existingThreadNames.includes(threadNameInput.value))) {
             $("#errorMessage").text("");
-            let timeSent = new Date().toISOString();
-            timeSent = timeSent.replace('T', ' ');
+            let timeSent = new Date().toLocaleString("en-US", { timeZone: "America/New_York"});            timeSent = timeSent.replace('T', ' ');
             timeSent = timeSent.substring(0, timeSent.length - 5)
             //console.log(timeSent);
             socket.emit('create thread', chatRoom, sessionStorage.getItem("currentID"), "Created a thread.", timeSent, threadNameInput.value);

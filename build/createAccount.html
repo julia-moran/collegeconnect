@@ -84,6 +84,17 @@
     text-align: center;
     font-size: small;
   }
+  .profileDetails input:focus,
+.profileDetails select:focus {
+    background-color: #fffda2;
+}
+.select2-container .select2-selection--single,
+.select2-container .select2-selection--multiple {
+    border: 1px solid #dfd087;
+    border-radius: 10px;
+    background-color: #fffda2; /* This sets the background color to yellow */
+    transition: background-color 0.3s ease;
+}
     </style>
   </head>
 
@@ -135,31 +146,31 @@
           </div>
           <div style="display: flex; align-items: center; margin-bottom: 10px;">
             <label for="selectMajor" style="margin-right: 10px;">Your Major:</label>  
-            <select id="selectMajor" required>
+            <select id="selectMajor" style="background-color: #fffda2;" required>
               <option value="" disabled selected></option>
             </select>
           </div>
           <div style="display: flex; align-items: center; margin-bottom: 10px;">
             <label for="selectMinor" style="margin-right: 10px;">Your Minor:</label>
-            <select id="selectMinor">
+            <select id="selectMinor" style="background-color: #fffda2;">
               <option value="" disabled selected></option>
             </select>
           </div>
           <label for="selectClasses">Choose Your Classes: </label>
-          <select class="select-multiple" id="selectClasses" name="selectClasses" multiple="multiple" class="searchDetails" style="width: 50%">
-              <optgroup class="profileDetails" id="CSCCourses">
+          <select class="select-multiple" id="selectClasses" name="selectClasses" multiple="multiple" class="searchDetails" style="width: 50%; background-color: #fffda2;">
+              <optgroup class="profileDetails" id="CSCCourses" style="background-color: #fffda2;">
               </optgroup>
           </select>
           <br>
           <label for="interest1">I'm Interested In:</label>
           <div style="display: flex; justify-content: space-between;">
-            <select id="interest1" style="margin-right: 10px;">
+            <select id="interest1" style="margin-right: 10px; background-color: #fffda2;">
               <option value="" disabled selected></option>
             </select>
-            <select id="interest2" style="margin-right: 10px;">
+            <select id="interest2" style="margin-right: 10px; background-color: #fffda2;">
               <option value="" disabled selected></option>
             </select>
-            <select id="interest3">
+            <select id="interest3" style="margin-right: 10px; background-color: #fffda2;">
               <option value="" disabled selected></option>
             </select>
           </div>
