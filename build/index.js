@@ -87,6 +87,10 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'home.html'));
 });
 
+app.get('/styles.css', (req, res) => {
+  res.sendFile(path.join(__dirname + "styles.css"));
+});
+
 app.get('/main', (req, res) => {
   res.sendFile(path.join(__dirname, 'main.html'));
 });
@@ -156,6 +160,7 @@ app.get('/directMessage/:id', (req, res) => {
     }
   })
 });
+
 
 app.get('/searchUser', (req, res) => {
   res.sendFile(path.join(__dirname, 'searchUser.html'));
