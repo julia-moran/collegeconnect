@@ -37,7 +37,7 @@ $(document).ready(function() {
         $.post('/getUsersWithChatHistory', { id: sessionStorage.getItem("currentID") },
         function(results, status) {
             if (results.length === 0 && !(userID)) {
-                $("#usersTitle").text("Search for a student to chat with them");
+                $("#usersTitle").text("Please Search for Another Student and Send a Message First to Chat with Them.");
             } else {
                 $("#usersTitle").text("Messages");
                 $(results).each(function(i, result) {

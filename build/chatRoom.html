@@ -31,8 +31,8 @@
     #messages {
       overflow-x: hidden;
       overflow-y: auto;
-      width: 50%;
       margin: 0 auto;
+      width: 65%;
     }
     #threadMessages {
       margin: -25px;
@@ -52,15 +52,13 @@
     #userClasses {
       background-color: rgb(99, 36, 44);
       padding-left: 20px;
-      border: black 1px solid;
     }
     #threads {
-      border: black 1px solid;
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      background-color: #FFDF50;
+      background-color: #d3d3d3;
       padding-right: 40px;
     }
     #threadTitle {
@@ -75,21 +73,21 @@
       margin-top: 30px;
       overflow-y: hidden;
       overflow-x: auto;
-      background-color: #FFDF50;
       margin-bottom: 50px;
     }
     #threadNames > li {
       margin: 1px;
       padding: 2px; 
       background-color: #fffda2;
+      border: black 1px solid;
     }
     #threadNames > li:hover {
       background-color: #a59373;
     }
     #classChat {
-      background-color: #d3d3d3;
-      padding-right: 30px;
-      border: black 1px solid;
+      background-color: #a59373;
+      padding-right: 15px;
+      padding-top: 10px;
     }
     #threadMessage {
       margin-top: auto;
@@ -98,6 +96,16 @@
       display: flex;
       justify-content: center;
     }
+    #chatroomTitle {
+      margin-left: 20px;
+      display: inline-block;
+      padding: 10px;
+    }
+    .accountInfo {
+    background-color: #fffda2;
+    width: 50%;
+    box-sizing: border-box;
+}
   </style>
   <div class="container text-center">
     <div class="row align-items-start">
@@ -107,11 +115,11 @@
       </div>
       <div class="col-7">    
         <div id="classChat">
-          <h3 id="chatroomTitle" style="margin-left: 20px">Welcome to College Connect!<br><br>Select a class on the left to chat with.</h3>
+          <h3 id="chatroomTitle">Welcome to College Connect!<br><br>Select a class on the left to chat with.</h3>
           <div class="messages" id="messagesDiv">
             <ul id="messages"></ul>
             <form id="form" action="">
-              <input id="input" autocomplete="off" /><button>Send</button>
+              <input id="input" autocomplete="off" class="accountInfo"/><button>Send</button>
             </form> 
           </div>
         </div>
@@ -122,12 +130,12 @@
           <div id="threadsInside">
             <p id="errorMessage"></p>
             <form id="threadName" action="">
-              <input id="inputThreadName" autocomplete="off" /><button>New Thread Name</button>
+              <input id="inputThreadName" autocomplete="off" class="accountInfo"/><button>New Thread Name</button>
             </form>
             <ul id="threadNames"></ul>
             <ul id="threadMessages"></ul>
             <form id="threadMessage" action="">
-              <input id="inputThreadMessage" autocomplete="off" /><button>Send</button>
+              <input id="inputThreadMessage" autocomplete="off" class="accountInfo"/><button>Send</button>
             </form>
           </div>
       </div>
