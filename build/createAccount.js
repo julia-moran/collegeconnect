@@ -10,6 +10,14 @@
 //const client = require('../index.js');
 $(document).ready(function() {
     
+    $('.profile-select').on('select2:open', function (e) {
+        $('.select2-container--open .select2-selection--single, .select2-container--open .select2-selection--multiple').css('background-color', '#fffda2');
+    });
+
+    $('.profile-select').on('select2:close', function (e) {
+        $('.select2-selection--single, .select2-selection--multiple').css('background-color', '');
+    });
+
     $('.select-multiple').select2();
     const password = document.getElementById('password');
     const confirmPassword = document.getElementById('confirmPassword');
@@ -23,8 +31,8 @@ $(document).ready(function() {
     
     // Initially hide all forms except the first one
     $("#signUp").show();
-    $("#confirmEmailForm").hide();
-    $("#addProfileDetails").hide();
+    $("#confirmEmailForm").show();
+    $("#addProfileDetails").show();
 /*
     // When the sign up form is submitted, hide it and show the confirm email form
     $("#signUp").on('submit', function(e) {
