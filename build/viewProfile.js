@@ -5,6 +5,7 @@ $(document).ready(function() {
          window.location.replace("../");
     } else {
         const socket = io();
+        const queryString = window.location.href;
         const url = new URL(queryString);
         const pathSegments = url.pathname.split('/');
         userID = parseInt(pathSegments[pathSegments.length - 1]);
