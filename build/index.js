@@ -545,16 +545,17 @@ app.post('/sendVerificationEmail', async (req, res) => {
             from: 'kucollegeconnect@gmail.com',
             to: req.body.email,
             subject: 'College Connect Verify Email OTP',
-            text: `Your OTP (It expires after 1 min) : ${otp}`,
+            text: `Your OTP (It expires after 1 minute) : ${otp}`,
         };
 
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 console.log("Sending error: ", error);
             } else {
-                console.log("Email sent");
+                console.log("Email sent at " + otpExpier);
                 res.json({
-                    data: otp
+                    data: otp,
+                    timeSent: otpExpier
                 })
             }
         });
@@ -602,20 +603,24 @@ app.post('/sendForgetPasswordEmail', async (req, res) => {
         
         const otp = Math.floor(1000 + Math.random() * 9000);
 
+        const otpExpier = new Date();
+        otpExpier.setMinutes(otpExpier.getMinutes() + 1);
+
         const mailOptions = {
             from: 'kucollegeconnect@gmail.com',
             to: req.body.email,
             subject: 'College Connect Password reset OTP',
-            text: `Your OTP : ${otp}`,
+            text: `Your OTP (It expires after 1 min): ${otp}`,
         };
 
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 console.log("Sending error: ", error);
             } else {
-                console.log("Email sent");
+                console.log("Email sent at " + otpExpier);
                 res.json({
-                    data: otp
+                    data: otp,
+                    timeSent: otpExpier
                 })
             }
         });

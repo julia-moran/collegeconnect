@@ -42,6 +42,7 @@ $(document).ready(function() {
             } else {
                 errorMessage.innerHTML = "";
                 otpCode = result.data;
+                timeSent = result.timeSent;
                 $("#enterEmailForm").hide();
                 $("#enterOtp").show();
             }
@@ -55,23 +56,36 @@ $(document).ready(function() {
         e.preventDefault();
         otpAttempts++;
         //console.log(otpAttempts);
-        if(($("#otp").val() == otpCode) && (otpAttempts < 3)) {
+
+        let currentTime = new Date().toISOString();
+        console.log(timeSent, currentTime, currentTime <= timeSent);
+        if(($("#otp").val() == otpCode) && (otpAttempts < 3) && (currentTime <= timeSent)) {
             $("#enterOtp").hide();
-            $("#newPassword").show();        
+            $("#newPassword").show();          
         } else if ($("#otp").val() != otpCode) {
             $("#otpError").text("Incorrect OTP. Please try again.");
         }
 
-        if (otpAttempts >= 3) {
+        if(currentTime > timeSent) {
             $("#popupConfirmation").show();
+            $("#popupMessage").text("OTP code has expired. A new OTP code has been sent.");
             $.post('/sendForgetPasswordEmail', { email: $('#email').val() },
             function(result, status) {
-                //console.log(result.data, status);
                 otpCode = result.data;
+                timeSent = result.timeSent;
                 otpAttempts = 0;
             });
         }
-
+        if (otpAttempts >= 3) {
+            $("#popupConfirmation").show();
+            $("#popupMessage").text("Too many incorrect attempts. A new OTP code has been sent.");
+            $.post('/sendForgetPasswordEmail', { email: $('#email').val() },
+            function(result, status) {
+                otpCode = result.data;
+                timeSent = result.timeSent;
+                otpAttempts = 0;
+            });
+        }
     });
 
     $("#sendNewOtp").click(function() {
@@ -79,6 +93,8 @@ $(document).ready(function() {
         function(result, status) {
             //console.log(result.data, status);
             otpCode = result.data;
+            timeSent = result.timeSent;
+            otpAttempts = 0;
         });
     });
 
