@@ -4,10 +4,12 @@ $(document).ready(function() {
     if (sessionStorage.length == 0) {
          window.location.replace("../");
     } else {
-        const queryString = window.location.href;
         const socket = io();
-        userID = parseInt(queryString.substring(34));
-        console.log(userID);
+        const url = new URL(queryString);
+        const pathSegments = url.pathname.split('/');
+        userID = parseInt(pathSegments[pathSegments.length - 1]);
+//        console.log(userID);
+
         let name = "";
         const profileDiv = document.getElementById('profileInfo');
         const sharedClass = document.createElement('td');
