@@ -37,13 +37,23 @@ $(document).ready(function() {
         $.get("/getMajors", function(majorResults, status) {
             $(majorResults).each(function(i, majorResult) {
                 $("#selectMajor").append("<option value= '" + majorResult.major + "'>" + majorResult.major + "</option>");
-            })
+            });
+
+            $.post('/displayUserInfo', { id: sessionStorage.getItem("currentID") },
+            function(result, status) {
+                $("#selectMajor").val(result.major).trigger('change');
+            });
         });
     
         $.get("/getMinors", function(minorResults, status) {
             $(minorResults).each(function(i, minorResult) {
                 $("#selectMinor").append("<option value= '" + minorResult.minor + "'>" + minorResult.minor + "</option>");
             })
+
+            $.post('/displayUserInfo', { id: sessionStorage.getItem("currentID") },
+            function(result, status) {
+                $("#selectMinor").val(result.minor).trigger('change');
+            });
         });
     
         $.get("/getInterests", function(interestResults, status) {
@@ -73,13 +83,6 @@ $(document).ready(function() {
 
             $("#name").text(result.firstname + " " + result.lastname + "'s Profile");
             $("#email").text(result.email);
-            
-            $("#selectMajor").empty().append(new Option(result.major, result.major));
-            $("#selectMinor").empty().append(new Option(result.minor, result.minor));
-            
-            $("#interest1").empty().append(new Option(result.interest1, result.interest1));
-            $("#interest2").empty().append(new Option(result.interest2, result.interest2));
-            $("#interest3").empty().append(new Option(result.interest3, result.interest3));
         });
         
         const form = document.querySelector('form');

@@ -73,6 +73,13 @@
     align-items: center;
     flex-direction: column;
   }
+  .select2-container .select2-selection--single,
+.select2-container .select2-selection--multiple {
+    border: 1px solid #dfd087;
+    border-radius: 10px;
+    background-color: #fffda2;
+    transition: background-color 0.3s ease;
+}
   </style>
   </head>
 
@@ -89,12 +96,12 @@
                       <form id="searchForm" action="" method="POST" class="form-container">
                           <tr>
                               <td>
-                                  <input id="fname" placeholder="First Name" type="text"/>
-                                  <input id="lname" placeholder="Last Name" type="text"/><br>
-                                  <select class="selectMajor" id="selectMajor">
+                                  <input id="fname" style="margin-right: 10px; background-color: #fffda2;" placeholder="First Name" type="text"/>
+                                  <input id="lname"style="margin-right: 10px; background-color: #fffda2;"  placeholder="Last Name" type="text"/><br>
+                                  <select style="margin-right: 10px; background-color: #fffda2;" class="selectMajor" id="selectMajor">
                                       <option value="" selected>Major</option>
                                   </select> 
-                                  <select class="selectMinor" id="selectMinor">
+                                  <select style="margin-right: 10px; background-color: #fffda2;" class="selectMinor" id="selectMinor">
                                       <option value="" selected>Minor</option>
                                   </select>
                               </td>
@@ -102,8 +109,8 @@
                           <tr>
                               <td> 
                                   <label for="selectClasses">Classes</label>
-                                  <select class="select-multiple" id="selectClasses" name="selectClasses" multiple="multiple" class="searchDetails" style="width: 50%">
-                                      <optgroup label="Your Courses" class="profileDetails" id="CSCCourses">
+                                  <select class="select-multiple" id="selectClasses" name="selectClasses" multiple="multiple" class="searchDetails" style="width: 50%; background-color: #fffda2;">
+                                      <optgroup label="Your Courses" style="width: 50%; background-color: #fffda2;" class="profileDetails" id="CSCCourses">
                                       </optgroup>
                                   </select>
                               </td>
@@ -111,7 +118,7 @@
                           <tr>
                               <td> 
                                   <label for="selectInterests">Interests</label>
-                                  <select class="select-multiple" label="Interests" id="selectInterests" name="selectInterests" multiple="multiple" class="searchDetails" style="width: 50%">
+                                  <select class="select-multiple" style="width: 50%; background-color: #fffda2;" label="Interests" id="selectInterests" name="selectInterests" multiple="multiple" class="searchDetails" style="width: 50%; background-color: #fffda2;">
                                   </select>
                               </td>
                           </tr> 
@@ -131,10 +138,10 @@
                                   <td>
                                       <input id="filterfname" placeholder="First Name" type="text"/>
                                       <input id="filterlname" placeholder="Last Name" type="text"/><br>
-                                      <select class="filterMajor" id="filterMajor">
+                                      <select class="filterMajor" style="margin-right: 10px; background-color: #fffda2;" id="filterMajor">
                                           <option value="" selected>Major</option>
                                       </select>
-                                      <select class="filterMinor" id="filterMinor">
+                                      <select class="filterMinor" style="margin-right: 10px; background-color: #fffda2;" id="filterMinor">
                                           <option value="" selected>Minor</option>
                                       </select>
                                   </td>
@@ -142,7 +149,7 @@
                               <tr>
                                   <td>
                                       <label for="filterClasses">Classes</label>
-                                      <select class="select-multiple" id="filterClasses" name="filterClasses" multiple="multiple" style="width: 50%">
+                                      <select class="select-multiple" id="filterClasses" name="filterClasses" multiple="multiple" style="width: 50%; background-color: #fffda2;">
                                           <optgroup label="Your Courses" class="profileDetails" id="filterCSCCourses">
                                           </optgroup>
                                       </select> 
@@ -151,7 +158,7 @@
                               <tr>
                                   <td>
                                       <label for="filterInterests">Interests</label>
-                                      <select class="select-multiple" id="filterInterests" name="filterInterests" multiple="multiple" style="width: 50%">
+                                      <select class="select-multiple" id="filterInterests" name="filterInterests" multiple="multiple" style="width: 50%; background-color: #fffda2;">
                                       </select>
                                   </td>
                               </tr>

@@ -9,7 +9,6 @@
 
 //const client = require('../index.js');
 $(document).ready(function() {
-    
     $('.profile-select').on('select2:open', function (e) {
         $('.select2-container--open .select2-selection--single, .select2-container--open .select2-selection--multiple').css('background-color', '#fffda2');
     });
@@ -27,6 +26,7 @@ $(document).ready(function() {
     const addProfileDetails = document.getElementById("addProfileDetails");
     const confirmEmailForm = document.getElementById("confirmEmailForm");
     let otpCode = "";
+    let timeSent = "";
     let email = "";
     let otpAttempts = 0;
     
@@ -34,6 +34,13 @@ $(document).ready(function() {
     $("#signUp").show();
     $("#confirmEmailForm").hide();
     $("#addProfileDetails").hide();
+
+    $("#popupConfirmation").hide();
+
+    $("#closePopup").click(function() {
+        $("#popupConfirmation").hide();
+    });
+    
 /*
     // When the sign up form is submitted, hide it and show the confirm email form
     $("#signUp").on('submit', function(e) {
@@ -105,8 +112,9 @@ $(document).ready(function() {
                         sessionStorage.setItem("currentID", data.id);
                         $.post('/sendVerificationEmail', { email: $('#email').val() },
                         function(result, status) {
-                            //console.log(result.data, status);
+                            //console.log(result.timeSent, status);
                             otpCode = result.data;
+                            timeSent = result.timeSent;
                         });
                         $("#signUp").hide();
                         $("#userDetails").hide();
@@ -131,13 +139,37 @@ $(document).ready(function() {
     confirmEmailForm.addEventListener('submit', (e) => {
         e.preventDefault();
         otpAttempts++;
-        if(($("#otp").val() == otpCode) && (otpAttempts < 3)) {
+
+        let currentTime = new Date().toISOString();
+
+        if(($("#otp").val() == otpCode) && (otpAttempts < 3) && (currentTime <= timeSent)) {
             $("#confirmEmailForm").hide();
             $("#addProfileDetails").show();
             $("optgroup.profileDetails").children().show();
             $("optgroup.profileDetails").show();            
-        } else {
+        } else if ($("#otp").val() != otpCode) {
             $("#otpError").text("Incorrect OTP. Please try again.");
+        }
+
+        if(currentTime > timeSent) {
+            $("#popupConfirmation").show();
+            $("#popupMessage").text("OTP code has expired. A new OTP code has been sent.");
+            $.post('/sendVerificationEmail', { email: $('#email').val() },
+            function(result, status) {
+                otpCode = result.data;
+                timeSent = result.timeSent;
+                otpAttempts = 0;
+            });
+        }
+        if (otpAttempts >= 3) {
+            $("#popupConfirmation").show();
+            $("#popupMessage").text("Too many incorrect attempts. A new OTP code has been sent.");
+            $.post('/sendVerificationEmail', { email: $('#email').val() },
+            function(result, status) {
+                otpCode = result.data;
+                timeSent = result.timeSent;
+                otpAttempts = 0;
+            });
         }
 
     });
@@ -147,6 +179,7 @@ $(document).ready(function() {
         function(result, status) {
             console.log(result.data, status);
             otpCode = result.data;
+            timeSent = result.timeSent;
         });
     });
 
