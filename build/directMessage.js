@@ -3,17 +3,11 @@ $(document).ready(function() {
          window.location.replace("../");
     } else {
         const socket = io();
-        const queryString = window.location.href;
-        const domain = window.location.hostname;
-        let userID = "";
-        console.log(queryString);
-        if(domain == "localhost") {
-            userID = parseInt(queryString.substring(36));
-            console.log(userID);
-        } else {
-            userID = parseInt(queryString.substring(43));
-            console.log(userID);
-        }
+        
+        const url = new URL(queryString);
+        const pathSegments = url.pathname.split('/');
+        userID = parseInt(pathSegments[pathSegments.length - 1]);
+        console.log(userID);
         
         let toUserID = userID;
 
