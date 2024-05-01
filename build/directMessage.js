@@ -4,8 +4,17 @@ $(document).ready(function() {
     } else {
         const socket = io();
         const queryString = window.location.href;
-        let userID = parseInt(queryString.substring(36));
-        console.log(userID);
+        const domain = window.location.hostname;
+        let userID = "";
+        console.log(queryString);
+        if(domain == "localhost") {
+            userID = parseInt(queryString.substring(36));
+            console.log(userID);
+        } else {
+            userID = parseInt(queryString.substring(38));
+            console.log(userID);
+        }
+        
         let toUserID = userID;
 
         const form = document.getElementById('form');
