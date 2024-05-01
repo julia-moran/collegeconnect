@@ -900,16 +900,20 @@ app.post('/displayUserInfo', async (req, res) => {
     const client = await pool.connect();
     try {  
       client.query('SELECT * FROM userInfo WHERE id = $1', [userID], (err, results) => {
-        console.log("User Info: ", results.rows[0]);
-        res.json(results.rows[0]);
+        if (err) {
+          console.error('Error executing query', err.stack);
+          res.status(500).json({ error: 'An error occurred while executing the query.' });
+        } else {
+          console.log("User Info: ", results.rows[0]);
+          res.json(results.rows[0]);
+        }
       })
     } finally {
       client.release();
     }
-    
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Could not connect to the database' });
+    console.error('Error connecting to the database', err.stack);
+    res.status(500).json({ error: 'An error occurred while connecting to the database.' });
   }
 
 });
@@ -921,8 +925,11 @@ app.post('/displayClasses', async (req, res) => {
     const client = await pool.connect();
     try {  
       client.query('SELECT classList.classCode, chatRoom.className FROM classList INNER JOIN chatRoom ON chatRoom.classCode = classList.classCode WHERE classList.userID = $1', [userID], (err, results) => {
-        //console.log(results.rows);
-        res.json(results.rows);
+        if (results.rows.length === 0) {
+          res.status(404).json({ message: 'No classes found for this user ID.' });
+        } else {
+          res.json(results.rows);
+        }
       });
     } finally {
       client.release();
