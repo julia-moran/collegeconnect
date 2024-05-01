@@ -11,7 +11,7 @@ $(document).ready(function() {
             userID = parseInt(queryString.substring(36));
             console.log(userID);
         } else {
-            userID = parseInt(queryString.substring(42));
+            userID = parseInt(queryString.substring(43));
             console.log(userID);
         }
         
