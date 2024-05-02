@@ -545,16 +545,17 @@ app.post('/sendVerificationEmail', async (req, res) => {
             from: 'kucollegeconnect@gmail.com',
             to: req.body.email,
             subject: 'College Connect Verify Email OTP',
-            text: `Your OTP (It expires after 1 min) : ${otp}`,
+            text: `Your OTP (It expires after 1 minute) : ${otp}`,
         };
 
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 console.log("Sending error: ", error);
             } else {
-                console.log("Email sent");
+                console.log("Email sent at " + otpExpier);
                 res.json({
-                    data: otp
+                    data: otp,
+                    timeSent: otpExpier
                 })
             }
         });
@@ -602,20 +603,24 @@ app.post('/sendForgetPasswordEmail', async (req, res) => {
         
         const otp = Math.floor(1000 + Math.random() * 9000);
 
+        const otpExpier = new Date();
+        otpExpier.setMinutes(otpExpier.getMinutes() + 1);
+
         const mailOptions = {
             from: 'kucollegeconnect@gmail.com',
             to: req.body.email,
             subject: 'College Connect Password reset OTP',
-            text: `Your OTP : ${otp}`,
+            text: `Your OTP (It expires after 1 min): ${otp}`,
         };
 
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 console.log("Sending error: ", error);
             } else {
-                console.log("Email sent");
+                console.log("Email sent at " + otpExpier);
                 res.json({
-                    data: otp
+                    data: otp,
+                    timeSent: otpExpier
                 })
             }
         });
@@ -900,16 +905,20 @@ app.post('/displayUserInfo', async (req, res) => {
     const client = await pool.connect();
     try {  
       client.query('SELECT * FROM userInfo WHERE id = $1', [userID], (err, results) => {
-        console.log("User Info: ", results.rows[0]);
-        res.json(results.rows[0]);
+        if (err) {
+          console.error('Error executing query', err.stack);
+          res.status(500).json({ error: 'An error occurred while executing the query.' });
+        } else {
+          console.log("User Info: ", results.rows[0]);
+          res.json(results.rows[0]);
+        }
       })
     } finally {
       client.release();
     }
-    
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Could not connect to the database' });
+    console.error('Error connecting to the database', err.stack);
+    res.status(500).json({ error: 'An error occurred while connecting to the database.' });
   }
 
 });
@@ -921,8 +930,11 @@ app.post('/displayClasses', async (req, res) => {
     const client = await pool.connect();
     try {  
       client.query('SELECT classList.classCode, chatRoom.className FROM classList INNER JOIN chatRoom ON chatRoom.classCode = classList.classCode WHERE classList.userID = $1', [userID], (err, results) => {
-        //console.log(results.rows);
-        res.json(results.rows);
+        if (results.rows.length === 0) {
+          res.status(404).json({ message: 'No classes found for this user ID.' });
+        } else {
+          res.json(results.rows);
+        }
       });
     } finally {
       client.release();

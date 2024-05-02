@@ -63,17 +63,17 @@ $(document).ready(function() {
                 $("#interest3").append("<option value= '" + interestResult.interest + "'>" + interestResult.interest + "</option>")
             })
 
-        $.post('/displayInterests', { id: sessionStorage.getItem("currentID") },
-            function(interestResults, status) {
-                $(interestResults).each(function(i, interestResult) {
-                    console.log(interestResult.interest);
-                    if(interestResult.interest != "") {
-                        $("#interest" + interestResult.prompt).val(interestResult.interest).trigger('change');
-                    } else {
-                        $("#interest" + interestResult.prompt).val('').trigger('change');
-                    }
+            $.post('/displayInterests', { id: sessionStorage.getItem("currentID") },
+                function(interestResults, status) {
+                    $(interestResults).each(function(i, interestResult) {
+                        console.log(interestResult.interest);
+                        if(interestResult.interest != "") {
+                            $("#interest" + interestResult.prompt).val(interestResult.interest).trigger('change');
+                        } else {
+                            $("#interest" + interestResult.prompt).val('').trigger('change');
+                        }
+                    });
                 });
-            });
 
         });
 
